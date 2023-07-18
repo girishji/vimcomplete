@@ -39,13 +39,11 @@ var completors: list<any>
 
 def SetupCompletors()
     if &filetype == '' || !registered->has_key(&filetype)
-	echom 'setting completors 1'
 	completors = registered.any
     else
 	completors = registered[&ft] + registered.any
     endif
     completors->sort((v1, v2) => v2.priority - v1.priority)
-    echom completors
 enddef
 
 export def ShowCompletors()
@@ -61,33 +59,18 @@ def IComplete()
     endif
 
     var line = curline->strpart(0, curcol - 1)
-    var context = line->matchstr('\k\+$')
-    var kwstartcol: number = curcol - context->strlen()
-    var startcol: number = -1
-
-    var nextcompletors: list<any> = []
+    var syncompletors: list<any> = []
     for cmp in completors
 	var scol: number = cmp.completor(1, '')
+	# echom cmp.name .. ' ' .. scol
 	if scol == -3 || scol == -2
 	    continue
 	endif
-	if scol != kwstartcol
-	    if scol > startcol
-		nextcompletors = []
-		startcol = scol
-		context = line->slice(scol - 1)
-	    endif
-	    nextcompletors->add(cmp)
-	elseif startcol == -1
-	    nextcompletors->add(cmp)
-	endif
+	syncompletors->add(cmp->extendnew({ startcol: scol }))
     endfor
-    startcol = startcol == -1 ? kwstartcol : startcol
 
-    var base = line->slice(startcol - 1)
-    var citems = []
-    var asyncompletors: list<any> = []
     def GetItems(cmp: dict<any>): list<any>
+	var base = line->slice(cmp.startcol - 1)
 	var items = cmp.completor(0, base)
 	if options.kindName
 	    items->map((_, v) => {
@@ -98,34 +81,44 @@ def IComplete()
 	endif
 	return items
     enddef
-    for cmp in nextcompletors
+
+    var citems = []
+    var asyncompletors: list<any> = []
+    for cmp in syncompletors
 	if cmp.completor(2, '')
-	    citems->add({ priority: cmp.priority, items: GetItems(cmp) })
+	    var items = GetItems(cmp)
+	    if !items->empty()
+		citems->add({ priority: cmp.priority, startcol: cmp.startcol,
+		    items: items })
+	    endif
 	else
 	    asyncompletors->add(cmp)
 	endif
     endfor
+
     for cmp in asyncompletors
 	var count: number = 0
 	while !cmp.completor(2, '') && count < 1000
 	    sleep 2m
 	    count += 1
 	endwhile
-	citems->add({ priority: cmp.priority, items: GetItems(cmp) })
+	var items = GetItems(cmp)
+	if !items->empty()
+	    citems->add({ priority: cmp.priority, startcol: cmp.startcol,
+		items: items })
+	endif
     endfor
-    if context !=# line->slice(startcol - 1)
-	# Async wait could have allowed new keystrokes (lsp waits on complete_check())
+    if citems->empty()
 	return
     endif
-    citems->sort((v1, v2) => v1.priority < v2.priority ? -1 : 1)
+    var startcol = citems[0].startcol
+    citems->filter((_, v) => v.startcol == startcol) 
+    citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
     var items: list<dict<any>> = []
     for it in citems
 	items->extend(it.items)
     endfor
-    if items->empty()
-	return
-    endif
     var m = mode()
     if m != 'i' && m != 'R' && m != 'Rv' # not in insert or replace mode
 	return
@@ -133,9 +126,10 @@ def IComplete()
     if options.sortLength
 	items->sort((v1, v2) => v1.word->len() <= v2.word->len() ? -1 : 1)
     endif
+    var base = line->slice(startcol - 1)
     if options.matchCase
-	items = items->copy()->filter((_, v) => v.word =~# $'\v^{context}') +
-	    items->copy()->filter((_, v) => v.word !~# $'\v^{context}')
+	items = items->copy()->filter((_, v) => v.word =~# $'\v^{base}') +
+	    items->copy()->filter((_, v) => v.word !~# $'\v^{base}')
     endif
     items->complete(startcol)
 enddef

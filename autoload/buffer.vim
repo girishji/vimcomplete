@@ -2,6 +2,7 @@ vim9script
 
 # Completion from current buf
 
+# XXX
 # Completion is based on:
 # 1) Frequency: How close
 

@@ -22,7 +22,7 @@ export def Completor(findstart: number, base: string): any
 	if prefix == ''
 	    return -2
 	endif
-	return line->len() - prefix->len() + 1
+	return col('.') - prefix->len()
     endif
 
     var prefix = base
