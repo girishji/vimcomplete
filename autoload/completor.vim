@@ -126,10 +126,14 @@ def IComplete()
     if options.sortLength
 	items->sort((v1, v2) => v1.word->len() <= v2.word->len() ? -1 : 1)
     endif
-    var base = line->slice(startcol - 1)
     if options.matchCase
-	items = items->copy()->filter((_, v) => v.word =~# $'\v^{base}') +
-	    items->copy()->filter((_, v) => v.word !~# $'\v^{base}')
+	# if context includes non-keyword chars like `(` then =~ gives error
+	#   filter only when context has keyword chars
+	var context = line->matchstr('\k\+$')
+	if startcol == line->len() - context->len() + 1
+	    items = items->copy()->filter((_, v) => v.word =~# $'\v^{context}') +
+		items->copy()->filter((_, v) => v.word !~# $'\v^{context}')
+	endif
     endif
     items->complete(startcol)
 enddef
