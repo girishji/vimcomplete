@@ -2,8 +2,6 @@ vim9script
 
 # Interface to https://github.com/yegappan/lsp through omnifunc
 
-# var ready: bool = false
-
 var options: dict<any> = {
     MaxCount: 5,
 }
@@ -18,18 +16,15 @@ export def Completor(findstart: number, base: string): any
 	return -2
     endif
     if findstart == 1
-	# ready = true
 	return g:LspOmniFunc(findstart, base) + 1
     elseif findstart == 2
 	return g:LspOmniCompletePending()
-	# if ready
-	#     ready = false
-	#     return 0
-	# else
-	#     return 1
-	# endif
     endif
-    return g:LspOmniFunc(findstart, base)->slice(0, options.MaxCount + 1)
+    var items = g:LspOmniFunc(findstart, base)
+    if !items->empty()
+	items = items->slice(0, options.MaxCount + 1)
+    endif
+    return items
 enddef
 
 import '../autoload/completor.vim'

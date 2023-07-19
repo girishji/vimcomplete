@@ -10,4 +10,6 @@ import '../autoload/lsp.vim'
 
 # Enable completion in buffer loaded by default (has no filetype)
 import '../autoload/completor.vim'
-completor.Enable()
+if get(g:, 'vimcomplete_default_buf_enable')
+    completor.Enable()
+endif

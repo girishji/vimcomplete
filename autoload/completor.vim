@@ -50,7 +50,7 @@ export def ShowCompletors()
     echom completors
 enddef
 
-def IComplete()
+def VimComplete()
     var curcol = charcol('.')
     var curline = getline('.')
     if curcol == 0 || curline->empty() ||
@@ -62,7 +62,6 @@ def IComplete()
     var syncompletors: list<any> = []
     for cmp in completors
 	var scol: number = cmp.completor(1, '')
-	# echom cmp.name .. ' ' .. scol
 	if scol == -3 || scol == -2
 	    continue
 	endif
@@ -138,15 +137,17 @@ def IComplete()
     items->complete(startcol)
 enddef
 
-def ICompletePopupVisible()
+def VimCompletePopupVisible()
     var compl = complete_info(['selected', 'pum_visible'])
     if !compl.pum_visible  # should not happen
 	return
     endif
     if compl.selected == -1 # no items is selected in the menu
-	IComplete()
+	VimComplete()
     endif
 enddef
+
+import autoload './util.vim'
 
 export def Enable()
     var bnr = bufnr()
@@ -158,14 +159,16 @@ export def Enable()
       :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
-    augroup ICompBufAutocmds | autocmd! * <buffer>
-	autocmd TextChangedI <buffer> call IComplete()
-	autocmd TextChangedP <buffer> call ICompletePopupVisible()
+    augroup VimCompBufAutocmds | autocmd! * <buffer>
+	autocmd TextChangedI <buffer> call VimComplete()
+	autocmd TextChangedP <buffer> call VimCompletePopupVisible()
 	autocmd BufEnter,BufReadPost <buffer> call SetupCompletors()
     augroup END
+
+    util.TabEnable()
 enddef
 
 export def Disable()
-    augroup ICompBufAutocmds | autocmd! * <buffer>
+    augroup VimCompBufAutocmds | autocmd! * <buffer>
     augroup END
 enddef
