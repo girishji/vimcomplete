@@ -64,6 +64,7 @@ export def Completor(findstart: number, base: string): any
     endif
 
     var items = prefix->getcompletion(type)
+    items->sort((v1, v2) => v1->len() < v2->len() ? -1 : 1)
     if kind != 'V'
 	items = items->copy()->filter((_, v) => v =~# $'\v^{prefix}') +
 	    items->copy()->filter((_, v) => v !~# $'\v^{prefix}')

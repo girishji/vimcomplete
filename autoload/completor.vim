@@ -5,6 +5,8 @@ export var options: dict<any> = {
     matchCase: true,
     sortLength: false,
     kindName: true,
+    frequecySort: true,
+    frequecyItemCount: 5,
 }
 
 var registered: dict<any> = { any: [] }
@@ -42,6 +44,8 @@ enddef
 export def ShowCompletors()
     echom completors
 enddef
+
+import autoload './frequent.vim'
 
 def VimComplete()
     var curcol = charcol('.')
@@ -127,6 +131,9 @@ def VimComplete()
 		items->copy()->filter((_, v) => v.word !~# $'\v^{context}')
 	endif
     endif
+    if options.frequecySort
+	items = frequent.Frequent(items, options.frequecyItemCount)
+    endif
     items->complete(startcol)
 enddef
 
@@ -142,6 +149,13 @@ enddef
 
 import autoload './util.vim'
 
+def LRU_Cache()
+    if !options.frequecySort || v:completed_item->type() != v:t_dict
+	return
+    endif
+    frequent.CacheAdd(v:completed_item)
+enddef
+
 export def Enable()
     var bnr = bufnr()
     setbufvar(bnr, '&completeopt', 'menuone,popup,noinsert,noselect')
@@ -156,6 +170,7 @@ export def Enable()
 	autocmd TextChangedI <buffer> call VimComplete()
 	autocmd TextChangedP <buffer> call VimCompletePopupVisible()
 	autocmd BufEnter,BufReadPost <buffer> call SetupCompletors()
+	autocmd CompleteDone <buffer> call LRU_Cache()
     augroup END
 
     util.TabEnable()
