@@ -1,5 +1,7 @@
 vim9script
 
+export var options: dict<any> = {}
+
 def GetAbbrevs(): list<any>
     var lines = execute('ia', 'silent!')
     if lines =~? 'No abbreviation found'
@@ -45,5 +47,5 @@ export def Completor(findstart: number, base: string): any
     })
 enddef
 
-import '../autoload/completor.vim'
-completor.Register('abbrev', Completor, ['*'], 10)
+# import '../autoload/completor.vim'
+# completor.Register('abbrev', Completor, ['*'], 10)

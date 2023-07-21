@@ -2,6 +2,8 @@ vim9script
 
 # Interface to hrsh7th/vim-vsnip
 
+export var options: dict<any> = {}
+
 def Pattern(abbr: string): string
     var chars = escape(abbr, '\/?')->split('\zs')
     var chars_pattern = '\%(\V' .. chars->join('\m\|\V') .. '\m\)'
@@ -70,5 +72,5 @@ export def Completor(findstart: number, base: string): any
     return citems.items
 enddef
 
-import '../autoload/completor.vim'
-completor.Register('snippet', Completor, ['*'], 9)
+# import '../autoload/completor.vim'
+# completor.Register('snippet', Completor, ['*'], 9)

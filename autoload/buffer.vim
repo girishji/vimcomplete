@@ -10,14 +10,14 @@ vim9script
 # cursor). Case sensitive matches are preferred to case insensitive and partial
 # matches. If user type 'fo', then 'foo' appears before 'Foo' and 'barfoo'.
 
-var options: dict<any> = {
+export var options: dict<any> = {
     Timeout: 100,
     MaxCount: 10,
 }
 
 # Using searchpos() is ~15% faster than gathering words by splitting lines and
 # comparing each word for pattern.
-def Completor(findstart: number, base: string): any
+export def Completor(findstart: number, base: string): any
     if findstart == 2
 	return 1
     elseif findstart == 1
@@ -80,6 +80,9 @@ def Completor(findstart: number, base: string): any
     for word in fwd
 	dist[word[0]] = dist->has_key(word[0]) ? min([dist[word[0]], word[1]]) : word[1]
     endfor
+    if dist->empty()
+	return []
+    endif
 
     # Merge the two lists
     var fwdlen = fwd->len()
@@ -128,5 +131,5 @@ def Completor(findstart: number, base: string): any
     return candidates->slice(0, options.MaxCount)
 enddef
 
-import '../autoload/completor.vim'
-completor.Register('buffer', Completor, ['*'], 10)
+# import '../autoload/completor.vim'
+# completor.Register('buffer', Completor, ['*'], 10)

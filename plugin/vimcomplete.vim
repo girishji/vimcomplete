@@ -14,6 +14,9 @@ command! -nargs=0 VimCompleteEnable call completor.Enable()
 command! -nargs=0 VimCompleteDisable call completor.Disable()
 command! -nargs=0 VimCompleteCompletors call completor.ShowCompletors()
 
+if exists('#VimCompleteLoaded#User')
+    :doautocmd <nomodeline> VimCompleteLoaded User
+endif
 
 # augroup ICompAutocmds | autocmd!
 #     autocmd BufEnter,BufReadPost * call completor.ChooseCompletors()

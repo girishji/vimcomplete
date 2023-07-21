@@ -5,39 +5,32 @@ export var options: dict<any> = {
     matchCase: true,
     sortLength: false,
     kindName: true,
-    buffer: { enabled: true, match: 'icase', max: 10, priority: 10 },
-    lsp: { enabled: false, max: 20, priority: 8 },
-    path: { enabled: false, max: 20, priority: 11 }, # higher priority than buffer, so /xx/yy work
-    abbrev: { enabled: true, max: 1000, priority: 9 },
-    dictionary: { enabled: false, max: 5, priority: 2 },
-    vssnip: { enabled: false, max: 1000, priority: 9 },
-    vimscript: { enabled: true, max: 1000, priority: 9 },
 }
 
 var registered: dict<any> = { any: [] }
 
+export def ClearRegistered()
+    registered = { any: [] }
+enddef
+
 export def Register(name: string, Completor: func, ftype: list<string>, priority: number)
-    var p = priority
-    if options->has_key(name) && options[$'{name}']->has_key('priority')
-	p = options[$'{name}'].priority
-    endif
     if ftype == []
 	return
     elseif ftype[0] == '*'
-	registered.any->add({name: name, completor: Completor, priority: p})
+	registered.any->add({name: name, completor: Completor, priority: priority})
     else
 	for ft in ftype
 	    if !registered->has_key(ft)
 		registered[$'{ft}'] = []
 	    endif
-	    registered[$'{ft}']->add({name: name, completor: Completor, priority: p})
+	    registered[$'{ft}']->add({name: name, completor: Completor, priority: priority})
 	endfor
     endif
 enddef
 
 var completors: list<any>
 
-def SetupCompletors()
+export def SetupCompletors()
     if &filetype == '' || !registered->has_key(&filetype)
 	completors = registered.any
     else

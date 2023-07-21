@@ -1,5 +1,7 @@
 vim9script
 
+export var options: dict<any> = {}
+
 export def Completor(findstart: number, base: string): any
     if findstart == 2
 	return 1
@@ -23,5 +25,5 @@ export def Completor(findstart: number, base: string): any
     return citems
 enddef
 
-import '../autoload/completor.vim'
-completor.Register('path', Completor, ['*'], 10)
+# import '../autoload/completor.vim'
+# completor.Register('path', Completor, ['*'], 10)

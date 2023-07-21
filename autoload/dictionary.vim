@@ -7,7 +7,7 @@ vim9script
 # 'look' which does binary search. 'look' maybe faster since Vim does not have
 # to read the file. Other options are :vimgrep and :grep commands.
 
-var options = {
+export var options: dict<any> = {
     icase: false,
 }
 
@@ -124,5 +124,5 @@ export def Completor(findstart: number, base: string): any
     return citems
 enddef
 
-import '../autoload/completor.vim'
-completor.Register('dictionary', Completor, ['text'], 5)
+# import '../autoload/completor.vim'
+# completor.Register('dictionary', Completor, ['text'], 5)

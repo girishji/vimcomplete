@@ -1,5 +1,7 @@
 vim9script
 
+export var options: dict<any> = {}
+
 def Prefix(): list<any>
     var type = ''
     var prefix = ''
@@ -76,5 +78,5 @@ export def Completor(findstart: number, base: string): any
     return citems
 enddef
 
-import '../autoload/completor.vim'
-completor.Register('vimscript', Completor, ['vim'], 11)
+# import '../autoload/completor.vim'
+# completor.Register('vimscript', Completor, ['vim'], 11)
