@@ -71,6 +71,3 @@ export def Completor(findstart: number, base: string): any
     })
     return citems.items
 enddef
-
-# import '../autoload/completor.vim'
-# completor.Register('snippet', Completor, ['*'], 9)

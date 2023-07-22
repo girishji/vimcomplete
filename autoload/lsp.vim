@@ -26,6 +26,3 @@ export def Completor(findstart: number, base: string): any
     endif
     return items
 enddef
-
-# import '../autoload/completor.vim'
-# completor.Register('lsp', Completor, ['*'], 8)

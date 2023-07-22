@@ -130,6 +130,3 @@ export def Completor(findstart: number, base: string): any
     candidates += citems->copy()->filter((_, v) => v.word !~# icasepat)
     return candidates->slice(0, options.MaxCount)
 enddef
-
-# import '../autoload/completor.vim'
-# completor.Register('buffer', Completor, ['*'], 10)

@@ -46,6 +46,3 @@ export def Completor(findstart: number, base: string): any
 	return v1.word < v2.word ? -1 : v1.word ==# v2.word ? 0 : 1
     })
 enddef
-
-# import '../autoload/completor.vim'
-# completor.Register('abbrev', Completor, ['*'], 10)

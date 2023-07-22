@@ -123,6 +123,3 @@ export def Completor(findstart: number, base: string): any
     endfor
     return citems
 enddef
-
-# import '../autoload/completor.vim'
-# completor.Register('dictionary', Completor, ['text'], 5)
