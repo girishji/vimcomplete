@@ -39,9 +39,14 @@ augroup END
 # Set vimcomplete plugin options from 'opts'.
 def! g:VimCompleteOptionsSet(opts: dict<any>)
     for key in opts->keys()
+	var newopts = opts[$'{key}']
+	if newopts->has_key('maxCount')
+	    newopts.maxCount = abs(newopts.maxCount)
+	endif
 	var o = eval($'{key}.options')
-	o->extend(opts[$'{key}'])
+	o->extend(newopts)
     endfor
+    # Re-register providers since priority could have changed
     RegisterPlugins()
 enddef
 

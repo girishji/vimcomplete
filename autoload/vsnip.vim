@@ -2,7 +2,9 @@ vim9script
 
 # Interface to hrsh7th/vim-vsnip
 
-export var options: dict<any> = {}
+export var options: dict<any> = {
+    maxCount: 10,
+}
 
 def Pattern(abbr: string): string
     var chars = escape(abbr, '\/?')->split('\zs')
@@ -69,5 +71,5 @@ export def Completor(findstart: number, base: string): any
 	    return 1
 	endif
     })
-    return citems.items
+    return citems.items->slice(0, options.maxCount) 
 enddef

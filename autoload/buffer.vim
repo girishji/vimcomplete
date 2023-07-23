@@ -108,7 +108,6 @@ export def Completor(findstart: number, base: string): any
     var pattern = $'\<{prefix}'
     var searchStartTime = reltime()
     var timeout: number = options.timeout / 2
-
     def SearchWords(forward: bool): list<any>
 	var [startl, startc] = [line('.'), col('.')]
 	var [lnum, cnum] = [1, 1]

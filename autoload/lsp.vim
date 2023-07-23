@@ -3,7 +3,7 @@ vim9script
 # Interface to https://github.com/yegappan/lsp through omnifunc
 
 export var options: dict<any> = {
-    MaxCount: 5,
+    maxCount: 10,
 }
 
 export def Completor(findstart: number, base: string): any
@@ -21,8 +21,5 @@ export def Completor(findstart: number, base: string): any
 	return !g:LspOmniCompletePending()
     endif
     var items = g:LspOmniFunc(findstart, base)
-    if !items->empty()
-	items = items->slice(0, options.MaxCount + 1)
-    endif
-    return items
+    return items->slice(0, options.maxCount)
 enddef

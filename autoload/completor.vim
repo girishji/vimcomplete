@@ -95,6 +95,9 @@ def VimComplete()
     for cmp in asyncompletors
 	var count: number = 0
 	while !cmp.completor(2, '') && count < 1000
+	    if complete_check()
+		return
+	    endif
 	    sleep 2m
 	    count += 1
 	endwhile

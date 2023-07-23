@@ -1,6 +1,8 @@
 vim9script
 
-export var options: dict<any> = {}
+export var options: dict<any> = {
+    maxCount: 10,
+}
 
 def Prefix(): list<any>
     var type = ''
@@ -76,5 +78,5 @@ export def Completor(findstart: number, base: string): any
 	    kind: kind,
 	})
     endfor
-    return citems
+    return citems->slice(0, options.maxCount) 
 enddef

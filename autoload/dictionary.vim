@@ -9,11 +9,10 @@ vim9script
 
 export var options: dict<any> = {
     icase: false,
+    maxCount: 10,
 }
 
 var dictbufs = {}
-
-const MaxCount = 10
 
 # Create a readonly, unlisted buffer for each dictionary file so we don't have
 # to read from disk repeatedly. This is a one-time thing, took 45ms for a 2M
@@ -63,8 +62,8 @@ def GetWords(prefix: string, bufnr: number): list<string>
 	    lidx = mid
 	endif
     endwhile
-    lidx = max([1, lidx - MaxCount])
-    ridx = min([binfo[0].linecount, ridx + MaxCount])
+    lidx = max([1, lidx - options.maxCount])
+    ridx = min([binfo[0].linecount, ridx + options.maxCount])
     var items = []
     var pattern = options.icase ? $'\c^{prefix}' : $'\C^{prefix}'
     for line in bufnr->getbufline(lidx, ridx)
@@ -102,7 +101,7 @@ export def Completor(findstart: number, base: string): any
 	    candidates->add(item)
 	endif
     endfor
-    candidates = candidates->sort()->slice(0, MaxCount)
+    candidates = candidates->sort()->slice(0, options.maxCount)
     if options.icase
 	var camelcase = prefix =~# '^\u\U'
 	if camelcase
