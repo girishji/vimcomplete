@@ -15,6 +15,7 @@ if get(g:, 'vimcomplete_default_buf_enable')
 endif
 
 def RegisterPlugins()
+    completor.ClearRegistered()
     def Register(provider: string, ftypes: list<string>, priority: number)
 	var o = eval($'{provider}.options')
 	if !o->has_key('enabled') || o.enabled
@@ -25,11 +26,10 @@ def RegisterPlugins()
     Register('abbrev', ['*'], 10)
     Register('buffer', ['*'], 10)
     Register('path', ['*'], 11) # higher priority than buffer, so /xx/yy work
-    Register('vimscript', ['vim'], 11)
+    Register('vimscript', ['vim'], 9)
     Register('dictionary', ['text', 'markdown'], 5)
     Register('vsnip', ['*'], 9)
     Register('lsp', ['*'], 8)
-    completor.SetupCompletors()
 enddef
 
 augroup VimCompleteLoaded | autocmd!
@@ -42,7 +42,6 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
 	var o = eval($'{key}.options')
 	o->extend(opts[$'{key}'])
     endfor
-    completor.ClearRegistered()
     RegisterPlugins()
 enddef
 

@@ -10,6 +10,20 @@ export var options: dict<any> = {
 }
 
 var registered: dict<any> = { any: [] }
+var completors: list<any>
+
+export def SetupCompletors()
+    if &filetype == '' || !registered->has_key(&filetype)
+	completors = registered.any
+    else
+	completors = registered[&ft] + registered.any
+    endif
+    completors->sort((v1, v2) => v2.priority - v1.priority)
+enddef
+
+export def ShowCompletors()
+    echom completors
+enddef
 
 export def ClearRegistered()
     registered = { any: [] }
@@ -28,21 +42,7 @@ export def Register(name: string, Completor: func, ftype: list<string>, priority
 	    registered[$'{ft}']->add({name: name, completor: Completor, priority: priority})
 	endfor
     endif
-enddef
-
-var completors: list<any>
-
-export def SetupCompletors()
-    if &filetype == '' || !registered->has_key(&filetype)
-	completors = registered.any
-    else
-	completors = registered[&ft] + registered.any
-    endif
-    completors->sort((v1, v2) => v2.priority - v1.priority)
-enddef
-
-export def ShowCompletors()
-    echom completors
+    SetupCompletors()
 enddef
 
 import autoload './frequent.vim'
