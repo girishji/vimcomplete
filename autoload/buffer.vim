@@ -11,9 +11,83 @@ vim9script
 # matches. If user type 'fo', then 'foo' appears before 'Foo' and 'barfoo'.
 
 export var options: dict<any> = {
-    Timeout: 100,
-    MaxCount: 10,
+    timeout: 100,
+    maxCount: 10,
+    searchOtherBuffers: true,   # search other listed buffers
+    otherBuffersCount: 5,	# Max count of other listed buffers to search
+    icase: true,
 }
+
+# Return a list of keywords from a buffer
+def BufWords(bufnr: number, prefix: string): list<dict<any>>
+    var pattern = options.icase ? $'\c^{prefix}' : $'\C^{prefix}'
+    var bufname = expand($'#{bufnr}')
+    var found = {}
+    var start = reltime()
+    var timeout = options.timeout
+    var linenr = 1
+    var items = []
+    for line in getbufline(bufnr, 1, '$')
+	for word in line->split('\W\+')
+	    if !found->has_key(word) && word->len() > 1
+		found[word] = 1
+		if  word =~ pattern
+		    items->add({
+			word: word,
+			abbr: word,
+			kind: 'B',
+			menu: bufname,
+		    })
+		 endif
+	    endif
+	endfor
+	# Check every 200 lines if timeout is exceeded
+	if (timeout > 0 && linenr % 200 == 0 &&
+		start->reltime()->reltimefloat() * 1000 > timeout) ||
+		items->len() > options.maxCount
+	    break
+	endif
+	linenr += 1
+    endfor
+    return items
+enddef
+
+def ExtendUnique(dest: list<dict<any>>, src: list<dict<any>>): list<dict<any>>
+    var found = {}
+    for item in dest
+	found[item.word] = 1
+    endfor
+    var items = dest->copy()
+    for item in src
+	if !found->has_key(item.word)
+	    items->add(item)
+	endif
+    endfor
+    return items
+enddef
+
+def GetLength(items: list<dict<any>>, prefix: string): number
+    return items->reduce((sum, val) => sum + (val.word =~# $'^{prefix}' ? 1 : 0), 0)
+enddef
+
+def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
+    if GetLength(items, prefix) > options.maxCount
+	return items
+    endif
+    var buffers = getbufinfo({ bufloaded: 1 })
+    var curbufnr = bufnr('%')
+    buffers = buffers->filter((_, v) => v.bufnr != curbufnr)
+    buffers->sort((v1, v2) => v1.lastused > v2.lastused ? -1 : 1)
+    buffers = buffers->slice(0, options.otherBuffersCount)
+    var citems = items->copy()
+    for b in buffers
+	citems = ExtendUnique(citems, BufWords(b.bufnr, prefix))
+	if GetLength(citems, prefix) > options.maxCount
+	    break
+	endif
+    endfor
+    return citems
+enddef
 
 # Using searchpos() is ~15% faster than gathering words by splitting lines and
 # comparing each word for pattern.
@@ -30,10 +104,10 @@ export def Completor(findstart: number, base: string): any
     endif
 
     var prefix = base
-    var pattern = $'\c\<{prefix}\k*'
-    var icasepat = $'\<{prefix}'
+    var icasepat = $'\c\<{prefix}\k*'
+    var pattern = $'\<{prefix}'
     var searchStartTime = reltime()
-    var timeout: number = options.Timeout / 2
+    var timeout: number = options.timeout / 2
 
     def SearchWords(forward: bool): list<any>
 	var [startl, startc] = [line('.'), col('.')]
@@ -43,18 +117,18 @@ export def Completor(findstart: number, base: string): any
 	var found = {}
 	var count = 0
 	var Elapsed = (t) => float2nr(t->reltime()->reltimefloat() * 1000)
-	[lnum, cnum] = pattern->searchpos(flags, 0, timeout)
+	[lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
 	while [lnum, cnum] != [0, 0]
-	    var [endl, endc] = pattern->searchpos('ceW') # end of matching string
+	    var [endl, endc] = icasepat->searchpos('ceW') # end of matching string
 	    var mstr = getline(lnum)->strpart(cnum - 1, endc - cnum + 1)
 	    if mstr != prefix && !found->has_key(mstr)
 		found[mstr] = 1
 		words->add([mstr, abs(lnum - startl)])
-		if mstr =~# icasepat
+		if mstr =~# pattern
 		    count += 1
 		endif
 	    endif
-	    if (count >= options.MaxCount) || searchStartTime->Elapsed() > timeout
+	    if (count >= options.maxCount) || searchStartTime->Elapsed() > timeout
 		timeout = 0
 		cursor([startl, startc])
 		break
@@ -62,7 +136,7 @@ export def Completor(findstart: number, base: string): any
 	    if !forward
 		cursor(lnum, cnum) # restore cursor, otherwise backward search loops
 	    endif
-	    [lnum, cnum] = pattern->searchpos(flags, 0, timeout)
+	    [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
 	endwhile
 	timeout = max([0, timeout - searchStartTime->Elapsed()])
 	cursor([startl, startc])
@@ -71,7 +145,7 @@ export def Completor(findstart: number, base: string): any
 
     # Search backwards and forward
     var bwd = SearchWords(false)
-    timeout += options.Timeout / 2
+    timeout += options.timeout / 2
     var fwd = SearchWords(true)
     var dist = {}
     for word in bwd
@@ -123,10 +197,16 @@ export def Completor(findstart: number, base: string): any
     if citems->empty()
 	return []
     endif
-    var candidates = citems->copy()->filter((_, v) => v.word =~# icasepat)
-    if candidates->len() >= options.MaxCount
-	return candidates->slice(0, options.MaxCount)
+    var candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
+    if candidates->len() >= options.maxCount
+	return candidates->slice(0, options.maxCount)
     endif
-    candidates += citems->copy()->filter((_, v) => v.word !~# icasepat)
-    return candidates->slice(0, options.MaxCount)
+    if options.icase
+	candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
+	if candidates->len() >= options.maxCount
+	    return candidates->slice(0, options.maxCount)
+	endif
+    endif
+    candidates = OtherBufMatches(candidates, prefix)
+    return candidates->slice(0, options.maxCount)
 enddef
