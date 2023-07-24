@@ -8,7 +8,7 @@ export def Completor(findstart: number, base: string): any
     elseif findstart == 1
 	var line = getline('.')->strpart(0, col('.') - 1)
 	var prefix = line->matchstr('\f\+$')
-	if prefix == '' || prefix =~ '?$' || prefix =~ '^\k\+$'
+	if prefix == '' || prefix =~ '?$' || prefix =~ '^\k\+$' || prefix !~ '/' # unix path separators only for now
 	    return -2
 	endif
 	return col('.') - prefix->strlen()
