@@ -1,6 +1,8 @@
 vim9script
 
-export var options: dict<any> = {}
+export var options: dict<any> = {
+    enable: false,
+}
 
 def GetAbbrevs(): list<any>
     var lines = execute('ia', 'silent!')

@@ -3,6 +3,7 @@ vim9script
 # Interface to hrsh7th/vim-vsnip
 
 export var options: dict<any> = {
+    enable: false,
     maxCount: 10,
 }
 

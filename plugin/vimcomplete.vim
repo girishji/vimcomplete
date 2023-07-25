@@ -14,6 +14,6 @@ command! -nargs=0 VimCompleteEnable call completor.Enable()
 command! -nargs=0 VimCompleteDisable call completor.Disable()
 command! -nargs=0 VimCompleteCompletors call completor.ShowCompletors()
 
-if exists('#VimCompleteLoaded#User')
-    :au VimEnter * doau <nomodeline> VimCompleteLoaded User
+if exists('#User#VimCompleteLoaded')
+    :au VimEnter * doau <nomodeline> User VimCompleteLoaded
 endif

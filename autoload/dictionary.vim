@@ -8,6 +8,7 @@ vim9script
 # to read the file. Other options are :vimgrep and :grep commands.
 
 export var options: dict<any> = {
+    enable: false,
     icase: false,
     maxCount: 10,
 }

@@ -9,6 +9,8 @@ export var options: dict<any> = {
     frequecyItemCount: 5,
 }
 
+export var alloptions: dict<any> = {}
+
 var registered: dict<any> = { any: [] }
 var completors: list<any>
 
@@ -45,13 +47,21 @@ export def Register(name: string, Completor: func, ftype: list<string>, priority
     SetupCompletors()
 enddef
 
+export def Unregister(name: string)
+    for providers in registered->values()
+	providers->filter((_, v) => v.name != name) 
+    endfor
+    SetupCompletors()
+enddef
+
 import autoload './frequent.vim'
 
 def VimComplete()
     var curcol = charcol('.')
     var curline = getline('.')
-    if curcol == 0 || curline->empty() ||
-	   (curline->len() >= curcol && curline[curcol - 1] =~ '\k')
+    # if curcol == 0 || curline->empty() ||
+	   # (curline->len() >= curcol && curline[curcol - 1] =~ '\k')
+    if curcol == 0 || curline->empty()
 	return
     endif
 

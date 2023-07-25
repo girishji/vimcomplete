@@ -3,6 +3,7 @@ vim9script
 # Interface to https://github.com/yegappan/lsp through omnifunc
 
 export var options: dict<any> = {
+    enable: false,
     maxCount: 10,
 }
 
