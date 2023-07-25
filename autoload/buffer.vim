@@ -2,10 +2,6 @@ vim9script
 
 # Completion from current buf
 
-# XXX
-# Completion is based on:
-# 1) Frequency: How close
-
 # Completion candidates are sorted according to locality (how close they are to
 # cursor). Case sensitive matches are preferred to case insensitive and partial
 # matches. If user type 'fo', then 'foo' appears before 'Foo' and 'barfoo'.
@@ -76,7 +72,8 @@ def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
     endif
     var buffers = getbufinfo({ bufloaded: 1 })
     var curbufnr = bufnr('%')
-    buffers = buffers->filter((_, v) => v.bufnr != curbufnr)
+    var Buflisted = (bufnr) => getbufinfo(bufnr)->get(0, {listed: false}).listed
+    buffers = buffers->filter((_, v) => v.bufnr != curbufnr && Buflisted(v.bufnr))
     buffers->sort((v1, v2) => v1.lastused > v2.lastused ? -1 : 1)
     buffers = buffers->slice(0, options.otherBuffersCount)
     var citems = items->copy()
