@@ -2,6 +2,7 @@ vim9script
 
 export var options: dict<any> = {
     enable: false,
+    dup: true,
 }
 
 def GetAbbrevs(): list<any>
@@ -41,6 +42,7 @@ export def Completor(findstart: number, base: string): any
 		word: abbrev.prefix,
 		info: abbrev.expn,
 		kind: 'A',
+		dup: options.dup ? 1 : 0,
 	    })
 	endif
     endfor

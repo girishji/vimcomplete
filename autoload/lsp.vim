@@ -5,6 +5,7 @@ vim9script
 export var options: dict<any> = {
     enable: false,
     maxCount: 10,
+    dup: true,
 }
 
 export def Completor(findstart: number, base: string): any
@@ -22,5 +23,9 @@ export def Completor(findstart: number, base: string): any
 	return !g:LspOmniCompletePending()
     endif
     var items = g:LspOmniFunc(findstart, base)
-    return items->slice(0, options.maxCount)
+    items = items->slice(0, options.maxCount)
+    if options.dup
+	items->map((_, v) => v->extend({ dup: 1 }))
+    endif
+    return items
 enddef

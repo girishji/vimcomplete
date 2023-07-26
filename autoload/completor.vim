@@ -59,8 +59,6 @@ import autoload './frequent.vim'
 def VimComplete()
     var curcol = charcol('.')
     var curline = getline('.')
-    # if curcol == 0 || curline->empty() ||
-	   # (curline->len() >= curcol && curline[curcol - 1] =~ '\k')
     if curcol == 0 || curline->empty()
 	return
     endif
@@ -81,7 +79,6 @@ def VimComplete()
 	if options.kindName
 	    items->map((_, v) => {
 		v.kind = $'[{cmp.name}]'
-		v.dup = 1
 		return v
 	    })
 	endif

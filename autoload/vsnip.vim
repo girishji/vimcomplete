@@ -5,6 +5,7 @@ vim9script
 export var options: dict<any> = {
     enable: false,
     maxCount: 10,
+    dup: true,
 }
 
 def Pattern(abbr: string): string
@@ -72,5 +73,8 @@ export def Completor(findstart: number, base: string): any
 	    return 1
 	endif
     })
+    if options.dup
+	citems.items->map((_, v) => v->extend({ dup: 1 }))
+    endif
     return citems.items->slice(0, options.maxCount) 
 enddef
