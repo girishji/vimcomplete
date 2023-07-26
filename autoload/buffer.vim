@@ -190,19 +190,21 @@ export def Completor(findstart: number, base: string): any
 	bwdidx += 1
     endwhile
 
-    if citems->empty()
-	return []
-    endif
-    var candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
-    if candidates->len() >= options.maxCount
-	return candidates->slice(0, options.maxCount)
-    endif
-    if options.icase
-	candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
+    var candidates: list<any>
+    if !citems->empty()
+	candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
 	if candidates->len() >= options.maxCount
 	    return candidates->slice(0, options.maxCount)
 	endif
+	if options.icase
+	    candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
+	    if candidates->len() >= options.maxCount
+		return candidates->slice(0, options.maxCount)
+	    endif
+	endif
     endif
-    candidates = OtherBufMatches(candidates, prefix)
+    if candidates->len() < options.maxCount
+	candidates = OtherBufMatches(candidates, prefix)
+    endif
     return candidates->slice(0, options.maxCount)
 enddef
