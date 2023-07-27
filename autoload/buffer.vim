@@ -150,9 +150,6 @@ export def Completor(findstart: number, base: string): any
     for word in fwd
 	dist[word[0]] = dist->has_key(word[0]) ? min([dist[word[0]], word[1]]) : word[1]
     endfor
-    if dist->empty()
-	return []
-    endif
 
     # Merge the two lists
     var fwdlen = fwd->len()
@@ -190,7 +187,7 @@ export def Completor(findstart: number, base: string): any
 	bwdidx += 1
     endwhile
 
-    var candidates: list<any>
+    var candidates: list<any> = []
     if !citems->empty()
 	candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
 	if candidates->len() >= options.maxCount

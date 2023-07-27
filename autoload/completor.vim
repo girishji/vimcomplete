@@ -7,6 +7,7 @@ export var options: dict<any> = {
     kindName: true,
     frequecySort: true,
     frequecyItemCount: 5,
+    shuffleEqualPriorityItems: false,
 }
 
 export var alloptions: dict<any> = {}
@@ -32,16 +33,28 @@ export def ClearRegistered()
 enddef
 
 export def Register(name: string, Completor: func, ftype: list<string>, priority: number)
-    if ftype == []
+    def AddCompletor(ft: string)
+	if !registered->has_key(ft)
+	    registered[ft] = []
+	endif
+	if registered[ft]->indexof((_, v) => v.name == name) == -1
+	    registered[ft]->add({name: name, completor: Completor, priority: priority})
+	endif
+    enddef
+    if ftype->empty()
 	return
-    elseif ftype[0] == '*'
-	registered.any->add({name: name, completor: Completor, priority: priority})
+    endif
+    for completors in values(registered)
+	var idx = completors->indexof((_, v) => v.name == name)
+	if idx != -1
+	    completors->remove(idx)
+	endif
+    endfor
+    if ftype[0] == '*'
+	AddCompletor('any')
     else
 	for ft in ftype
-	    if !registered->has_key(ft)
-		registered[$'{ft}'] = []
-	    endif
-	    registered[$'{ft}']->add({name: name, completor: Completor, priority: priority})
+	    AddCompletor(ft)
 	endfor
     endif
     SetupCompletors()
@@ -122,9 +135,25 @@ def VimComplete()
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
     var items: list<dict<any>> = []
-    for it in citems
-	items->extend(it.items)
-    endfor
+    if options.shuffleEqualPriorityItems
+	for priority in citems->copy()->map((_, v) => v.priority)->uniq()
+	    var eqitems = citems->copy()->filter((_, v) => v.priority == priority)
+	    var maxlen = eqitems->copy()->map((_, v) => v.items->len())->max()
+	    for idx in maxlen->range()
+		for it in eqitems
+		    if !it.items->get(idx)
+			continue
+		    endif
+		    items->add(it.items[idx])
+		endfor
+	    endfor
+	endfor
+    else
+	for it in citems
+	    items->extend(it.items)
+	endfor
+    endif
+
     var m = mode()
     if m != 'i' && m != 'R' && m != 'Rv' # not in insert or replace mode
 	return
