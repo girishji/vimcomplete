@@ -1,6 +1,6 @@
 vim9script
 
-# Completion from current buf
+# Completion from current and loaded buffers
 
 # Completion candidates are sorted according to locality (how close they are to
 # cursor). Case sensitive matches are preferred to case insensitive and partial

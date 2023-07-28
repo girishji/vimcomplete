@@ -1,5 +1,7 @@
 vim9script
 
+# Main autocompletion engine
+
 export var options: dict<any> = {
     noNewlineInCompletion: false,
     matchCase: true,

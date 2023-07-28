@@ -1,5 +1,7 @@
 vim9script
 
+# Autocomplete file path
+
 export var options: dict<any> = {}
 
 export def Completor(findstart: number, base: string): any
