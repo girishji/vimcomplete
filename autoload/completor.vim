@@ -5,10 +5,10 @@ vim9script
 export var options: dict<any> = {
     noNewlineInCompletion: false,
     matchCase: true,
-    sortLength: false,
+    sortByLength: false,
     kindName: true,
-    frequecySort: true,
-    frequecyItemCount: 5,
+    recency: true,
+    recentItemCount: 5,
     shuffleEqualPriorityItems: false,
 }
 
@@ -160,7 +160,7 @@ def VimComplete()
 	endfor
     endif
 
-    if options.sortLength
+    if options.sortByLength
 	items->sort((v1, v2) => v1.word->len() <= v2.word->len() ? -1 : 1)
     endif
 
@@ -177,8 +177,8 @@ def VimComplete()
 	endif
     endif
 
-    if options.frequecySort
-	items = frequent.Frequent(items, options.frequecyItemCount)
+    if options.recency
+	items = frequent.Frequent(items, options.recentItemCount)
     endif
     items->complete(startcol)
 enddef
@@ -196,7 +196,7 @@ enddef
 import autoload './util.vim'
 
 def LRU_Cache()
-    if !options.frequecySort || v:completed_item->type() != v:t_dict
+    if !options.recency || v:completed_item->type() != v:t_dict
 	return
     endif
     frequent.CacheAdd(v:completed_item)
