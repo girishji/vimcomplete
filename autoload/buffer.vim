@@ -10,8 +10,9 @@ export var options: dict<any> = {
     timeout: 100,
     maxCount: 10,
     searchOtherBuffers: true,   # search other listed buffers
-    otherBuffersCount: 5,	# Max count of other listed buffers to search
+    otherBuffersCount: 3,	# Max count of other listed buffers to search
     icase: true,
+    urlComplete: false,
 }
 
 # Return a list of keywords from a buffer
@@ -86,25 +87,37 @@ def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
     return citems
 enddef
 
+# Search for http links in current buffer
+def UrlMatches(base: string): list<dict<any>>
+    var start = reltime()
+    var timeout = options.timeout
+    var linenr = 1
+    var items = []
+    for line in getline(1, '$')
+	var url = line->matchstr('\chttp\S\+')
+	if !url->empty() && url =~? $'\v^{base}'
+	    items->add(url)
+	endif
+	# Check every 200 lines if timeout is exceeded
+	if (timeout > 0 && linenr % 200 == 0 &&
+		start->reltime()->reltimefloat() * 1000 > timeout) ||
+		items->len() > options.maxCount
+	    break
+	endif
+	linenr += 1
+    endfor
+    items->sort()->uniq()
+    return items->map((_, v) => ({ word: v, abbr: v, kind: 'B' }))
+enddef
+
 # Using searchpos() is ~15% faster than gathering words by splitting lines and
 # comparing each word for pattern.
-export def Completor(findstart: number, base: string): any
-    if findstart == 2
-	return 1
-    elseif findstart == 1
-	var line = getline('.')->strpart(0, col('.') - 1)
-	var prefix = line->matchstr('\k\+$')
-	if prefix == ''
-	    return -2
-	endif
-	return line->len() - prefix->len() + 1
-    endif
-
-    var prefix = base
+def CurBufMatches(prefix: string): list<dict<any>>
     var icasepat = $'\c\<{prefix}\k*'
     var pattern = $'\<{prefix}'
     var searchStartTime = reltime()
     var timeout: number = options.timeout / 2
+
     def SearchWords(forward: bool): list<any>
 	var [startl, startc] = [line('.'), col('.')]
 	var [lnum, cnum] = [1, 1]
@@ -200,8 +213,35 @@ export def Completor(findstart: number, base: string): any
 	    endif
 	endif
     endif
-    if candidates->len() < options.maxCount
-	candidates = OtherBufMatches(candidates, prefix)
+    return candidates
+enddef
+
+# Using searchpos() is ~15% faster than gathering words by splitting lines and
+# comparing each word for pattern.
+export def Completor(findstart: number, base: string): any
+    if findstart == 2
+	return 1
+    elseif findstart == 1
+	var line = getline('.')->strpart(0, col('.') - 1)
+	var prefix = line->matchstr('\k\+$')
+	if prefix == '' && options.urlComplete
+	    prefix = line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')
+	endif
+	if prefix == ''
+	    return -2
+	endif
+	return line->len() - prefix->len() + 1
+    endif
+
+    var candidates: list<dict<any>>
+    if base =~ '^\k\+$'
+	candidates = CurBufMatches(base)
+	if candidates->len() < options.maxCount
+	    candidates = OtherBufMatches(candidates, base)
+	endif
+    endif
+    if options.urlComplete && base =~? '^http'
+	candidates += UrlMatches(base)
     endif
     return candidates->slice(0, options.maxCount)
 enddef

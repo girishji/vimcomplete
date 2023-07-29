@@ -9,8 +9,8 @@ script.
 - Snippet completion using [vsnip](https://github.com/hrsh7th/vim-vsnip)
 - Buffer word completion; Can search multiple buffers
 - Dictionary (and next-word) completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
-- Dictionary completion using configured dictionary (`:h 'dictionary'`)
-- [Vimscript language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
+- Dictionary completion using configured dictionary
+- [Vimscript](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
 - Path completion
 - Abbreviation completion (`:h abbreviations`)
 
@@ -21,7 +21,7 @@ In addition, completion items can be sorted based on:
 - Recency
 - Length of item
 - Priority
-- Locality of item (in case of keywords from buffer)
+- Locality of item (for buffer completion)
 - Exact case match
 
 For cmdline-mode completion (`/`, `?`, and `:` commands) see [autosuggest](https://github.com/girishji/autosuggest.vim).
@@ -90,7 +90,6 @@ installation and configuration instructions.
 
 - Dictionary and next-word completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
 - [Vimscript language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
-- (Experimental) Google Ngrams Viewer based [next-word completion](https://github.com/girishji/ngramview-complete.vim)
 
 Each provider module comes with separate set of options. In addition there are
 options to configure completion engine itself. Each of these providers has to
@@ -125,7 +124,7 @@ Option|Type|Description
 ------|----|-----------
 `timeout`|`number`|Maximum time spent searching for completion candidates in current buffer. Default is `100` milliseconds. If searching in multiple buffers additional 100 milliseconds is allocated. Non-blocking search--search is aborted if a key is pressed.
 `searchOtherBuffers`|`bool`|Search other listed buffers. Default is `true`.
-`otherBuffersCount`|`number`|Maximum number of other listed buffers to search. Default is `5`.
+`otherBuffersCount`|`number`|Maximum number of other listed buffers to search. Default is `3`.
 `icase`|`bool`|Ignore case when searching for completion candidates. Default is `true`.
 
 Options are enabled using global function `g:VimCompleteOptionsSet()`. Here is
@@ -180,7 +179,8 @@ A good place to start is by looking through the implementation of external
 plugins [Vimscript
 completion](https://github.com/girishji/vimscript-complete.vim),
 [ngrams](https://github.com/girishji/ngram-complete.vim), and
-[ngrams-viewer](https://github.com/girishji/ngramview-complete.vim).
+[ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) which
+spawns a new process to handle http requests.
 
 The Completion engine uses similar interface as Vim's
 [complete-functions](https://vimhelp.org/insert.txt.html#complete-functions)
