@@ -10,6 +10,12 @@ export def Completor(findstart: number, base: string): any
     elseif findstart == 1
 	var line = getline('.')->strpart(0, col('.') - 1)
 	var prefix = line->matchstr('\f\+$')
+	if !prefix->empty()
+	    prefix = line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')
+	    if !prefix->empty()
+		return -2
+	    endif
+	endif
 	if prefix == '' || prefix =~ '?$' || prefix !~ (has('unix') ? '/' : '\')
 	    return -2
 	endif

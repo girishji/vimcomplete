@@ -95,7 +95,7 @@ def UrlMatches(base: string): list<dict<any>>
     var items = []
     for line in getline(1, '$')
 	var url = line->matchstr('\chttp\S\+')
-	if !url->empty() && url =~? $'\v^{base}'
+	if !url->empty() && url =~? $'\V\^{base}'
 	    items->add(url)
 	endif
 	# Check every 200 lines if timeout is exceeded
@@ -235,15 +235,15 @@ export def Completor(findstart: number, base: string): any
 	return line->len() - prefix->len() + 1
     endif
 
-    var candidates: list<dict<any>>
+    var candidates: list<dict<any>> = []
+    if options.urlComplete && base =~? '^http'
+	candidates += UrlMatches(base)
+    endif
     if base =~ '^\k\+$'
-	candidates = CurBufMatches(base)
+	candidates += CurBufMatches(base)
 	if candidates->len() < options.maxCount
 	    candidates = OtherBufMatches(candidates, base)
 	endif
-    endif
-    if options.urlComplete && base =~? '^http'
-	candidates += UrlMatches(base)
     endif
     return candidates->slice(0, options.maxCount)
 enddef

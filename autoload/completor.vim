@@ -136,7 +136,7 @@ def VimComplete()
     if citems->empty()
 	return
     endif
-    var startcol = citems[0].startcol
+    var startcol = citems[0].startcol # only one value for startcol valid
     citems->filter((_, v) => v.startcol == startcol) 
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
@@ -169,11 +169,8 @@ def VimComplete()
 	#   filter only when context has keyword chars
 	var context = line->matchstr('\k\+$')
 	if startcol == line->len() - context->len() + 1
-	    var itemskeywordonly = items->copy()->filter((_, v) => v.word =~ $'\v^\k+$')
-	    var itemsnonkeywords = items->copy()->filter((_, v) => v.word !~ $'\v^\k+$')
-	    items = itemskeywordonly->copy()->filter((_, v) => v.word =~# $'\v^{context}') +
-		itemskeywordonly->copy()->filter((_, v) => v.word !~# $'\v^{context}') +
-		itemsnonkeywords
+	    items = items->copy()->filter((_, v) => v.word =~# $'\V\^{context}') +
+		items->copy()->filter((_, v) => v.word !~# $'\V\^{context}')
 	endif
     endif
 
