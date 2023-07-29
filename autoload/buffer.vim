@@ -100,8 +100,7 @@ def UrlMatches(base: string): list<dict<any>>
 	endif
 	# Check every 200 lines if timeout is exceeded
 	if (timeout > 0 && linenr % 200 == 0 &&
-		start->reltime()->reltimefloat() * 1000 > timeout) ||
-		items->len() > options.maxCount
+		start->reltime()->reltimefloat() * 1000 > timeout)
 	    break
 	endif
 	linenr += 1
@@ -223,12 +222,15 @@ export def Completor(findstart: number, base: string): any
 	return 1
     elseif findstart == 1
 	var line = getline('.')->strpart(0, col('.') - 1)
-	var prefix = line->matchstr('\k\+$')
-	if prefix == '' && options.urlComplete
+	var prefix: string
+	if options.urlComplete
 	    prefix = line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')
 	endif
 	if prefix == ''
-	    return -2
+	    prefix = line->matchstr('\k\+$')
+	    if prefix == ''
+		return -2
+	    endif
 	endif
 	return line->len() - prefix->len() + 1
     endif
