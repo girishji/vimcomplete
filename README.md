@@ -126,6 +126,7 @@ Option|Type|Description
 `searchOtherBuffers`|`bool`|Search other listed buffers. Default is `true`.
 `otherBuffersCount`|`number`|Maximum number of other listed buffers to search. Default is `3`.
 `icase`|`bool`|Ignore case when searching for completion candidates. Default is `true`.
+`urlComplete`|`bool`|Complete http links in entirety. Helps when typing same url multiple times. Default is `false`.
 
 Options are enabled using global function `g:VimCompleteOptionsSet()`. Here is
 an example of how you can enable and configure completion modules.

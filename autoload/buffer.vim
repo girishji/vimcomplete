@@ -93,9 +93,12 @@ def UrlMatches(base: string): list<dict<any>>
     var timeout = options.timeout
     var linenr = 1
     var items = []
+    var baselen = base->len()
     for line in getline(1, '$')
 	var url = line->matchstr('\chttp\S\+')
-	if !url->empty() && url =~? $'\V\^{base}'
+	# url can have non-word characters like ~)( etc., (RFC3986) that need to be
+	# escaped in a regex. Error prone. More robust way is to compare strings.
+	if !url->empty() && url->slice(0, baselen) ==? base
 	    items->add(url)
 	endif
 	# Check every 200 lines if timeout is exceeded

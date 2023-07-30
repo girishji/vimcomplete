@@ -165,13 +165,13 @@ def VimComplete()
     endif
 
     if options.matchCase
-	# if context includes non-keyword chars like `(` then =~ gives error
-	#   filter only when context has keyword chars
-	var context = line->matchstr('\k\+$')
-	if startcol == line->len() - context->len() + 1
-	    items = items->copy()->filter((_, v) => v.word =~# $'\V\^{context}') +
-		items->copy()->filter((_, v) => v.word !~# $'\V\^{context}')
-	endif
+	var base = line->slice(startcol - 1)
+	var baselen = base->len()
+	items = items->copy()->filter((_, v) => v.word->slice(0, baselen) ==# base) +
+	    items->copy()->filter((_, v) => v.word->slice(0, baselen) !=# base)
+	# Note: Comparing strings (above) is more robust than regex match
+	# since items can include non-word characters like ')' that need to
+	# be escaped.
     endif
 
     if options.recency
