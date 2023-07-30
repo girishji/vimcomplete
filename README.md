@@ -96,8 +96,8 @@ installation and configuration instructions.
 - [_Vimscript_ language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
 
 Both completion _engine_ and completion _modules_ are fully configurable.
-Completion _modules_ are *not* enabled by default except for _buffer_ word completion
-and _path_ completion modules.
+Completion _modules_ are *not* enabled (activated) by default except for
+_buffer_ word completion and _path_ completion modules.
 
 #### Completion Engine Options
 
@@ -108,8 +108,8 @@ Option|Type|Description
 `recentItemCount`|`number`|Number of recent items to show at the top. Default is `5`.
 `matchCase`|`bool`|Some provider modules return items that may not match the case of prefix being completed. Show items that match case with prefix at the top followed by other items. Default is `true`.
 `kindName`|`bool`|Show the kind of completion as a full word (verbose) instead of a single letter. For example, show `[snippet]` instead of `S`. Default is `true`.
-`shuffleEqualPriorityItems`|`bool`|Items of equal priority modules are arranged such that the first item of all modules appear at the top. Default set to `false`.
-`noNewlineInCompletion`|`bool`|\<Enter\> key in insert mode stops completion and inserts an \<Enter\>. Default set to `false`.
+`shuffleEqualPriorityItems`|`bool`|Items of equal priority modules are arranged such that the first item of all modules appear at the top. Default is set to `false`.
+`noNewlineInCompletion`|`bool`|`<Enter>` key in insert mode stops completion and inserts an `<Enter>`. Default is set to `false`.
 
 #### Completion Provider Module Options
 
@@ -122,15 +122,15 @@ Option|Type|Description
 `priority`|`number`|Higher priority items are shown at the top. Default is `10`.
 `filetypes`|`list<string>`|List of file-types to enable a particular provider _module_. Default is `['*']` (all file-types), except for _dictionary_ _module_ which is set to `['text', 'markdown']`.
 
-Buffer module has some additional options.
+_Buffer_ word completion _module_ has additional options.
 
 Option|Type|Description
 ------|----|-----------
-`timeout`|`number`|Maximum time spent searching for completion candidates in current buffer. Default is `100` milliseconds. If searching in multiple buffers additional 100 milliseconds is allocated. Non-blocking search--search is aborted if a key is pressed.
+`timeout`|`number`|Maximum time spent searching for completion candidates in current buffer. Default is `100` milliseconds. If searching in multiple buffers additional 100 milliseconds is allocated. Search is aborted if any key is pressed.
 `searchOtherBuffers`|`bool`|Search other listed buffers. Default is `true`.
 `otherBuffersCount`|`number`|Maximum number of other listed buffers to search. Default is `3`.
 `icase`|`bool`|Ignore case when searching for completion candidates. Default is `true`.
-`urlComplete`|`bool`|Complete http links in entirety. Helps when typing same url multiple times. Default is `false`.
+`urlComplete`|`bool`|Complete http links in entirety. Useful when typing same url multiple times. Default is `false`.
 
 Options are enabled using global function `g:VimCompleteOptionsSet()`. Here is
 an example of how you can enable and configure completion modules.
@@ -156,8 +156,8 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 
 #### Tab Completion
 
-<C-N> and <C-P> select the menu items. However, <Tab> and <Shift-Tab> keys can
-be mapped to provide more intuitive experience.
+`<Tab>` and `<S-Tab>` keys can be mapped to select autocompletion items. By
+default `<C-N>` and `<C-P>` select the menu items.
 
 ```
 g:vimcomplete_tab_enable = 1
@@ -165,14 +165,14 @@ g:vimcomplete_tab_enable = 1
 
 #### Commands 
 
-To enable and disable plugin,
+You can enable or disable the plugin anytime using commands.
 
 ```
 :VimCompleteEnable
 :VimCompleteDisable
 ```
 
-To view which completion modules are enabled for a file,
+Following command shows which completion modules are active for a current buffer,
 
 ```
 :VimCompleteCompletors
@@ -180,12 +180,11 @@ To view which completion modules are enabled for a file,
 
 ## Writing Your Own Completion Module
 
-A good place to start is by looking through the implementation of external
-plugins [Vimscript
-completion](https://github.com/girishji/vimscript-complete.vim),
+A good place to start is by looking at the implementation of external
+plugins [Vimscript](https://github.com/girishji/vimscript-complete.vim) completion,
 [ngrams](https://github.com/girishji/ngram-complete.vim), and
-[ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) which
-spawns a new process to handle http requests.
+[ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (spawns a
+new process to handle http requests).
 
 The Completion engine uses similar interface as Vim's
 [complete-functions](https://vimhelp.org/insert.txt.html#complete-functions)
