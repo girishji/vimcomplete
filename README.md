@@ -108,8 +108,8 @@ Option|Type|Description
 `recentItemCount`|`number`|Number of recent items to show at the top. Default is `5`.
 `matchCase`|`bool`|Some provider modules return items that may not match the case of prefix being completed. Show items that match case with prefix at the top followed by other items. Default is `true`.
 `kindName`|`bool`|Show the kind of completion as a full word (verbose) instead of a single letter. For example, show `[snippet]` instead of `S`. Default is `true`.
-`shuffleEqualPriorityItems`|`bool`|Shuffle items of equal priority. Default set to `false`.
-`noNewlineInCompletion`|`bool`|\<Enter\> key in insert mode stops completion and inserts an <Enter>. Default set to `false`.
+`shuffleEqualPriorityItems`|`bool`|Items of equal priority modules are arranged such that the first item of all modules appear at the top. Default set to `false`.
+`noNewlineInCompletion`|`bool`|\<Enter\> key in insert mode stops completion and inserts an \<Enter\>. Default set to `false`.
 
 #### Completion Provider Module Options
 
@@ -117,10 +117,10 @@ Following options are common to all completion provider modules.
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`bool`|`true` to enable the module. Default is `false` for all built-in modules except 'buffer'.
+`enable`|`bool`|`true` to enable the module. Default is `false` for all built-in modules except _buffer_ and _path_ completion.
 `maxCount`|`number`|Number of completion items made available from the module. Default is `10`.
 `priority`|`number`|Higher priority items are shown at the top. Default is `10`.
-`filetypes`|`list<string>`|List of file-types to enable this provider. Default is `['*']` (all file-types), except for 'dictionary' which is set to `['text', 'markdown']`.
+`filetypes`|`list<string>`|List of file-types to enable a particular provider _module_. Default is `['*']` (all file-types), except for _dictionary_ _module_ which is set to `['text', 'markdown']`.
 
 Buffer module has some additional options.
 
