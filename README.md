@@ -64,38 +64,39 @@ packadd vimcomplete
 ## Configuration
 
 This plugin is not enabled by default. Enable it by invoking the command
-`VimCompleteEnable` in .vimrc. If you are using
-[vim-plug](https://github.com/junegunn/vim-plug) enable through `VimEnter`
-event as follows.
+`VimCompleteEnable` in $HOME/.vimrc. If you are using
+[vim-plug](https://github.com/junegunn/vim-plug) enable by registering to `VimEnter`
+event.
+
 ```
 autocmd VimEnter * VimCompleteEnable
 ```
 
 Another option is to enable the plugin selectively based on file type.
-For example, following will enable autocompletion for c, cpp, python, vim,
-text, and markdown files.
+For example, enable autocompletion for c, cpp, python, vim, text, and markdown
+files.
 
 ```
 autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
 ```
 
-Autocompletion items are sourced from various provider modules. Some modules
+Autocompletion items are sourced from various provider _modules_. Some _modules_
 are internal (builtin) to this plugin (no additional plugins necessary). Some of
-the modules are kept external for ease of maintenance. These
-plugins have to be installed separately. Following modules are built-in: LSP,
-snippets, buffer, dictionary, path, and abbreviations. LSP and snippets module
+the _modules_ are kept external for ease of maintenance. These
+plugins have to be installed separately. Following _modules_ are built-in: _LSP_,
+_snippets_, _buffer_, _dictionary_, _path_, and _abbreviations_. _LSP_ and _snippets_ module
 need additional plugins. Install [LSP client](https://github.com/yegappan/lsp)
 and [snippet](https://github.com/hrsh7th/vim-vsnip).
 
-Following modules are external to this plugin. See the links below for
+Following _modules_ are external to this plugin. See the links below for
 installation and configuration instructions.
 
-- Dictionary and next-word completion using [ngrams](https://github.com/girishji/ngram-complete.vim) (recommended)
-- [Vimscript language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
+- _Dictionary_ and next-word completion using [ngrams](https://github.com/girishji/ngram-complete.vim) (recommended)
+- [_Vimscript_ language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
 
-Both completion engine and completion modules are fully configurable.
-Completion modules are NOT enabled by default except for buffer word completion
-and path completion modules.
+Both completion _engine_ and completion _modules_ are fully configurable.
+Completion _modules_ are NOT enabled by default except for _buffer_ word completion
+and _path_ completion modules.
 
 #### Completion Engine Options
 
