@@ -103,13 +103,13 @@ and _path_ completion modules.
 
 Option|Type|Description
 ------|----|-----------
-`sortByLength`|`bool`|Sort completion items based on length. Default is `false`.
-`recency`|`bool`|Show most recently chosen items at the top (based on LRU cache). Default is `true`.
+`sortByLength`|`bool`|Sort completion items based on length of autocompletion text. Default is `false`.
+`recency`|`bool`|Show most recently chosen items at the top. Default is `true`.
 `recentItemCount`|`number`|Number of recent items to show at the top. Default is `5`.
 `matchCase`|`bool`|Some provider modules return items that may not match the case of prefix being completed. Show items that match case with prefix at the top followed by other items. Default is `true`.
-`kindName`|`bool`|Show the kind of completion as a full word (verbose) instead of a single letter. Default set to `true`.
+`kindName`|`bool`|Show the kind of completion as a full word (verbose) instead of a single letter. For example, show `[snippet]` instead of `S`. Default is `true`.
 `shuffleEqualPriorityItems`|`bool`|Shuffle items of equal priority. Default set to `false`.
-`noNewlineInCompletion`|`bool`|<Enter> key in insert mode stops completion and inserts an <Enter>. Default set to `false`.
+`noNewlineInCompletion`|`bool`|\<Enter\> key in insert mode stops completion and inserts an <Enter>. Default set to `false`.
 
 #### Completion Provider Module Options
 
