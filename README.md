@@ -7,12 +7,12 @@ script.
 
 - Code completion using [LSP](https://github.com/yegappan/lsp)
 - Snippet completion using [vsnip](https://github.com/hrsh7th/vim-vsnip)
-- Buffer word completion; Can search multiple buffers
+- Buffer word completion
+- Dictionary completion
 - Dictionary (and next-word) completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
-- Dictionary completion using configured dictionary
 - [Vimscript](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
 - Path completion
-- Abbreviation completion (`:h abbreviations`)
+- Abbreviation completion
 
 Each of the above completion options can be configured for specific file types.
 
@@ -22,9 +22,9 @@ In addition, completion items can be sorted based on:
 - Length of item
 - Priority
 - Locality of item (for buffer completion)
-- Exact case match
+- Case match
 
-For cmdline-mode completion (`/`, `?`, and `:` commands) see [autosuggest](https://github.com/girishji/autosuggest.vim).
+For cmdline-mode completion (`/`, `?`, and `:`) see [autosuggest](https://github.com/girishji/autosuggest.vim) plugin.
 
 ## Requirements
 
@@ -36,14 +36,14 @@ Install using [vim-plug](https://github.com/junegunn/vim-plug).
 ```
 vim9script
 plug#begin()
-Plug 'girishji/ngram-complete.vim'
+Plug 'girishji/vimcomplete.vim'
 plug#end()
 ```
 
 Alternately,
 ```
 call plug#begin()
-Plug 'girishji/ngram-complete.vim'
+Plug 'girishji/vimcomplete.vim'
 call plug#end()
 ```
 
@@ -54,8 +54,9 @@ $ cd $HOME/.vim/pack/downloads/opt
 $ git clone https://github.com/girishji/vimcomplete.git
 ```
 
-After installing the plugin using the above steps, add the following line to
-your $HOME/.vimrc file:
+If using builtin package manager, add the following line to your $HOME/.vimrc
+file:
+
 ```
 packadd vimcomplete
 ```
@@ -70,30 +71,31 @@ event as follows.
 autocmd VimEnter * VimCompleteEnable
 ```
 
-A better option is to enable the plugin selectively based on file type.
-For example.,
+Another option is to enable the plugin selectively based on file type.
+For example, following will enable autocompletion for c, cpp, python, vim,
+text, and markdown files.
+
 ```
 autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
 ```
 
-Autocompletion items are sourced from various provider modules. Some of the
-lightweight modules are built-in (no additional plugin necessary). Some of
-completion provider modules are kept external for ease of maintenance. These
+Autocompletion items are sourced from various provider modules. Some modules
+are internal (builtin) to this plugin (no additional plugins necessary). Some of
+the modules are kept external for ease of maintenance. These
 plugins have to be installed separately. Following modules are built-in: LSP,
-snippets, buffer, dictionary, path, and abbreviations. For LSP and snippets to
-work [LSP client](https://github.com/yegappan/lsp) and
-[snippet](https://github.com/hrsh7th/vim-vsnip) plugin have to be installed
-separately.
+snippets, buffer, dictionary, path, and abbreviations. LSP and snippets module
+need additional plugins. Install [LSP client](https://github.com/yegappan/lsp)
+and [snippet](https://github.com/hrsh7th/vim-vsnip).
 
-Following provider modules are external to this plugin. See the links below for
+Following modules are external to this plugin. See the links below for
 installation and configuration instructions.
 
-- Dictionary and next-word completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
+- Dictionary and next-word completion using [ngrams](https://github.com/girishji/ngram-complete.vim) (recommended)
 - [Vimscript language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
 
-Each provider module comes with separate set of options. In addition there are
-options to configure completion engine itself. Each of these providers has to
-be enabled, except for buffer, path and external modules which are enabled by default.
+Both completion engine and completion modules are fully configurable.
+Completion modules are NOT enabled by default except for buffer word completion
+and path completion modules.
 
 #### Completion Engine Options
 
