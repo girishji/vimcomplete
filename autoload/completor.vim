@@ -9,7 +9,7 @@ export var options: dict<any> = {
     kindName: true,
     recency: true,
     recentItemCount: 5,
-    shuffleEqualPriorityItems: false,
+    shuffleEqualPriority: false,
 }
 
 export var alloptions: dict<any> = {}
@@ -141,7 +141,7 @@ def VimComplete()
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
     var items: list<dict<any>> = []
-    if options.shuffleEqualPriorityItems
+    if options.shuffleEqualPriority
 	for priority in citems->copy()->map((_, v) => v.priority)->uniq()
 	    var eqitems = citems->copy()->filter((_, v) => v.priority == priority)
 	    var maxlen = eqitems->copy()->map((_, v) => v.items->len())->max()
