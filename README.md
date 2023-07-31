@@ -216,13 +216,13 @@ When the user sets options through configuration file a `User` event with type
 `VimCompleteOptionsChanged` is issued. The plugin should register for this
 event and update its internal state appropriately.
 
-** Short Demo
+## Demo
 
-** Contributing
+## Contributing
 
 Pull requests are welcome.
 
-** Similar Vim Plugins
+## Similar Vim Plugins
 
 - [asyncomplete](https://github.com/prabirshrestha/asyncomplete.vim)
 - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
