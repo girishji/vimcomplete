@@ -62,7 +62,7 @@ packadd vimcomplete
 
 ## Configuration
 
-Plugin is not enabled by default. Enable it by invoking the command
+Autocompletion is not enabled by default. Enable it by invoking the command
 `VimCompleteEnable` in $HOME/.vimrc. If you are using
 [vim-plug](https://github.com/junegunn/vim-plug) enable by registering to `VimEnter`
 event.

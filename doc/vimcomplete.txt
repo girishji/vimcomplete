@@ -82,7 +82,7 @@ file:
 ==============================================================================
 5. Configuration				*vimcomplete-configuration*
 
-Plugin is not enabled by default. Enable it by invoking the command
+Autocompletion is not enabled by default. Enable it by invoking the command
 `VimCompleteEnable` in $HOME/.vimrc. If you are using 'vim-plug' plugin
 manager enable by registering to `VimEnter` event.
 >
