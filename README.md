@@ -1,4 +1,4 @@
-#### Async Autocompletion for Vim
+#### Async Autocompletion Plugin for Vim
 
 A lightweight autocompletion plugin written entirely in Vim9script.
 
@@ -140,9 +140,8 @@ vim9script
 var options = {
     completor: { shuffleEqualPriority: true },
     buffer: { enable: true, priority: 10 },
-    abbrev: { enable: true, priority: 8 },
     lsp: { enable: true, priority: 9 },
-    vsnip: { enable: true, priority: 9 },
+    vsnip: { enable: true, priority: 11 },
     ngram: {
         enable: true,
         priority: 10,

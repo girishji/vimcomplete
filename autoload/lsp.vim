@@ -8,6 +8,21 @@ export var options: dict<any> = {
     dup: true,
 }
 
+def Setup()
+    var lspOpts = {
+	useBufferCompletion: false,
+	completionTextEdit: false,
+	snippetSupport: true, # snippets from lsp server
+	vsnipSupport: false,
+	autoComplete: false,
+    }
+    if exists('*g:LspOptionsSet')
+	g:LspOptionsSet(lspOpts)
+    endif
+enddef
+
+autocmd User VimCompleteLoaded ++once call Setup()
+
 export def Completor(findstart: number, base: string): any
     if !exists('*g:LspOmniFunc') || &omnifunc != 'g:LspOmniFunc'
 	return -2 # cancel but stay in completion mode
