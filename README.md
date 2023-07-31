@@ -120,7 +120,9 @@ Option|Type|Description
 `priority`|`Number`|Higher priority items are shown at the top. Default is `10`.
 `filetypes`|`List`|List of file-types to enable a particular provider _module_. Default is `['*']` (all file-types), except for _dictionary_ _module_ which is set to `['text', 'markdown']`.
 
-_Buffer_ word completion _module_ has additional options.
+##### Buffer Module Options
+
+_Buffer_ completion _module_ has additional options.
 
 Option|Type|Description
 ------|----|-----------
@@ -161,7 +163,7 @@ default `<C-N>` and `<C-P>` select the menu items.
 g:vimcomplete_tab_enable = 1
 ```
 
-#### Commands 
+## Commands 
 
 You can enable or disable the plugin anytime using commands.
 

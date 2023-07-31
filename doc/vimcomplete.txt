@@ -11,7 +11,8 @@ CONTENTS                                            *vimcomplete-contents*
      3. Requirements ............................. |vimcomplete-requirements|
      4. Installation ............................. |vimcomplete-installation|
      5. Configuration............................. |vimcomplete-configuration|
-     6. Extensions................................ |vimcomplete-extensions|
+     6. Commands.................................. |vimcomplete-commands|
+     7. Extensions................................ |vimcomplete-extensions|
 
 ==============================================================================
 1. Overview					*vimcomplete-overview*
@@ -115,23 +116,36 @@ completion and 'path' completion modules.
 
 Completion Engine Options~
 
+						    *vimcomplete-sortByLength*
 sortByLength 		|Boolean| option. Sort completion items based on
  			length of autocompletion text. Default is |false|.
+
+							 *vimcomplete-recency*
 recency 		||Boolean| option. Show most recently chosen items at
 			the top. Default is |true|.
+
+						 *vimcomplete-recentItemCount*
 recentItemCount 	|Number| option. Number of recent items to show at the
 			top. Default is |5|.
+
+						       *vimcomplete-matchCase*
 matchCase 		|Boolean| option. Some provider modules return items
 			that may not match the case of prefix being completed.
 			Show items that match case with prefix at the top
 			followed by other items. Default is |true|.
+
+							*vimcomplete-kindName*
 kindName 		|Boolean| option. Show the kind of completion as a
 			full word (verbose) instead of a single letter. For
 			example, show `[snippet]` instead of `S`. Default is
 			|true|.
+
+					    *vimcomplete-shuffleEqualPriority*
 shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
 			arranged such that the first item of all modules
 			appear at the top. Default is set to |false|.
+
+					   *vimcomplete-noNewlineInCompletion*
 noNewlineInCompletion 	|Boolean| option. |<Enter>| key in insert mode stops
 			completion and inserts an |<Enter>|. Default is set to
 			|false|.
@@ -140,31 +154,49 @@ Completion Provider Module Options~
 
 Following options are common to all completion provider modules.
 
+						   *vimcomplete-module-enable*
 enable 			|Boolean| option. |true| to enable the module. Default
 			is |false| for all builtin modules except 'buffer'
 			and 'path' completion.
+
+						 *vimcomplete-module-maxCount*
 maxCount 		|Number| option. Number of completion items made
 			available from the module. Default is `10`.
+
+						 *vimcomplete-module-priority*
 priority 		|Number| option. Higher priority items are shown at
 			the top. Default is `10`.
+
+						*vimcomplete-module-filetypes*
 filetypes 		|List|  List of file-types to enable a particular
 			provider module. Default is `['*']` (all file-types),
 			except for 'dictionary' module which is set to
 			['text', 'markdown'].
 
-'Buffer' word completion module has additional options.
+Buffer Module Options~
 
+'Buffer' completion module has additional options.
+
+						  *vimcomplete-buffer-timeout*
 timeout 		|Number| option. Maximum time spent searching for
 			completion candidates in current buffer. Default is
 			`100` milliseconds. If searching in multiple buffers
 			additional 100 milliseconds is allocated. Search
 			is aborted if any key is pressed.
+
+				       *vimcomplete-buffer-searchOtherBuffers*
 searchOtherBuffers 	|Boolean| option. Search other listed buffers. Default
 			is |true|
+
+					*vimcomplete-buffer-otherBuffersCount*
 otherBuffersCount 	|Number| option. Maximum number of other listed
 			buffers to search. Default is `3`.
+
+						    *vimcomplete-buffer-icase*
 icase 			|Boolean| option. Ignore case when searching for
 			completion candidates. Default is |true|.
+
+					      *vimcomplete-buffer-urlComplete*
 urlComplete 		|Boolean| option. Complete http links in entirety.
 			Useful when typing same url multiple times. Default is
 			|false|.
@@ -174,7 +206,7 @@ an example of how you can enable and configure completion modules.
 >
 	vim9script
 	var options = {
-	    completor: { shuffleEqualPriorityItems: true },
+	    completor: { shuffleEqualPriority: true },
 	    buffer: { enable: true, priority: 10 },
 	    abbrev: { enable: true, priority: 8 },
 	    lsp: { enable: true, priority: 9 },
@@ -196,7 +228,8 @@ default `<C-N>` and `<C-P>` select the menu items.
 >
 	g:vimcomplete_tab_enable = 1
 
-Commands~
+==============================================================================
+6. Commands					*vimcomplete-commands*
 
 You can enable or disable the plugin anytime using commands.
 >
@@ -209,7 +242,7 @@ buffer,
 	:VimCompleteCompletors
 
 ==============================================================================
-5. Extensions					*vimcomplete-extensions*
+7. Extensions					*vimcomplete-extensions*
 
 A good place to start is by looking at the implementation of external
 plugins, like
