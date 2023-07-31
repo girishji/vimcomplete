@@ -4,7 +4,6 @@ import autoload '../autoload/abbrev.vim'
 import autoload '../autoload/buffer.vim'
 import autoload '../autoload/path.vim'
 import autoload '../autoload/dictionary.vim'
-import autoload '../autoload/vsnip.vim'
 import autoload '../autoload/lsp.vim'
 
 # Enable completion in buffer loaded by default (which has no filetype)
@@ -28,7 +27,6 @@ def RegisterPlugins()
     Register('buffer', ['*'], 10)
     Register('path', ['*'], 11) # higher priority than buffer, so /xx/yy work
     Register('dictionary', ['text', 'markdown'], 5)
-    Register('vsnip', ['*'], 9)
     Register('lsp', ['*'], 8)
 enddef
 

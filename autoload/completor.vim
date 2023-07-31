@@ -27,7 +27,9 @@ export def SetupCompletors()
 enddef
 
 export def ShowCompletors()
-    echom completors
+    for completor in completors
+	echom completor
+    endfor
 enddef
 
 export def ClearRegistered()

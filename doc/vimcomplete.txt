@@ -97,10 +97,8 @@ and `markdown` files.
 Autocompletion items are sourced from various provider 'modules'. Some modules
 are internal (builtin) while others are kept external for ease of maintenance.
 The external modules have to be installed separately. Following modules are
-built-in: 'lsp', 'vsnip', 'buffer', 'dictionary', 'path', and 'abbrev'. 'lsp'
-and 'vsnip' modules need additional plugins. Install LSP client
-(https://github.com/yegappan/lsp) and vim-vsnip
-(https://github.com/hrsh7th/vim-vsnip).
+built-in: 'lsp', 'buffer', 'dictionary', 'path', and 'abbrev'. 'lsp'
+module needs LSP client (https://github.com/yegappan/lsp).
 
 Following modules are external to this plugin. See the links below for
 installation and configuration instructions.
@@ -109,6 +107,7 @@ installation and configuration instructions.
   (https://github.com/girishji/ngram-complete.vim)
 - 'vimscript' language completion
   (https://github.com/girishji/vimscript-complete.vim) (like LSP)
+- vsnip snippet completion (https://github.com/girishji/vsnip-complete.vim)
 
 Both completion 'engine' and completion 'modules' are configurable. Completion
 modules are *not* enabled (activated) by default except for 'buffer' word

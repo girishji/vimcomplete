@@ -79,23 +79,23 @@ files.
 autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
 ```
 
-Autocompletion items are sourced from various provider _modules_. Some _modules_
-are internal (builtin) while others are kept external for ease of maintenance.
-The external modules have to be installed separately. Following _modules_ are
-built-in: _lsp_, _vsnip_, _buffer_, _dictionary_, _path_, and _abbrev_. _lsp_ and
-_vsnip_ modules need additional plugins. Install [LSP
-client](https://github.com/yegappan/lsp) and
-[vim-vsnip](https://github.com/hrsh7th/vim-vsnip).
+Autocompletion items are sourced from builtin as well as external _modules_.
+Following _sources_ are built-in: _lsp_, _buffer_, _dictionary_,
+_path_, and _abbrev_.
 
-Following _modules_ are external to this plugin. See the links below for
+*Note*: In order to use the builtin _lsp_ sourcing module [LSP
+client](https://github.com/yegappan/lsp) need to be installed.
+
+Following _sources_ are external to this plugin. See the links below for
 installation and configuration instructions.
 
 - Dictionary and next-word completion using [_ngram_](https://github.com/girishji/ngram-complete.vim)
-- [_vimscript_ language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
+- [_vimscript_](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
+- [_vsnip_](https://github.com/girishji/vsnip-complete.vim) snippet completion
 
-Both completion _engine_ and completion _modules_ are fully configurable.
-Completion _modules_ are *not* enabled (activated) by default except for
-_buffer_ word completion and _path_ completion modules.
+Both completion _engine_ and sourcing _modules_ are fully configurable.
+Builtin _sources_ are *not* activated (enabled) by default except for
+_buffer_ and _path_ completion.
 
 #### Completion Engine Options
 
@@ -104,25 +104,25 @@ Option|Type|Description
 `sortByLength`|`Boolean`|Sort completion items based on length of autocompletion text. Default is `false`.
 `recency`|`Boolean`|Show most recently chosen items at the top. Default is `true`.
 `recentItemCount`|`Number`|Number of recent items to show at the top. Default is `5`.
-`matchCase`|`Boolean`|Some provider modules return items that may not match the case of prefix being completed. Show items that match case with prefix at the top followed by other items. Default is `true`.
+`matchCase`|`Boolean`|Some sources return items that may not match the case of prefix being completed. Show items that match case with prefix at the top followed by other items. Default is `true`.
 `kindName`|`Boolean`|Show the kind of completion as a full word (verbose) instead of a single letter. For example, show `[snippet]` instead of `S`. Default is `true`.
-`shuffleEqualPriority`|`Boolean`|Items of equal priority modules are arranged such that the first item of all modules appear at the top. Default is set to `false`.
+`shuffleEqualPriority`|`Boolean`|Items from equal priority _sources_ are arranged such that the first item from each _source_ appear at the top. Default is set to `false`.
 `noNewlineInCompletion`|`Boolean`|`<Enter>` key in insert mode stops completion and inserts an `<Enter>`. Default is set to `false`.
 
-#### Completion Provider Module Options
+#### Completion Sourcing Module Options
 
-Following options are common to all completion provider modules.
+Following options are common to all completion sources.
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`Boolean`|`true` to enable the module. Default is `false` for all built-in modules except _buffer_ and _path_ completion.
-`maxCount`|`Number`|Number of completion items made available from the module. Default is `10`.
+`enable`|`Boolean`|`true` to enable the source. Default is `false` for all builtin sources except _buffer_ and _path_ completion.
+`maxCount`|`Number`|Number of completion items made available from the _source_. Default is `10`.
 `priority`|`Number`|Higher priority items are shown at the top. Default is `10`.
-`filetypes`|`List`|List of file-types to enable a particular provider _module_. Default is `['*']` (all file-types), except for _dictionary_ _module_ which is set to `['text', 'markdown']`.
+`filetypes`|`List`|List of file-types to enable for a particular _source_. Default is `['*']` (all file-types), except for _dictionary_ _source_ which is set to `['text', 'markdown']`.
 
-##### Buffer Module Options
+##### Buffer Source Options
 
-_Buffer_ completion _module_ has additional options.
+_Buffer_ completion _source_ has additional options.
 
 Option|Type|Description
 ------|----|-----------
@@ -133,7 +133,7 @@ Option|Type|Description
 `urlComplete`|`Boolean`|Complete http links in entirety. Useful when typing same url multiple times. Default is `false`.
 
 Options are enabled using global function `g:VimCompleteOptionsSet()`. Here is
-an example of how you can enable and configure completion modules.
+an example of how you can enable and configure completion sources.
 
 ```
 vim9script
@@ -171,7 +171,8 @@ You can enable or disable the plugin anytime using commands.
 :VimCompleteDisable
 ```
 
-Following command shows which completion modules are active for a current buffer,
+Following command shows a list completion sources enabled for for the current
+buffer.
 
 ```
 :VimCompleteCompletors
