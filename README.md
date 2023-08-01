@@ -1,12 +1,12 @@
 #### Async Autocompletion Plugin for Vim
 
-A lightweight autocompletion plugin written entirely in vim9script.
+A lightweight async autocompletion plugin written entirely in vim9script.
 
 ## Features
 
 - Code completion using [LSP](https://github.com/yegappan/lsp)
 - Snippet completion using [vsnip](https://github.com/hrsh7th/vim-vsnip)
-- Buffer word completion
+- Buffer word completion (with timers)
 - Dictionary completion
 - Dictionary (and next-word) completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
 - [Vimscript](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
