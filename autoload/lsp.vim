@@ -33,7 +33,8 @@ export def Completor(findstart: number, base: string): any
 	return -2
     endif
     if findstart == 1
-	return g:LspOmniFunc(findstart, base) + 1
+	var startcol = g:LspOmniFunc(findstart, base)
+	return startcol < 0 ? startcol : startcol + 1
     elseif findstart == 2
 	return !g:LspOmniCompletePending()
     endif
