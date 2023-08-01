@@ -23,7 +23,7 @@ In addition, completion items can be sorted based on:
 - Locality of item (for buffer completion)
 - Case match
 
-For cmdline-mode completion (`/`, `?`, and `:`) see [autosuggest](https://github.com/girishji/autosuggest.vim) plugin.
+For cmdline-mode completion (`/`, `?`, and `:`) see **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
 
 ## Requirements
 
@@ -80,7 +80,7 @@ autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
 ```
 
 Autocompletion items are sourced from builtin as well as external _modules_.
-Following _sources_ are built-in: _lsp_, _buffer_, _dictionary_,
+Following _sources_ are builtin: _lsp_, _buffer_, _dictionary_,
 _path_, and _abbrev_.
 
 *Note*: In order to use the builtin _lsp_ sourcing module [LSP
@@ -171,7 +171,7 @@ You can enable or disable the plugin anytime using commands.
 :VimCompleteDisable
 ```
 
-Following command shows a list completion sources enabled for for the current
+Following command shows a list of completion sources enabled for the current
 buffer.
 
 ```
