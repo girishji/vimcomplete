@@ -140,7 +140,7 @@ vim9script
 var options = {
     completor: { shuffleEqualPriority: true },
     buffer: { enable: true, priority: 10 },
-    lsp: { enable: true, priority: 8, filetypes: ['c', 'cpp', 'java', 'python'] },
+    lsp: { enable: true, priority: 8 },
     vsnip: { enable: true, priority: 11 },
     ngram: {
         enable: true,
