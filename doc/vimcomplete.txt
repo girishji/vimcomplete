@@ -208,7 +208,7 @@ an example of how you can enable and configure completion modules.
 	    completor: { shuffleEqualPriority: true },
 	    buffer: { enable: true, priority: 10 },
 	    abbrev: { enable: true, priority: 8 },
-	    lsp: { enable: true, priority: 9 },
+	    lsp: { enable: true, priority: 8, filetypes: ['c', 'cpp', 'java', 'python'] },
 	    vsnip: { enable: true, priority: 9 },
 	    ngram: {
 	        enable: true,
