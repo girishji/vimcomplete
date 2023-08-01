@@ -71,7 +71,7 @@ export def Unregister(name: string)
     SetupCompletors()
 enddef
 
-import autoload './frequent.vim'
+import autoload './recent.vim'
 
 def VimComplete()
     var m = mode()
@@ -135,11 +135,13 @@ def VimComplete()
 		items: items })
 	endif
     endfor
+
     if citems->empty()
 	return
     endif
-    var startcol = citems[0].startcol # only one value for startcol valid
-    citems->filter((_, v) => v.startcol == startcol) 
+
+    var startcol = citems[0].startcol # Only one value for startcol is allowed.
+    citems->filter((_, v) => v.startcol == startcol)
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
     var items: list<dict<any>> = []
@@ -172,12 +174,12 @@ def VimComplete()
 	items = items->copy()->filter((_, v) => v.word->slice(0, baselen) ==# base) +
 	    items->copy()->filter((_, v) => v.word->slice(0, baselen) !=# base)
 	# Note: Comparing strings (above) is more robust than regex match
-	# since items can include non-word characters like ')' that need to
+	# since items can include non-keyword characters like ')' that need to
 	# be escaped.
     endif
 
     if options.recency
-	items = frequent.Frequent(items, options.recentItemCount)
+	items = recent.Recent(items, options.recentItemCount)
     endif
     items->complete(startcol)
 enddef
@@ -198,7 +200,7 @@ def LRU_Cache()
     if !options.recency || v:completed_item->type() != v:t_dict
 	return
     endif
-    frequent.CacheAdd(v:completed_item)
+    recent.CacheAdd(v:completed_item)
 enddef
 
 export def Enable()

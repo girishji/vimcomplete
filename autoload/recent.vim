@@ -31,7 +31,7 @@ export def CacheAdd(item: dict<any>)
     endif
 enddef
 
-export def Frequent(items: list<dict<any>>, maxcount: number = 10): list<dict<any>>
+export def Recent(items: list<dict<any>>, maxcount: number = 10): list<dict<any>>
     var candidates = []
     for item in items
 	var key = Key(item)

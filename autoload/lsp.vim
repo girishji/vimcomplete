@@ -24,7 +24,7 @@ enddef
 autocmd User VimCompleteLoaded ++once call Setup()
 
 export def Completor(findstart: number, base: string): any
-    if !exists('*g:LspOmniFunc') || &omnifunc != 'g:LspOmniFunc'
+    if !exists('*g:LspOmniFunc')
 	return -2 # cancel but stay in completion mode
     endif
     var line = getline('.')->strpart(0, col('.') - 1)
