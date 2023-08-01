@@ -1,6 +1,6 @@
 #### Async Autocompletion Plugin for Vim
 
-A lightweight autocompletion plugin written entirely in Vim9script.
+A lightweight autocompletion plugin written entirely in vim9script.
 
 ## Features
 
@@ -217,6 +217,8 @@ When the user sets options through configuration file a `User` event with type
 event and update its internal state appropriately.
 
 ## Demo
+
+[![asciicast](https://asciinema.org/a/MIlCdPGFd2OK7SQvFQptrSX5D.svg)](https://asciinema.org/a/MIlCdPGFd2OK7SQvFQptrSX5D)
 
 ## Contributing
 
