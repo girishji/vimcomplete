@@ -88,7 +88,7 @@ def VimComplete()
     var syncompletors: list<any> = []
     for cmp in completors
 	var scol: number = cmp.completor(1, '')
-	if scol == -3 || scol == -2
+	if scol < 0
 	    continue
 	endif
 	syncompletors->add(cmp->extendnew({ startcol: scol }))
