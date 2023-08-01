@@ -218,7 +218,7 @@ event and update its internal state appropriately.
 
 ## Demo
 
-[![asciicast](https://asciinema.org/a/MIlCdPGFd2OK7SQvFQptrSX5D.svg)](https://asciinema.org/a/MIlCdPGFd2OK7SQvFQptrSX5D)
+[![asciicast](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X.svg)](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X)
 
 ## Contributing
 
