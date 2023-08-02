@@ -45,3 +45,17 @@ export def Completor(findstart: number, base: string): any
     endif
     return items
 enddef
+
+import '../autoload/completor.vim'
+def Register()
+    if !options->has_key('enable') || options.enable
+	if !options->has_key('filetypes')
+	    options.filetypes = []
+	endif
+	if options.filetypes->index(&ft) == -1
+	    options.filetypes->add(&ft)
+	    completor.Register('lsp', Completor, options.filetypes,  options->get('priority', 8))
+	endif
+    endif
+enddef
+autocmd User LspAttached call Register()

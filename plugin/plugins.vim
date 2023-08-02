@@ -27,7 +27,7 @@ def RegisterPlugins()
     Register('buffer', ['*'], 10)
     Register('path', ['*'], 11) # higher priority than buffer, so /xx/yy work
     Register('dictionary', ['text', 'markdown'], 5)
-    Register('lsp', ['*'], 8)
+    Register('lsp', [], 8)
 enddef
 
 autocmd User VimCompleteLoaded ++once call RegisterPlugins()

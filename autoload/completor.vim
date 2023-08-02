@@ -48,6 +48,7 @@ export def Register(name: string, Completor: func, ftype: list<string>, priority
     if ftype->empty()
 	return
     endif
+    # clear prior registrations
     for completors in values(registered)
 	var idx = completors->indexof((_, v) => v.name == name)
 	if idx != -1
