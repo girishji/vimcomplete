@@ -83,7 +83,7 @@ Autocompletion items are sourced from builtin as well as external _modules_.
 Following _sources_ are builtin: _lsp_, _buffer_, _dictionary_,
 _path_, and _abbrev_.
 
-*Note*: In order to use the builtin _lsp_ sourcing module [LSP
+*Note*: In order to use the builtin _lsp_ module [LSP
 client](https://github.com/yegappan/lsp) need to be installed.
 
 Following _sources_ are external to this plugin. See the links below for
@@ -93,7 +93,7 @@ installation and configuration instructions.
 - [_vimscript_](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
 - [_vsnip_](https://github.com/girishji/vsnip-complete.vim) snippet completion
 
-Both completion _engine_ and sourcing _modules_ are fully configurable.
+Both completion _engine_ and source provider _modules_ are fully configurable.
 Builtin _sources_ are *not* activated (enabled) by default except for
 _buffer_ and _path_ completion.
 
@@ -109,7 +109,7 @@ Option|Type|Description
 `shuffleEqualPriority`|`Boolean`|Items from equal priority _sources_ are arranged such that the first item from each _source_ appear at the top. Default is set to `false`.
 `noNewlineInCompletion`|`Boolean`|`<Enter>` key in insert mode stops completion and inserts an `<Enter>`. Default is set to `false`.
 
-#### Completion Sourcing Module Options
+#### Completion Provider Module Options
 
 Following options are common to all completion sources.
 
@@ -120,9 +120,9 @@ Option|Type|Description
 `priority`|`Number`|Higher priority items are shown at the top. Default is `10`.
 `filetypes`|`List`|List of file-types to enable for a particular _source_. Default is `['*']` (all file-types), except for _dictionary_ _source_ which is set to `['text', 'markdown']`.
 
-##### Buffer Source Options
+##### Buffer Module Options
 
-_Buffer_ completion _source_ has additional options.
+_Buffer_ completion _module_ has additional options.
 
 Option|Type|Description
 ------|----|-----------
