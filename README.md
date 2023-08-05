@@ -63,17 +63,9 @@ packadd vimcomplete
 ## Configuration
 
 Autocompletion is not enabled by default. Enable it by invoking the command
-`VimCompleteEnable` in $HOME/.vimrc. If you are using
-[vim-plug](https://github.com/junegunn/vim-plug) enable by registering to `VimEnter`
-event.
-
-```
-autocmd VimEnter * VimCompleteEnable
-```
-
-Another option is to enable the plugin selectively based on _file type_.
-For example, enable autocompletion for _c_, _cpp_, _python_, _vim_, _text_, and _markdown_
-files.
+`VimCompleteEnable` in $HOME/.vimrc. You can selectively enable it for each
+_file type_ or use `*` for all file types. For example, enable autocompletion
+for `c`, `cpp`, `python`, `vim`, `text`, and `markdown` files.
 
 ```
 autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
