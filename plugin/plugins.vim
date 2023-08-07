@@ -13,7 +13,8 @@ import autoload '../autoload/lsp.vim'
 
 # Enable completion in buffer loaded by default (which has no filetype)
 import '../autoload/completor.vim'
-if get(g:, 'vimcomplete_default_buf_enable')
+g:vimcomplete_noname_buf_enable = true
+if get(g:, 'vimcomplete_noname_buf_enable', false)
     completor.Enable()
 endif
 
@@ -56,5 +57,9 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
     endif
     # Re-register providers since priority could have changed
     RegisterPlugins()
+enddef
+
+def! g:VimCompleteOptionsGet(): dict<any>
+    return completor.options->copy()
 enddef
 

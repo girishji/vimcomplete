@@ -62,15 +62,6 @@ packadd vimcomplete
 
 ## Configuration
 
-Autocompletion is not enabled by default. Enable it by invoking the command
-`VimCompleteEnable` in $HOME/.vimrc. You can selectively enable it for each
-_file type_ or use `*` for all file types. For example, enable autocompletion
-for `c`, `cpp`, `python`, `vim`, `text`, and `markdown` files.
-
-```
-autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
-```
-
 Autocompletion items are sourced from builtin as well as external _modules_.
 Following _sources_ are builtin: _lsp_, _buffer_, _dictionary_,
 _path_, and _abbrev_.
@@ -86,8 +77,8 @@ installation and configuration instructions.
 - [_vsnip_](https://github.com/girishji/vsnip-complete.vim) snippet completion
 
 Both completion _engine_ and source provider _modules_ are fully configurable.
-Builtin _sources_ are *not* activated (enabled) by default except for
-_buffer_ and _path_ completion.
+**Builtin _sources_ are not activated (enabled) by default except for
+_buffer_ and _path_ completion**.
 
 #### Completion Engine Options
 
@@ -154,14 +145,44 @@ default `<C-N>` and `<C-P>` select the menu items.
 g:vimcomplete_tab_enable = 1
 ```
 
-## Commands 
+#### Enable and Disable
 
-You can enable or disable the plugin anytime using commands.
+Autocompletion is enabled by default. You can enable or disable the plugin
+anytime using commands.
 
 ```
 :VimCompleteEnable
 :VimCompleteDisable
 ```
+
+You can selectively enable autocompletion for specified _file types_. For
+example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`, and
+`markdown` files.
+
+```
+:VimCompleteEnable c cpp python vim text markdown
+```
+
+`VimCompleteEnable` takes space separated list of _file types_ as an argument. If
+no argument is specified, then autocompletion is enabled for all _file types_. 
+
+If you are using a plugin manager like
+[vim-plug](https://github.com/junegunn/vim-plug) use the following in
+$HOME/.vimrc.
+
+```
+autocmd VimEnter * VimCompleteEnable c cpp python vim text markdown
+```
+
+When Vim is started without any arguments it opens an unnamed buffer. This
+buffer is not associated with any _file type_. To enable/disable autocompletion
+on this buffer use the following variable. It is set by default.
+
+```
+g:vimcomplete_noname_buf_enable = true
+```
+
+#### List Completion Sources
 
 Following command shows a list of completion sources enabled for the current
 buffer.

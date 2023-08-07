@@ -10,9 +10,10 @@ CONTENTS                                            *vimcomplete-contents*
      2. Features ................................. |vimcomplete-features|
      3. Requirements ............................. |vimcomplete-requirements|
      4. Installation ............................. |vimcomplete-installation|
-     5. Configuration............................. |vimcomplete-configuration|
-     6. Commands.................................. |vimcomplete-commands|
-     7. Extensions................................ |vimcomplete-extensions|
+     5. Configuration ............................ |vimcomplete-configuration|
+     6. Enable and Disable ....................... |vimcomplete-enable|
+     7. List Completion Sources .................. |vimcomplete-list|
+     8. Extensions ............................... |vimcomplete-extensions|
 
 ==============================================================================
 1. Overview					*vimcomplete-overview*
@@ -81,17 +82,6 @@ file:
 
 ==============================================================================
 5. Configuration				*vimcomplete-configuration*
-
-Autocompletion is not enabled by default. Enable it by invoking the command
-`VimCompleteEnable` in $HOME/.vimrc. You can selectively enable it for each
-file type or use `*` for all file types. For example, enable autocompletion
-for `c`, `cpp`, `python`, `vim`, `text`, and `markdown` files.
-
-Another option is to enable the plugin selectively based on file type.
-For example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`,
-and `markdown` files.
->
-	autocmd FileType c,cpp,python,vim,text,markdown VimCompleteEnable
 
 Autocompletion items are sourced from various provider 'modules'. Some modules
 are internal (builtin) while others are kept external for ease of maintenance.
@@ -227,12 +217,41 @@ default `<C-N>` and `<C-P>` select the menu items.
 	g:vimcomplete_tab_enable = 1
 
 ==============================================================================
-6. Commands					*vimcomplete-commands*
+6. Enable and Disable 		*vimcomplete_disable* *vimcomplete-enable*
 
-You can enable or disable the plugin anytime using commands.
+Autocompletion is enabled by default. You can enable or disable the plugin
+anytime using commands.
 >
 	:VimCompleteEnable
 	:VimCompleteDisable
+
+You can selectively enable autocompletion for specified file types. For
+example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`, and
+`markdown` files.
+
+>
+	:VimCompleteEnable c cpp python vim text markdown
+
+`VimCompleteEnable` takes space separated list of file types as an argument. If
+no argument is specified, then autocompletion is enabled for all file types. 
+
+If you are using a plugin manager like |vim-plug| use the following in
+$HOME/.vimrc.
+
+```
+autocmd VimEnter * VimCompleteEnable c cpp python vim text markdown
+```
+
+When Vim is started without any arguments it opens an unnamed buffer. This
+buffer is not associated with any _file type_. To enable/disable
+autocompletion on this buffer use the following variable. It is set by default.
+
+```
+g:vimcomplete_noname_buf_enable = true
+```
+
+==============================================================================
+7. List Completion Sources 				*vimcomplete-list*
 
 Following command shows which completion modules are active for a current
 buffer,
@@ -240,7 +259,7 @@ buffer,
 	:VimCompleteCompletors
 
 ==============================================================================
-7. Extensions					*vimcomplete-extensions*
+8. Extensions					*vimcomplete-extensions*
 
 A good place to start is by looking at the implementation of external
 plugins, like
