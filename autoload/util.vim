@@ -22,11 +22,12 @@ export def TabEnable()
     if !get(g:, 'vimcomplete_tab_enable')
 	return
     endif
-    iunmap <silent> <tab>
-    iunmap <silent> <s-tab>
-    inoremap <expr> <tab>   VCCleverTab()
-    snoremap <expr> <tab>   VCCleverTab()
-    inoremap <expr> <S-Tab> VCCleverSTab()
-    snoremap <expr> <S-Tab> VCCleverSTab()
+    # You could check for the mapping with maparg(), but silence the error if mapping does not exist in iunmap
+    :silent! iunmap <silent> <tab>
+    :silent! iunmap <silent> <s-tab>
+    :inoremap <expr> <tab>   VCCleverTab()
+    :snoremap <expr> <tab>   VCCleverTab()
+    :inoremap <expr> <S-Tab> VCCleverSTab()
+    :snoremap <expr> <S-Tab> VCCleverSTab()
 enddef
 
