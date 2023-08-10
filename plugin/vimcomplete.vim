@@ -37,3 +37,6 @@ augroup END
 if exists('#User#VimCompleteLoaded')
     :au VimEnter * doau <nomodeline> User VimCompleteLoaded
 endif
+
+# filetype detection is needed for this plugin to work
+filetype plugin on

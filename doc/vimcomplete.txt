@@ -23,9 +23,13 @@ A lightweight async autocompletion plugin written entirely in Vim9script.
 ==============================================================================
 2. Features					*vimcomplete-features*
 
-- Code completion using LSP (|lsp.txt|) (https://github.com/yegappan/lsp)
+- Code completion using LSP (https://github.com/yegappan/lsp)
+  (https://github.com/girishji/lsp-complete.vim)
 - Snippet completion using |vsnip| (https://github.com/hrsh7th/vim-vsnip)
+  (https://github.com/girishji/vsnip-complete.vim)
 - Buffer word completion
+- Vim's omnifuc language completion
+  (https://github.com/girishji/omnifunc-complete.vim)
 - Dictionary completion
 - Dictionary (and next-word) completion using ngrams (|ngram.txt|)
   (https://github.com/girishji/ngram-complete.vim)
@@ -80,8 +84,6 @@ file:
 >
 	packadd vimcomplete
 
-Note: Install extensions after installing this plugin.
-
 ==============================================================================
 5. Configuration				*vimcomplete-configuration*
 
@@ -94,6 +96,10 @@ module needs LSP client (https://github.com/yegappan/lsp).
 Following modules are external to this plugin. See the links below for
 installation and configuration instructions.
 
+- LSP based code completion 
+  (https://github.com/girishji/lsp-complete.vim)
+- Vim's omnifunc based code completion
+  (https://github.com/girishji/omnifunc-complete.vim)
 - Dictionary and next-word completion using 'ngram'
   (https://github.com/girishji/ngram-complete.vim)
 - 'vimscript' language completion

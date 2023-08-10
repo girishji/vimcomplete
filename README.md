@@ -4,9 +4,10 @@ A lightweight async autocompletion plugin written entirely in vim9script.
 
 ## Features
 
-- Code completion using [LSP](https://github.com/yegappan/lsp)
-- Snippet completion using [vsnip](https://github.com/hrsh7th/vim-vsnip)
+- [Code completion](https://github.com/girishji/lsp-complete.vim) using [LSP](https://github.com/yegappan/lsp)
+- [Snippet completion](https://github.com/girishji/vsnip-complete.vim) using [vsnip](https://github.com/hrsh7th/vim-vsnip)
 - Buffer word completion (with timers)
+- Vim's [omnifuc](https://github.com/girishji/omnifunc-complete.vim) language completion
 - Dictionary completion
 - Dictionary (and next-word) completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
 - [Vimscript](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
@@ -63,25 +64,22 @@ file:
 packadd vimcomplete
 ```
 
-**Note: Install extensions after installing this plugin.**
-
 ## Configuration
 
 Autocompletion items are sourced from builtin as well as external _modules_.
-Following _sources_ are builtin: _lsp_, _buffer_, _dictionary_,
-_path_, and _abbrev_.
-
-**Note**: In order to use the builtin _lsp_ module [LSP
-client](https://github.com/yegappan/lsp) need to be installed.
+Following _sources_ are builtin: _buffer_, _dictionary_, _path_, and _abbrev_.
 
 Following _sources_ are external to this plugin. See the links below for
 installation and configuration instructions.
 
+- _LSP_ based [code completion](https://github.com/girishji/lsp-complete.vim)
+- Vim's _omnifunc_ based [code completion](https://github.com/girishji/omnifunc-complete.vim)
 - Dictionary and next-word completion using [_ngram_](https://github.com/girishji/ngram-complete.vim)
 - [_vimscript_](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
 - [_vsnip_](https://github.com/girishji/vsnip-complete.vim) snippet completion
 
 Both completion _engine_ and source provider _modules_ are fully configurable.
+
 **Builtin _sources_ are not activated (enabled) by default except for
 _buffer_ and _path_ completion**.
 
