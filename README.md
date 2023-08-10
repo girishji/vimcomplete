@@ -71,7 +71,7 @@ Autocompletion items are sourced from builtin as well as external _modules_.
 Following _sources_ are builtin: _lsp_, _buffer_, _dictionary_,
 _path_, and _abbrev_.
 
-*Note*: In order to use the builtin _lsp_ module [LSP
+**Note**: In order to use the builtin _lsp_ module [LSP
 client](https://github.com/yegappan/lsp) need to be installed.
 
 Following _sources_ are external to this plugin. See the links below for
@@ -196,7 +196,7 @@ buffer.
 :VimCompleteCompletors
 ```
 
-## Writing Your Own Extensions
+## Writing Your Own Extension
 
 A good place to start is by looking at the implementation of external
 plugins [Vimscript](https://github.com/girishji/vimscript-complete.vim) completion,
