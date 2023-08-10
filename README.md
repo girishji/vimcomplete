@@ -32,6 +32,7 @@ For cmdline-mode completion (`/`, `?`, and `:`) see **[autosuggest](https://gith
 ## Installation
 
 Install using [vim-plug](https://github.com/junegunn/vim-plug).
+
 ```
 vim9script
 plug#begin()
@@ -40,6 +41,7 @@ plug#end()
 ```
 
 Alternately,
+
 ```
 call plug#begin()
 Plug 'girishji/vimcomplete.vim'
@@ -47,6 +49,7 @@ call plug#end()
 ```
 
 Or use Vim's builtin package manager.
+
 ```
 $ mkdir -p $HOME/.vim/pack/downloads/opt
 $ cd $HOME/.vim/pack/downloads/opt
@@ -59,6 +62,8 @@ file:
 ```
 packadd vimcomplete
 ```
+
+**Note: Install extensions after installing this plugin.**
 
 ## Configuration
 

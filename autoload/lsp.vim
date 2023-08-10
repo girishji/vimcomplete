@@ -5,6 +5,7 @@ vim9script
 export var options: dict<any> = {
     enable: false,
     maxCount: 10,
+    keywordOnly: false, # 'false' will complete after '.' in 'builtins.'
     dup: true,
 }
 
@@ -28,9 +29,14 @@ export def Completor(findstart: number, base: string): any
 	return -2 # cancel but stay in completion mode
     endif
     var line = getline('.')->strpart(0, col('.') - 1)
-    var prefix = line->matchstr('\k\+$')
-    if prefix == ''
+    if line =~ '\s$'
 	return -2
+    endif
+    if options.keywordOnly
+	var prefix = line->matchstr('\k\+$')
+	if prefix->empty()
+	    return -2
+	endif
     endif
     if findstart == 1
 	var startcol = g:LspOmniFunc(findstart, base)

@@ -80,6 +80,8 @@ file:
 >
 	packadd vimcomplete
 
+Note: Install extensions after installing this plugin.
+
 ==============================================================================
 5. Configuration				*vimcomplete-configuration*
 
