@@ -167,7 +167,7 @@ example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`, and
 ```
 
 `VimCompleteEnable` takes space separated list of _file types_ as an argument. If
-no argument is specified, then autocompletion is enabled for all _file types_. 
+no argument is specified, then autocompletion is enabled for _all file types_. 
 
 If you are using a plugin manager like
 [vim-plug](https://github.com/junegunn/vim-plug) use the following in
