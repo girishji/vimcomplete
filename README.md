@@ -194,6 +194,10 @@ buffer.
 :VimCompleteCompletors
 ```
 
+## Demo
+
+[![asciicast](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X.svg)](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X)
+
 ## Writing Your Own Extension
 
 A good place to start is by looking at the implementation of external
@@ -231,10 +235,6 @@ should take two arguments `findstart: Number` and `base: String` and return
 When the user sets options through configuration file a `User` event with type
 `VimCompleteOptionsChanged` is issued. The plugin should register for this
 event and update its internal state appropriately.
-
-## Demo
-
-[![asciicast](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X.svg)](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X)
 
 ## Contributing
 
