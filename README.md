@@ -75,8 +75,8 @@ installation and configuration instructions.
 - _LSP_ based [code completion](https://github.com/girishji/lsp-complete.vim)
 - Vim's _omnifunc_ based [code completion](https://github.com/girishji/omnifunc-complete.vim)
 - Dictionary and next-word completion using [_ngram_](https://github.com/girishji/ngram-complete.vim)
-- [_vimscript_](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)
-- [_vsnip_](https://github.com/girishji/vsnip-complete.vim) snippet completion
+- _vimscript_ [language completion](https://github.com/girishji/vimscript-complete.vim) (like LSP)
+- _vsnip_ [snippet completion](https://github.com/girishji/vsnip-complete.vim)
 
 Both completion _engine_ and source provider _modules_ are fully configurable.
 
