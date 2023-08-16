@@ -2,7 +2,9 @@ vim9script
 
 # Autocomplete file path
 
-export var options: dict<any> = {}
+export var options: dict<any> = {
+    bufferRelativePath: true,
+}
 
 export def Completor(findstart: number, base: string): any
     if findstart == 2
@@ -20,13 +22,27 @@ export def Completor(findstart: number, base: string): any
 	return col('.') - prefix->strlen()
     endif
 
-    var prefix = base
     var citems = []
-    for path in getcompletion(prefix, 'file', 1)
-	citems->add({
-	    word: path,
-	    kind: 'P',
-	})
-    endfor
+    var cwd: string = ''
+    try
+	if options.bufferRelativePath && expand('%:h') !=# '.' # not already in buffer dir
+	    # change directory to get completions for paths relative to current buffer dir
+	    cwd = getcwd()
+	    :exec 'cd ' .. expand('%:p:h')
+	endif
+	for item in getcompletion(base, 'file', 1)
+	    citems->add({
+		word: item,
+		kind: 'P',
+		menu: (isdirectory(item) ? "[dir]" : "[file]")
+	    })
+	endfor
+    catch # on MacOS it does not complete /tmp/* (throws E344, looks for /private/tmp/...)
+	echom v:exception
+    finally
+	if !cwd->empty()
+	    :exec $'cd {cwd}'
+	endif
+    endtry
     return citems
 enddef

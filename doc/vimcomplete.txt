@@ -197,6 +197,22 @@ urlComplete 		|Boolean| option. Complete http links in entirety.
 			Useful when typing same url multiple times. Default is
 			|false|.
 
+Path Module Options~
+
+Path completion module options.
+
+bufferRelativePath 	|Boolean| option. Interpret relative paths as being
+			relative to the directory of the current buffer. By
+			default, paths are interpreted as relative to the
+			current working directory (see |:pwd|). Default is
+			|true|.
+
+Note: Path completion kicks in when there is a `/` (`\` for Windows) or `.` in
+the word before cursor. To autocomplete deeper in a directory type `/` at the
+end.
+
+Enabling Options~
+
 Options are enabled using global function `g:VimCompleteOptionsSet()`. Here is
 an example of how you can enable and configure completion modules.
 >
