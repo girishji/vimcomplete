@@ -124,8 +124,7 @@ _Path_ completion _module_ options.
 
 Option|Type|Description
 ------|----|-----------
-`bufferRelativePath`|`Boolean`|Interpret relative paths as being relative to the directory of the current buffer. By default, paths are interpreted as
-relative to the current working directory (see `:pwd`). Default is `true`.
+`bufferRelativePath`|`Boolean`|Interpret relative paths as being relative to the directory of the current buffer. By default, paths are interpreted as relative to the current working directory (see `:pwd`). Default is `true`.
 
 **Note**: Path completion kicks in when there is a `/` (`\` for Windows) or `.`
 in the word before cursor. To autocomplete deeper in a directory type `/` at the end.
