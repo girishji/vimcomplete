@@ -7,7 +7,7 @@ A lightweight async autocompletion plugin written entirely in vim9script.
 - [Code completion](https://github.com/girishji/lsp-complete.vim) using [LSP](https://github.com/yegappan/lsp)
 - [Snippet completion](https://github.com/girishji/vsnip-complete.vim) using [vsnip](https://github.com/hrsh7th/vim-vsnip)
 - Buffer word completion (with timers)
-- Vim's [omnifuc](https://github.com/girishji/omnifunc-complete.vim) language completion
+- Vim's [omnifunc](https://github.com/girishji/omnifunc-complete.vim) language completion
 - Dictionary completion
 - Dictionary (and next-word) completion using [ngrams](https://github.com/girishji/ngram-complete.vim)
 - [Vimscript](https://github.com/girishji/vimscript-complete.vim) language completion (like LSP)

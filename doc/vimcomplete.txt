@@ -28,7 +28,7 @@ A lightweight async autocompletion plugin written entirely in Vim9script.
 - Snippet completion using |vsnip| (https://github.com/hrsh7th/vim-vsnip)
   (https://github.com/girishji/vsnip-complete.vim)
 - Buffer word completion
-- Vim's omnifuc language completion
+- Vim's omnifunc language completion
   (https://github.com/girishji/omnifunc-complete.vim)
 - Dictionary completion
 - Dictionary (and next-word) completion using ngrams (|ngram.txt|)
