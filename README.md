@@ -129,9 +129,9 @@ Option|Type|Description
 **Note**: Path completion kicks in when there is a `/` (`\` for Windows) or `.`
 in the word before cursor. To autocomplete deeper in a directory type `/` at the end.
 
-### Enabling Options
+### Configure Options
 
-Options are enabled using global function `g:VimCompleteOptionsSet()`. Here is
+Options are configured using global function `g:VimCompleteOptionsSet()`. Here is
 an example of how you can enable and configure completion sources.
 
 ```
