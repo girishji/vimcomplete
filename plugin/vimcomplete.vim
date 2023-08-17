@@ -17,12 +17,12 @@ def VimCompEnable(filetypes: string)
     # will not have the filetype available to verify. One way to verify, if
     # necessary, is by using getcompletion().
     augroup VimcompleteAutoCmds | autocmd!
-	if ftypes->empty()
-	    autocmd BufNewFile,BufReadPost * completor.Enable()
-	    g:vimcomplete_noname_buf_enable = true
-	else
-	    exec $'autocmd FileType {ftypes->join(",")} completor.Enable()'
-	endif
+        if ftypes->empty()
+            autocmd BufNewFile,BufReadPost * completor.Enable()
+            g:vimcomplete_noname_buf_enable = true
+        else
+            exec $'autocmd FileType {ftypes->join(",")} completor.Enable()'
+        endif
     augroup END
 enddef
 

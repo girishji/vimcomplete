@@ -19,13 +19,13 @@ endif
 
 def RegisterPlugins()
     def Register(provider: string, ftypes: list<string>, priority: number)
-	var o = eval($'{provider}.options')
-	if !o->has_key('enable') || o.enable
-	    var compl = eval($'{provider}.Completor')
-	    completor.Register(provider, compl, o->get('filetypes', ftypes), o->get('priority', priority))
-	else
-	    completor.Unregister(provider)
-	endif
+        var o = eval($'{provider}.options')
+        if !o->has_key('enable') || o.enable
+            var compl = eval($'{provider}.Completor')
+            completor.Register(provider, compl, o->get('filetypes', ftypes), o->get('priority', priority))
+        else
+            completor.Unregister(provider)
+        endif
     enddef
     Register('abbrev', ['*'], 10)
     Register('buffer', ['*'], 10)
@@ -39,18 +39,18 @@ autocmd User VimCompleteLoaded ++once call RegisterPlugins()
 def! g:VimCompleteOptionsSet(opts: dict<any>)
     completor.alloptions = opts->copy()
     for key in opts->keys()
-	var newopts = completor.alloptions[$'{key}']
-	if newopts->has_key('maxCount')
-	    newopts.maxCount = abs(newopts.maxCount)
-	endif
-	if !getscriptinfo({ name: $'vimcomplete/autoload/{key}' })->empty()
-	    var o = eval($'{key}.options')
-	    o->extend(newopts)
-	endif
+        var newopts = completor.alloptions[$'{key}']
+        if newopts->has_key('maxCount')
+            newopts.maxCount = abs(newopts.maxCount)
+        endif
+        if !getscriptinfo({ name: $'vimcomplete/autoload/{key}' })->empty()
+            var o = eval($'{key}.options')
+            o->extend(newopts)
+        endif
     endfor
     # Notify external completion providers that options have changed
     if exists('#User#VimCompleteOptionsChanged')
-	:doau <nomodeline> User VimCompleteOptionsChanged
+        :doau <nomodeline> User VimCompleteOptionsChanged
     endif
     # Re-register providers since priority could have changed
     RegisterPlugins()

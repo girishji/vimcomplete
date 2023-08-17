@@ -25,26 +25,26 @@ def BufWords(bufnr: number, prefix: string): list<dict<any>>
     var linenr = 1
     var items = []
     for line in getbufline(bufnr, 1, '$')
-	for word in line->split('\W\+')
-	    if !found->has_key(word) && word->len() > 1
-		found[word] = 1
-		if  word =~ pattern
-		    items->add({
-			word: word,
-			abbr: word,
-			kind: 'B',
-			menu: bufname,
-		    })
-		 endif
-	    endif
-	endfor
-	# Check every 200 lines if timeout is exceeded
-	if (timeout > 0 && linenr % 200 == 0 &&
-		start->reltime()->reltimefloat() * 1000 > timeout) ||
-		items->len() > options.maxCount
-	    break
-	endif
-	linenr += 1
+        for word in line->split('\W\+')
+            if !found->has_key(word) && word->len() > 1
+                found[word] = 1
+                if  word =~ pattern
+                    items->add({
+                        word: word,
+                        abbr: word,
+                        kind: 'B',
+                        menu: bufname,
+                    })
+                endif
+            endif
+        endfor
+        # Check every 200 lines if timeout is exceeded
+        if (timeout > 0 && linenr % 200 == 0 &&
+                start->reltime()->reltimefloat() * 1000 > timeout) ||
+                items->len() > options.maxCount
+            break
+        endif
+        linenr += 1
     endfor
     return items
 enddef
@@ -52,13 +52,13 @@ enddef
 def ExtendUnique(dest: list<dict<any>>, src: list<dict<any>>): list<dict<any>>
     var found = {}
     for item in dest
-	found[item.word] = 1
+        found[item.word] = 1
     endfor
     var items = dest->copy()
     for item in src
-	if !found->has_key(item.word)
-	    items->add(item)
-	endif
+        if !found->has_key(item.word)
+            items->add(item)
+        endif
     endfor
     return items
 enddef
@@ -69,7 +69,7 @@ enddef
 
 def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
     if GetLength(items, prefix) > options.maxCount
-	return items
+        return items
     endif
     var buffers = getbufinfo({ bufloaded: 1 })
     var curbufnr = bufnr('%')
@@ -79,10 +79,10 @@ def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
     buffers = buffers->slice(0, options.otherBuffersCount)
     var citems = items->copy()
     for b in buffers
-	citems = ExtendUnique(citems, BufWords(b.bufnr, prefix))
-	if GetLength(citems, prefix) > options.maxCount
-	    break
-	endif
+        citems = ExtendUnique(citems, BufWords(b.bufnr, prefix))
+        if GetLength(citems, prefix) > options.maxCount
+            break
+        endif
     endfor
     return citems
 enddef
@@ -95,18 +95,18 @@ def UrlMatches(base: string): list<dict<any>>
     var items = []
     var baselen = base->len()
     for line in getline(1, '$')
-	var url = line->matchstr('\chttp\S\+')
-	# url can have non-word characters like ~)( etc., (RFC3986) that need to be
-	# escaped in a regex. Error prone. More robust way is to compare strings.
-	if !url->empty() && url->slice(0, baselen) ==? base
-	    items->add(url)
-	endif
-	# Check every 200 lines if timeout is exceeded
-	if (timeout > 0 && linenr % 200 == 0 &&
-		start->reltime()->reltimefloat() * 1000 > timeout)
-	    break
-	endif
-	linenr += 1
+        var url = line->matchstr('\chttp\S\+')
+        # url can have non-word characters like ~)( etc., (RFC3986) that need to be
+        # escaped in a regex. Error prone. More robust way is to compare strings.
+        if !url->empty() && url->slice(0, baselen) ==? base
+            items->add(url)
+        endif
+        # Check every 200 lines if timeout is exceeded
+        if (timeout > 0 && linenr % 200 == 0 &&
+                start->reltime()->reltimefloat() * 1000 > timeout)
+            break
+        endif
+        linenr += 1
     endfor
     items->sort()->uniq()
     return items->map((_, v) => ({ word: v, abbr: v, kind: 'B' }))
@@ -121,37 +121,37 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var timeout: number = options.timeout / 2
 
     def SearchWords(forward: bool): list<any>
-	var [startl, startc] = [line('.'), col('.')]
-	var [lnum, cnum] = [1, 1]
-	var flags = forward ? 'W' : 'Wb'
-	var words = []
-	var found = {}
-	var count = 0
-	var Elapsed = (t) => float2nr(t->reltime()->reltimefloat() * 1000)
-	[lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
-	while [lnum, cnum] != [0, 0]
-	    var [endl, endc] = icasepat->searchpos('ceW') # end of matching string
-	    var mstr = getline(lnum)->strpart(cnum - 1, endc - cnum + 1)
-	    if mstr != prefix && !found->has_key(mstr)
-		found[mstr] = 1
-		words->add([mstr, abs(lnum - startl)])
-		if mstr =~# pattern
-		    count += 1
-		endif
-	    endif
-	    if (count >= options.maxCount) || searchStartTime->Elapsed() > timeout
-		timeout = 0
-		cursor([startl, startc])
-		break
-	    endif
-	    if !forward
-		cursor(lnum, cnum) # restore cursor, otherwise backward search loops
-	    endif
-	    [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
-	endwhile
-	timeout = max([0, timeout - searchStartTime->Elapsed()])
-	cursor([startl, startc])
-	return words
+        var [startl, startc] = [line('.'), col('.')]
+        var [lnum, cnum] = [1, 1]
+        var flags = forward ? 'W' : 'Wb'
+        var words = []
+        var found = {}
+        var count = 0
+        var Elapsed = (t) => float2nr(t->reltime()->reltimefloat() * 1000)
+        [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
+        while [lnum, cnum] != [0, 0]
+            var [endl, endc] = icasepat->searchpos('ceW') # end of matching string
+            var mstr = getline(lnum)->strpart(cnum - 1, endc - cnum + 1)
+            if mstr != prefix && !found->has_key(mstr)
+                found[mstr] = 1
+                words->add([mstr, abs(lnum - startl)])
+                if mstr =~# pattern
+                    count += 1
+                endif
+            endif
+            if (count >= options.maxCount) || searchStartTime->Elapsed() > timeout
+                timeout = 0
+                cursor([startl, startc])
+                break
+            endif
+            if !forward
+                cursor(lnum, cnum) # restore cursor, otherwise backward search loops
+            endif
+            [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
+        endwhile
+        timeout = max([0, timeout - searchStartTime->Elapsed()])
+        cursor([startl, startc])
+        return words
     enddef
 
     # Search backwards and forward
@@ -160,10 +160,10 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var fwd = SearchWords(true)
     var dist = {}
     for word in bwd
-	dist[word[0]] = word[1]
+        dist[word[0]] = word[1]
     endfor
     for word in fwd
-	dist[word[0]] = dist->has_key(word[0]) ? min([dist[word[0]], word[1]]) : word[1]
+        dist[word[0]] = dist->has_key(word[0]) ? min([dist[word[0]], word[1]]) : word[1]
     endfor
 
     # Merge the two lists
@@ -173,47 +173,47 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var bwdidx = 0
     var citems = []
     while fwdidx < fwdlen && bwdidx < bwdlen
-	var wordf = fwd[fwdidx]
-	if wordf[1] != dist[wordf[0]]
-	    fwdidx += 1
-	    continue
-	endif
-	var wordb = bwd[bwdidx]
-	if wordb[1] != dist[wordb[0]]
-	    bwdidx += 1
-	    continue
-	endif
-	if wordf[1] < wordb[1]
-	    citems->add({ word: wordf[0], kind: 'B' })
-	    fwdidx += 1
-	else
-	    citems->add({ word: wordb[0], kind: 'B' })
-	    bwdidx += 1
-	endif
+        var wordf = fwd[fwdidx]
+        if wordf[1] != dist[wordf[0]]
+            fwdidx += 1
+            continue
+        endif
+        var wordb = bwd[bwdidx]
+        if wordb[1] != dist[wordb[0]]
+            bwdidx += 1
+            continue
+        endif
+        if wordf[1] < wordb[1]
+            citems->add({ word: wordf[0], kind: 'B' })
+            fwdidx += 1
+        else
+            citems->add({ word: wordb[0], kind: 'B' })
+            bwdidx += 1
+        endif
     endwhile
     while fwdidx < fwdlen
-	var wordf = fwd[fwdidx]
-	citems->add({ word: wordf[0], kind: 'B' })
-	fwdidx += 1
+        var wordf = fwd[fwdidx]
+        citems->add({ word: wordf[0], kind: 'B' })
+        fwdidx += 1
     endwhile
     while bwdidx < bwdlen
-	var wordb = bwd[bwdidx]
-	citems->add({ word: wordb[0], kind: 'B' })
-	bwdidx += 1
+        var wordb = bwd[bwdidx]
+        citems->add({ word: wordb[0], kind: 'B' })
+        bwdidx += 1
     endwhile
 
     var candidates: list<any> = []
     if !citems->empty()
-	candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
-	if candidates->len() >= options.maxCount
-	    return candidates->slice(0, options.maxCount)
-	endif
-	if options.icase
-	    candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
-	    if candidates->len() >= options.maxCount
-		return candidates->slice(0, options.maxCount)
-	    endif
-	endif
+        candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
+        if candidates->len() >= options.maxCount
+            return candidates->slice(0, options.maxCount)
+        endif
+        if options.icase
+            candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
+            if candidates->len() >= options.maxCount
+                return candidates->slice(0, options.maxCount)
+            endif
+        endif
     endif
     return candidates
 enddef
@@ -222,31 +222,31 @@ enddef
 # comparing each word for pattern.
 export def Completor(findstart: number, base: string): any
     if findstart == 2
-	return 1
+        return 1
     elseif findstart == 1
-	var line = getline('.')->strpart(0, col('.') - 1)
-	var prefix: string
-	if options.urlComplete
-	    prefix = line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')
-	endif
-	if prefix == ''
-	    prefix = line->matchstr('\k\+$')
-	    if prefix == ''
-		return -2
-	    endif
-	endif
-	return line->len() - prefix->len() + 1
+        var line = getline('.')->strpart(0, col('.') - 1)
+        var prefix: string
+        if options.urlComplete
+            prefix = line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')
+        endif
+        if prefix == ''
+            prefix = line->matchstr('\k\+$')
+            if prefix == ''
+                return -2
+            endif
+        endif
+        return line->len() - prefix->len() + 1
     endif
 
     var candidates: list<dict<any>> = []
     if options.urlComplete && base =~? '^http'
-	candidates += UrlMatches(base)
+        candidates += UrlMatches(base)
     endif
     if base =~ '^\k\+$'
-	candidates += CurBufMatches(base)
-	if candidates->len() < options.maxCount
-	    candidates = OtherBufMatches(candidates, base)
-	endif
+        candidates += CurBufMatches(base)
+        if candidates->len() < options.maxCount
+            candidates = OtherBufMatches(candidates, base)
+        endif
     endif
     return candidates->slice(0, options.maxCount)
 enddef

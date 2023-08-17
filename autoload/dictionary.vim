@@ -22,22 +22,22 @@ var dictbufs = {}
 def GetDict(): list<any>
     var bufnr = bufnr() # bufnr of active buffer
     if dictbufs->has_key(bufnr)
-	return dictbufs[bufnr]
+        return dictbufs[bufnr]
     endif
     if &dictionary == ''
-	return []
+        return []
     endif
     var dictbuf = []
     for d in &dictionary->split(',')
-	var bnr = bufadd(d)
+        var bnr = bufadd(d)
         bnr->bufload()
         setbufvar(bnr, "&buftype", 'nowrite')
         setbufvar(bnr, "&swapfile", 0)
         setbufvar(bnr, "&buflisted", 0)
-	dictbuf->add(bnr)
+        dictbuf->add(bnr)
     endfor
     if !dictbuf->empty()
-	dictbufs[bufnr] = dictbuf
+        dictbufs[bufnr] = dictbuf
     endif
     return dictbuf
 enddef
@@ -48,78 +48,78 @@ def GetWords(prefix: string, bufnr: number): list<string>
     var lidx = 1
     var binfo = getbufinfo(bufnr)
     if binfo == []
-	return []
+        return []
     endif
     var ridx = binfo[0].linecount
     while lidx + 1 < ridx
-	var mid: number = (ridx + lidx) / 2
-	var words = bufnr->getbufoneline(mid)->split() # in case line has >1 word, split
-	if words->empty()
-	    return [] # error in dictionary file
-	endif
-	if prefix->tolower() < words[0]->tolower()
-	    ridx = mid
-	else
-	    lidx = mid
-	endif
+        var mid: number = (ridx + lidx) / 2
+        var words = bufnr->getbufoneline(mid)->split() # in case line has >1 word, split
+        if words->empty()
+            return [] # error in dictionary file
+        endif
+        if prefix->tolower() < words[0]->tolower()
+            ridx = mid
+        else
+            lidx = mid
+        endif
     endwhile
     lidx = max([1, lidx - options.maxCount])
     ridx = min([binfo[0].linecount, ridx + options.maxCount])
     var items = []
     var pattern = options.icase ? $'\c^{prefix}' : $'\C^{prefix}'
     for line in bufnr->getbufline(lidx, ridx)
-	for word in line->split()
-	    if word =~ pattern
-		items->add(word)
-	    endif
-	endfor
+        for word in line->split()
+            if word =~ pattern
+                items->add(word)
+            endif
+        endfor
     endfor
     return items
 enddef
 
 export def Completor(findstart: number, base: string): any
     if findstart == 2
-	return 1
+        return 1
     elseif findstart == 1
-	var line = getline('.')->strpart(0, col('.') - 1)
-	var prefix = line->matchstr('\a\+$')
-	if prefix == '' || prefix->len() < 2
-	    return -2
-	endif
-	return col('.') - prefix->strlen()
+        var line = getline('.')->strpart(0, col('.') - 1)
+        var prefix = line->matchstr('\a\+$')
+        if prefix == '' || prefix->len() < 2
+            return -2
+        endif
+        return col('.') - prefix->strlen()
     endif
 
     var prefix = base
     var items = []
     for bufnr in GetDict()
-	items->extend(GetWords(prefix, bufnr))
+        items->extend(GetWords(prefix, bufnr))
     endfor
     var found = {}
     var candidates = []
     for item in items # remove duplicates
-	if !found->has_key(item)
-	    found[item] = 1
-	    candidates->add(item)
-	endif
+        if !found->has_key(item)
+            found[item] = 1
+            candidates->add(item)
+        endif
     endfor
     candidates = candidates->sort()->slice(0, options.maxCount)
     if options.icase
-	var camelcase = prefix =~# '^\u\U'
-	if camelcase
-	    candidates->map('toupper(v:val[0]) .. v:val[1:]')
-	else
-	    var uppercase = prefix =~# '^\u\+\$'
-	    if uppercase
-		candidates->map('toupper(v:val)')
-	    endif
-	endif
+        var camelcase = prefix =~# '^\u\U'
+        if camelcase
+            candidates->map('toupper(v:val[0]) .. v:val[1:]')
+        else
+            var uppercase = prefix =~# '^\u\+\$'
+            if uppercase
+                candidates->map('toupper(v:val)')
+            endif
+        endif
     endif
     var citems = []
     for candidate in candidates
-	citems->add({
-	    word: candidate,
-	    kind: 'D',
-	})
+        citems->add({
+            word: candidate,
+            kind: 'D',
+        })
     endfor
     return citems
 enddef

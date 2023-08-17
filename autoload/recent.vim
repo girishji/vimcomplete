@@ -14,36 +14,36 @@ enddef
 
 def Key(item: dict<any>): string
     if !item->has_key('kind')
-	return ''
+        return ''
     endif
     return $'{item.kind}' .. (item->has_key('abbr') && !item.abbr->empty() ? item.abbr : item.word)
 enddef
 
 export def CacheAdd(item: dict<any>)
     if cache->len() > CacheSize
-	for it in LRU_Keys()
-	    cache->remove(it[0])
-	endfor
+        for it in LRU_Keys()
+            cache->remove(it[0])
+        endfor
     endif
     var key = Key(item)
     if !key->empty()
-	cache[key] = { item: item, reltime: reltime()->reltimefloat() }
+        cache[key] = { item: item, reltime: reltime()->reltimefloat() }
     endif
 enddef
 
 export def Recent(items: list<dict<any>>, maxcount: number = 10): list<dict<any>>
     var candidates = []
     for item in items
-	var key = Key(item)
-	if !key
-	    continue
-	endif
-	if cache->has_key(key)
-	    candidates->add({ key: key, item: item, reltime: cache[key].reltime })
-	endif
+        var key = Key(item)
+        if !key
+            continue
+        endif
+        if cache->has_key(key)
+            candidates->add({ key: key, item: item, reltime: cache[key].reltime })
+        endif
     endfor
     if candidates->empty()
-	return items
+        return items
     endif
     candidates->sort((v1, v2) => v1.reltime < v2.reltime ? 1 : -1)
     candidates = candidates->slice(0, maxcount + 1)
@@ -51,15 +51,15 @@ export def Recent(items: list<dict<any>>, maxcount: number = 10): list<dict<any>
     var citems: list<dict<any>> = []
     var iscandidate = {}
     for item in candidates
-	citems->add(item.item)
-	iscandidate[item.key] = 1
+        citems->add(item.item)
+        iscandidate[item.key] = 1
     endfor
     for item in items
-	var key = Key(item)
-	if !key->empty()  && iscandidate->has_key(key)
-	    continue
-	endif
-	citems->add(item)
+        var key = Key(item)
+        if !key->empty()  && iscandidate->has_key(key)
+            continue
+        endif
+        citems->add(item)
     endfor
     return citems
 enddef
