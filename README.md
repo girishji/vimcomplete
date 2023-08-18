@@ -133,7 +133,8 @@ in the word before cursor. To autocomplete deeper in a directory type `/` at the
 ### Configure Options
 
 Options are configured using global function `g:VimCompleteOptionsSet()`. Here is
-an example of how you can enable and configure completion sources.
+an example of how you can enable and configure completion sources. Not all
+options are shown here, please see tables above for all available options.
 
 ```
 vim9script
