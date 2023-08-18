@@ -117,6 +117,7 @@ Option|Type|Description
 `otherBuffersCount`|`Number`|Maximum number of other listed buffers to search. Default is `3`.
 `icase`|`Boolean`|Ignore case when searching for completion candidates. Default is `true`.
 `urlComplete`|`Boolean`|Complete http links in entirety. Useful when typing same url multiple times. Default is `false`.
+`envComplete`|`Boolean`|Complete environment variables after `$`. Default is `false`.
 
 ### Path Module Options
 

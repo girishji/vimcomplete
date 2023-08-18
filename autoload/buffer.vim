@@ -13,6 +13,7 @@ export var options: dict<any> = {
     otherBuffersCount: 3,	# Max count of other listed buffers to search
     icase: true,
     urlComplete: false,
+    envComplete: false,
 }
 
 # Return a list of keywords from a buffer
@@ -229,6 +230,9 @@ export def Completor(findstart: number, base: string): any
         if options.urlComplete
             prefix = line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')
         endif
+        if prefix->empty() && options.envComplete
+            prefix = line->matchstr('$\zs\k\+$')
+        endif
         if prefix == ''
             prefix = line->matchstr('\k\+$')
             if prefix == ''
@@ -241,6 +245,13 @@ export def Completor(findstart: number, base: string): any
     var candidates: list<dict<any>> = []
     if options.urlComplete && base =~? '^http'
         candidates += UrlMatches(base)
+    endif
+    if options.envComplete
+        var line = getline('.')->strpart(0, col('.') - 1)
+        if line =~ '$\k\+$'
+            var envs = base->getcompletion('environment')->map((_, v) => ({ word: v, abbr: v, menu: 'Env', kind: 'B' }))
+            candidates += envs
+        endif
     endif
     if base =~ '^\k\+$'
         candidates += CurBufMatches(base)
