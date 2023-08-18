@@ -95,7 +95,7 @@ Option|Type|Description
 `shuffleEqualPriority`|`Boolean`|Items from equal priority _sources_ are arranged such that the first item from each _source_ appear at the top. Default is set to `false`.
 `noNewlineInCompletion`|`Boolean`|`<Enter>` key in insert mode stops completion and inserts an `<Enter>`. Default is set to `false`.
 
-### Completion Provider Module Options
+### Completion Provider Module General Options
 
 Following options are common to all completion sources.
 
@@ -108,7 +108,7 @@ Option|Type|Description
 
 ### Buffer Module Options
 
-_Buffer_ completion _module_ has additional options.
+In addition to above options _Buffer_ completion _module_ has its own options.
 
 Option|Type|Description
 ------|----|-----------
@@ -121,7 +121,7 @@ Option|Type|Description
 
 ### Path Module Options
 
-_Path_ completion _module_ options.
+In addition to above general options _Path_ completion _module_ has its own options.
 
 Option|Type|Description
 ------|----|-----------
