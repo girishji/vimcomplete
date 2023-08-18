@@ -139,8 +139,9 @@ an example of how you can enable and configure completion sources.
 vim9script
 var options = {
     completor: { shuffleEqualPriority: true },
-    buffer: { enable: true, priority: 10 },
+    buffer: { enable: true, priority: 10, urlComplete: true, envComplete: true },
     lsp: { enable: true, priority: 8 },
+    omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
     vsnip: { enable: true, priority: 11 },
     ngram: {
         enable: true,
