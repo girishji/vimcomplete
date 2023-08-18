@@ -129,7 +129,12 @@ def CurBufMatches(prefix: string): list<dict<any>>
         var found = {}
         var count = 0
         var Elapsed = (t) => float2nr(t->reltime()->reltimefloat() * 1000)
-        [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
+        try
+            [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
+        catch # a `~` in icasepat keyword (&isk) in txt file throws E33
+            echom v:exception
+            return []
+        endtry
         while [lnum, cnum] != [0, 0]
             var [endl, endc] = icasepat->searchpos('ceW') # end of matching string
             var mstr = getline(lnum)->strpart(cnum - 1, endc - cnum + 1)

@@ -144,6 +144,7 @@ var options = {
     lsp: { enable: true, priority: 8 },
     omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
     vsnip: { enable: true, priority: 11 },
+    vimscript: { enable: true, priority: 11 },
     ngram: {
         enable: true,
         priority: 10,
