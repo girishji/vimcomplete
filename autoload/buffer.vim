@@ -29,14 +29,17 @@ def BufWords(bufnr: number, prefix: string): list<dict<any>>
         for word in line->split('\W\+')
             if !found->has_key(word) && word->len() > 1
                 found[word] = 1
-                if  word =~ pattern
-                    items->add({
-                        word: word,
-                        abbr: word,
-                        kind: 'B',
-                        menu: bufname,
-                    })
-                endif
+                try
+                    if  word =~ pattern
+                        items->add({
+                            word: word,
+                            abbr: word,
+                            kind: 'B',
+                            menu: bufname,
+                        })
+                    endif
+                catch # E33 is caught if prefix has a "~" in vim files
+                endtry
             endif
         endfor
         # Check every 200 lines if timeout is exceeded
@@ -65,7 +68,11 @@ def ExtendUnique(dest: list<dict<any>>, src: list<dict<any>>): list<dict<any>>
 enddef
 
 def GetLength(items: list<dict<any>>, prefix: string): number
-    return items->reduce((sum, val) => sum + (val.word =~# $'^{prefix}' ? 1 : 0), 0)
+    try
+        return items->reduce((sum, val) => sum + (val.word =~# $'^{prefix}' ? 1 : 0), 0)
+    catch
+        return 0
+    endtry
 enddef
 
 def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
@@ -141,9 +148,12 @@ def CurBufMatches(prefix: string): list<dict<any>>
             if mstr != prefix && !found->has_key(mstr)
                 found[mstr] = 1
                 words->add([mstr, abs(lnum - startl)])
-                if mstr =~# pattern
-                    count += 1
-                endif
+                try
+                    if mstr =~# pattern
+                        count += 1
+                    endif
+                catch
+                endtry
             endif
             if (count >= options.maxCount) || searchStartTime->Elapsed() > timeout
                 timeout = 0
@@ -210,12 +220,18 @@ def CurBufMatches(prefix: string): list<dict<any>>
 
     var candidates: list<any> = []
     if !citems->empty()
-        candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
+        try
+            candidates = citems->copy()->filter((_, v) => v.word =~# pattern)
+        catch
+        endtry
         if candidates->len() >= options.maxCount
             return candidates->slice(0, options.maxCount)
         endif
         if options.icase
-            candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
+            try
+                candidates += citems->copy()->filter((_, v) => v.word !~# pattern)
+            catch
+            endtry
             if candidates->len() >= options.maxCount
                 return candidates->slice(0, options.maxCount)
             endif
