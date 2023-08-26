@@ -74,73 +74,10 @@ enddef
 
 import autoload './recent.vim'
 
-def VimComplete()
-    var m = mode()
-    if m != 'i' && m != 'R' && m != 'Rv' # not in insert or replace mode
-        return
-    endif
-    var curcol = charcol('.')
-    var curline = getline('.')
-    if curcol == 0 || curline->empty()
-        return
-    endif
-
-    var line = curline->strpart(0, curcol - 1)
-    var syncompletors: list<any> = []
-    for cmp in completors
-        var scol: number = cmp.completor(1, '')
-        if scol < 0
-            continue
-        endif
-        syncompletors->add(cmp->extendnew({ startcol: scol }))
-    endfor
-
-    def GetItems(cmp: dict<any>): list<any>
-        var base = line->slice(cmp.startcol - 1)
-        var items = cmp.completor(0, base)
-        if options.kindName
-            items->map((_, v) => {
-                v.kind = $'[{cmp.name}]'
-                return v
-            })
-        endif
-        return items
-    enddef
-
-    var citems = []
-    var asyncompletors: list<any> = []
-    for cmp in syncompletors
-        if cmp.completor(2, '')
-            var items = GetItems(cmp)
-            if !items->empty()
-                citems->add({ priority: cmp.priority, startcol: cmp.startcol,
-                    items: items })
-            endif
-        else
-            asyncompletors->add(cmp)
-        endif
-    endfor
-
-    for cmp in asyncompletors
-        var count: number = 0
-        while !cmp.completor(2, '') && count < 1000
-            if complete_check()
-                return
-            endif
-            sleep 2m
-            count += 1
-        endwhile
-        var items = GetItems(cmp)
-        if !items->empty()
-            citems->add({ priority: cmp.priority, startcol: cmp.startcol,
-                items: items })
-        endif
-    endfor
-
+def DisplayPopup(citems: list<any>, line: string)
     if citems->empty()
         return
     endif
-
     var startcol = citems[0].startcol # Only one value for startcol is allowed.
     citems->filter((_, v) => v.startcol == startcol)
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
@@ -183,6 +120,100 @@ def VimComplete()
         items = recent.Recent(items, options.recentItemCount)
     endif
     items->complete(startcol)
+enddef
+
+def GetCurLine(): string
+    var m = mode()
+    if m != 'i' && m != 'R' && m != 'Rv' # not in insert or replace mode
+        return ''
+    endif
+    var curcol = charcol('.')
+    var curline = getline('.')
+    if curcol == 0 || curline->empty()
+        return ''
+    endif
+    return curline->strpart(0, curcol - 1)
+enddef
+
+def GetItems(cmp: dict<any>, line: string): list<any>
+    var base = line->slice(cmp.startcol - 1)
+    var items = cmp.completor(0, base)
+    if options.kindName
+        items->map((_, v) => {
+            v.kind = $'[{cmp.name}]'
+            return v
+        })
+    endif
+    return items
+enddef
+
+def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: list<any>, count: number, timer: number)
+    var line = GetCurLine()
+    # If user already tabbed on an item from popup menu or typed something,
+    # then current line will change and this completion prefix is no longer valid
+    if curline !=# line
+        return
+    endif
+    if count < 0
+        DisplayPopup(partialitems, line)
+        return
+    endif
+
+    var citems = partialitems->copy()
+    var asyncompletors: list<any> = []
+    for cmp in pendingcompletors
+        if cmp.completor(2, '')
+            var items = GetItems(cmp, line)
+            if !items->empty()
+                citems->add({ priority: cmp.priority, startcol: cmp.startcol,
+                    items: items })
+            endif
+        else
+            asyncompletors->add(cmp)
+        endif
+    endfor
+
+    if asyncompletors->empty()
+        DisplayPopup(citems, line)
+    else
+        timer_start(2, function(AsyncGetItems, [line, asyncompletors, citems, count - 1]))
+    endif
+enddef
+
+def VimComplete()
+    var line = GetCurLine()
+    if line->empty()
+        return
+    endif
+    var syncompletors: list<any> = []
+    for cmp in completors
+        var scol: number = cmp.completor(1, '')
+        if scol < 0
+            continue
+        endif
+        syncompletors->add(cmp->extendnew({ startcol: scol }))
+    endfor
+
+    # Collect items that are immediately available
+    var citems = []
+    var asyncompletors: list<any> = []
+    for cmp in syncompletors
+        if cmp.completor(2, '')
+            var items = GetItems(cmp, line)
+            if !items->empty()
+                citems->add({ priority: cmp.priority, startcol: cmp.startcol,
+                    items: items })
+            endif
+        else
+            asyncompletors->add(cmp)
+        endif
+    endfor
+
+    DisplayPopup(citems, line)
+    if !asyncompletors->empty()
+        # wait a maximum 2 sec (2ms * 1000), checking every 2ms to receive items from completors
+        timer_start(2, function(AsyncGetItems, [line, asyncompletors, citems, 1000]))
+    endif
 enddef
 
 def VimCompletePopupVisible()
