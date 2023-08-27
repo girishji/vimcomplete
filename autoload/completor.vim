@@ -67,7 +67,7 @@ enddef
 
 export def Unregister(name: string)
     for providers in registered->values()
-        providers->filter((_, v) => v.name != name) 
+        providers->filter((_, v) => v.name != name)
     endfor
     SetupCompletors()
 enddef
@@ -154,6 +154,11 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     if curline !=# line
         return
     endif
+    # Double check that user has not selected an item in the popup menu
+    var compl = complete_info(['selected', 'pum_visible'])
+    if compl.pum_visible && compl.selected != -1
+        return
+    endif
     if count < 0
         DisplayPopup(partialitems, line)
         return
@@ -211,8 +216,8 @@ def VimComplete()
 
     DisplayPopup(citems, line)
     if !asyncompletors->empty()
-        # wait a maximum 2 sec (2ms * 1000), checking every 2ms to receive items from completors
-        timer_start(2, function(AsyncGetItems, [line, asyncompletors, citems, 1000]))
+        # wait a maximum 2 sec, checking every 2ms to receive items from completors
+        timer_start(5, function(AsyncGetItems, [line, asyncompletors, citems, 400]))
     endif
 enddef
 

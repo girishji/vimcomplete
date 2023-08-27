@@ -14,6 +14,7 @@ export var options: dict<any> = {
     icase: true,
     urlComplete: false,
     envComplete: false,
+    dup: true,
 }
 
 # Return a list of keywords from a buffer
@@ -279,6 +280,9 @@ export def Completor(findstart: number, base: string): any
         if candidates->len() < options.maxCount
             candidates = OtherBufMatches(candidates, base)
         endif
+    endif
+    if options.dup
+        candidates->map((_, v) => v->extend({ dup: 1 }))
     endif
     return candidates->slice(0, options.maxCount)
 enddef
