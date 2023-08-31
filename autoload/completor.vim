@@ -84,17 +84,31 @@ def DisplayPopup(citems: list<any>, line: string)
 
     var items: list<dict<any>> = []
     if options.shuffleEqualPriority
+        var prefix = line->slice(startcol - 1)
+        var prefixlen = prefix->len()
         for priority in citems->copy()->map((_, v) => v.priority)->uniq()
             var eqitems = citems->copy()->filter((_, v) => v.priority == priority)
             var maxlen = eqitems->copy()->map((_, v) => v.items->len())->max()
-            for idx in maxlen->range()
-                for it in eqitems
-                    if !it.items->get(idx)
-                        continue
-                    endif
-                    items->add(it.items[idx])
+            def PopulateItems(exactMatch: bool)
+                for idx in maxlen->range()
+                    for it in eqitems
+                        if !it.items->get(idx)
+                            continue
+                        endif
+                        if exactMatch
+                            if it.items[idx].word->slice(0, prefixlen) ==# prefix
+                                items->add(it.items[idx])
+                            endif
+                        else
+                            if it.items[idx].word->slice(0, prefixlen) !=# prefix
+                                items->add(it.items[idx])
+                            endif
+                        endif
+                    endfor
                 endfor
-            endfor
+            enddef
+            PopulateItems(true)
+            PopulateItems(false)
         endfor
     else
         for it in citems
