@@ -95,12 +95,16 @@ def DisplayPopup(citems: list<any>, line: string)
                         if !it.items->get(idx)
                             continue
                         endif
+                        var repl = it.items[idx]->get('abbr', '')
+                        if repl->empty()
+                            repl = it.items[idx].word
+                        endif
                         if exactMatch
-                            if it.items[idx].word->slice(0, prefixlen) ==# prefix
+                            if repl->slice(0, prefixlen) ==# prefix
                                 items->add(it.items[idx])
                             endif
                         else
-                            if it.items[idx].word->slice(0, prefixlen) !=# prefix
+                            if repl->slice(0, prefixlen) !=# prefix
                                 items->add(it.items[idx])
                             endif
                         endif
