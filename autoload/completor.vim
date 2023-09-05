@@ -49,11 +49,8 @@ export def Register(name: string, Completor: func, ftype: list<string>, priority
         return
     endif
     # clear prior registrations
-    for completors in values(registered)
-        var idx = completors->indexof((_, v) => v.name == name)
-        if idx != -1
-            completors->remove(idx)
-        endif
+    for providers in registered->values()
+        providers->filter((_, v) => v.name != name)
     endfor
     if ftype[0] == '*'
         AddCompletor('any')
