@@ -280,6 +280,12 @@ export def Completor(findstart: number, base: string): any
         if candidates->len() < options.maxCount
             candidates = OtherBufMatches(candidates, base)
         endif
+        # remove item which looks like xxx|yyy (where '|' is the cursor)
+        var postfix = getline('.')->matchstr('^\k\+', col('.') - 1)
+        if !postfix->empty()
+            var excluded = $'{base}{postfix}'
+            candidates->filter((_, v) => v.word !=# excluded)
+        endif
     endif
     if options.dup
         candidates->map((_, v) => v->extend({ dup: 1 }))
