@@ -39,7 +39,7 @@ def BufWords(bufnr: number, prefix: string): list<dict<any>>
                             menu: bufname,
                         })
                     endif
-                catch # E33 is caught if prefix has a "~" in vim files
+                catch # E33 is caught if prefix has a "~"
                 endtry
             endif
         endfor
