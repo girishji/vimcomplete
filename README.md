@@ -37,18 +37,9 @@ Install using [vim-plug](https://github.com/junegunn/vim-plug).
 ```
 vim9script
 plug#begin()
-Plug 'girishji/vimcomplete.vim'
+Plug 'girishji/vimcomplete'
 plug#end()
 ```
-
-Alternately,
-
-```
-call plug#begin()
-Plug 'girishji/vimcomplete.vim'
-call plug#end()
-```
-
 Or use Vim's builtin package manager.
 
 ```
@@ -163,7 +154,7 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 default `<C-N>` and `<C-P>` select the menu items.
 
 ```
-g:vimcomplete_tab_enable = 1
+let g:vimcomplete_tab_enable = 1
 ```
 
 ### Enable and Disable
@@ -200,7 +191,7 @@ buffer is not associated with any _file type_. To enable/disable autocompletion
 on this buffer use the following variable. It is set by default.
 
 ```
-g:vimcomplete_noname_buf_enable = true
+let g:vimcomplete_noname_buf_enable = true
 ```
 
 ### List Completion Sources
