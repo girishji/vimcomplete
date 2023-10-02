@@ -28,8 +28,8 @@ def RegisterPlugins()
         endif
     enddef
     Register('abbrev', ['*'], 10)
-    Register('buffer', ['*'], 10)
-    Register('path', ['*'], 11) # higher priority than buffer, so /xx/yy work
+    Register('buffer', ['*'], 11)
+    Register('path', ['*'], 12) # higher priority than buffer, so /xx/yy work
     Register('dictionary', ['text', 'markdown'], 5)
 enddef
 
