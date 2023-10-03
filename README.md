@@ -154,7 +154,8 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 default `<C-N>` and `<C-P>` select the menu items.
 
 ```
-let g:vimcomplete_tab_enable = 1
+vim9script
+g:vimcomplete_tab_enable = 1
 ```
 
 ### Enable and Disable
@@ -191,7 +192,8 @@ buffer is not associated with any _file type_. To enable/disable autocompletion
 on this buffer use the following variable. It is set by default.
 
 ```
-let g:vimcomplete_noname_buf_enable = true
+vim9script
+g:vimcomplete_noname_buf_enable = true
 ```
 
 ### List Completion Sources
