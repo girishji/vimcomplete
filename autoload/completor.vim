@@ -142,7 +142,7 @@ def GetCurLine(): string
     if m != 'i' && m != 'R' && m != 'Rv' # not in insert or replace mode
         return ''
     endif
-    var curcol = charcol('.')
+    var curcol = col('.')
     var curline = getline('.')
     if curcol == 0 || curline->empty()
         return ''
@@ -151,7 +151,14 @@ def GetCurLine(): string
 enddef
 
 def GetItems(cmp: dict<any>, line: string): list<any>
-    var base = line->slice(cmp.startcol - 1)
+    # Non ascii chars like ’ occupy >1 columns since they have composing
+    # characters. slice(), strpart(), col('.'), len() use byte index, while
+    # strcharpart(), strcharlen() use char index.
+    var base = line->strpart(cmp.startcol - 1)
+    if base->empty()
+        # Should not happen
+        return []
+    endif
     var items = cmp.completor(0, base)
     if options.kindName
         items->map((_, v) => {
