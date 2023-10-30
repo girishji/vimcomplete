@@ -175,13 +175,18 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var bwd = SearchWords(false)
     timeout += options.timeout / 2
     var fwd = SearchWords(true)
-    var dist = {}
+    var dist = {} # {word: distance}
+    var found = {}
     for word in bwd
         dist[word[0]] = word[1]
     endfor
+    found = dist->deepcopy()
     for word in fwd
         dist[word[0]] = dist->has_key(word[0]) ? min([dist[word[0]], word[1]]) : word[1]
     endfor
+    fwd->filter((_, v) => v[1] == dist[v[0]])
+    bwd->filter((_, v) => v[1] == dist[v[0]])
+    fwd->filter((_, v) => !found->has_key(v[0])) # exclude word in both fwd and bwd with same dist
 
     # Merge the two lists
     var fwdlen = fwd->len()
@@ -191,15 +196,7 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var citems = []
     while fwdidx < fwdlen && bwdidx < bwdlen
         var wordf = fwd[fwdidx]
-        if wordf[1] != dist[wordf[0]]
-            fwdidx += 1
-            continue
-        endif
         var wordb = bwd[bwdidx]
-        if wordb[1] != dist[wordb[0]]
-            bwdidx += 1
-            continue
-        endif
         if wordf[1] < wordb[1]
             citems->add({ word: wordf[0], kind: 'B' })
             fwdidx += 1
