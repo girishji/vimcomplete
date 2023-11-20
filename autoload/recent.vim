@@ -12,11 +12,15 @@ def LRU_Keys(): list<string>
     return leastrecent->slice(0, max([ 1, CacheSize / 100 ]))
 enddef
 
+def KeyWord(item: dict<any>): string
+    return item->has_key('abbr') && !item.abbr->empty() ? item.abbr : item.word
+enddef
+
 def Key(item: dict<any>): string
     if !item->has_key('kind')
         return ''
     endif
-    return $'{item.kind}' .. (item->has_key('abbr') && !item.abbr->empty() ? item.abbr : item.word)
+    return $'{item.kind}{KeyWord(item)}'
 enddef
 
 export def CacheAdd(item: dict<any>)
@@ -31,14 +35,14 @@ export def CacheAdd(item: dict<any>)
     endif
 enddef
 
-export def Recent(items: list<dict<any>>, maxcount: number = 10): list<dict<any>>
+export def Recent(items: list<dict<any>>, prefix: string, maxcount: number = 10): list<dict<any>>
     var candidates = []
     for item in items
         var key = Key(item)
         if !key
             continue
         endif
-        if cache->has_key(key)
+        if cache->has_key(key) && KeyWord(item)->slice(0, prefix->len()) ==# prefix
             candidates->add({ key: key, item: item, reltime: cache[key].reltime })
         endif
     endfor

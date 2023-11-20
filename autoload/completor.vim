@@ -80,9 +80,9 @@ def DisplayPopup(citems: list<any>, line: string)
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
     var items: list<dict<any>> = []
+    var prefix = line->slice(startcol - 1)
+    var prefixlen = prefix->len()
     if options.shuffleEqualPriority
-        var prefix = line->slice(startcol - 1)
-        var prefixlen = prefix->len()
         for priority in citems->copy()->map((_, v) => v.priority)->uniq()
             var eqitems = citems->copy()->filter((_, v) => v.priority == priority)
             var maxlen = eqitems->copy()->map((_, v) => v.items->len())->max()
@@ -122,17 +122,15 @@ def DisplayPopup(citems: list<any>, line: string)
     endif
 
     if options.matchCase
-        var base = line->slice(startcol - 1)
-        var baselen = base->len()
-        items = items->copy()->filter((_, v) => v.word->slice(0, baselen) ==# base) +
-            items->copy()->filter((_, v) => v.word->slice(0, baselen) !=# base)
+        items = items->copy()->filter((_, v) => v.word->slice(0, prefixlen) ==# prefix) +
+            items->copy()->filter((_, v) => v.word->slice(0, prefixlen) !=# prefix)
         # Note: Comparing strings (above) is more robust than regex match
         # since items can include non-keyword characters like ')' that need to
         # be escaped.
     endif
 
     if options.recency
-        items = recent.Recent(items, options.recentItemCount)
+        items = recent.Recent(items, prefix, options.recentItemCount)
     endif
     items->complete(startcol)
 enddef
