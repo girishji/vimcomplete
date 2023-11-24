@@ -1,8 +1,8 @@
-### Async Autocompletion Plugin for Vim
+# Async Autocompletion Plugin for Vim
 
 A lightweight async autocompletion plugin written in vim9script.
 
-## Features
+# Features
 
 - [LSP](https://github.com/yegappan/lsp)-powered [code completion](https://github.com/girishji/lsp-complete.vim)
 - [vsnip](https://github.com/hrsh7th/vim-vsnip)-driven [snippet completion](https://github.com/girishji/vsnip-complete.vim)
@@ -26,11 +26,11 @@ Additionally, completion items can be sorted by:
 
 For cmdline-mode completion (`/`, `?`, and `:`), refer to the **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
 
-## Requirements
+# Requirements
 
 - Vim version 9.0 or higher
 
-## Installation
+# Installation
 
 Install it via [vim-plug](https://github.com/junegunn/vim-plug):
 
@@ -55,7 +55,7 @@ For the built-in package manager, add this line to your $HOME/.vimrc file:
 packadd vimcomplete
 ```
 
-## Configuration
+# Configuration
 
 Autocompletion items are sourced both internally and externally through _modules_.
 Internal _sources_ include _buffer_, _dictionary_, _path_, and _abbrev_.
@@ -74,7 +74,7 @@ Both the completion _engine_ and source provider _modules_ are fully configurabl
 **Note**: Builtin _sources_ are not activated (enabled) by default except for
 _buffer_ and _path_ completion.
 
-### Completion Engine Options
+## Completion Engine Options
 
 Option|Type|Description
 ------|----|-----------
@@ -86,7 +86,7 @@ Option|Type|Description
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority so that the first item from each source appears at the top. Default: `false`.
 `noNewlineInCompletion`|`Boolean`|In insert mode, pressing `<Enter>` stops completion and inserts an `<Enter>`. Default: `false`.
 
-### Completion Provider Module General Options
+## Completion Provider Module General Options
 
 The following options apply universally to all completion sources.
 
@@ -97,7 +97,7 @@ Option|Type|Description
 `priority`|`Number`|Higher priority items are displayed at the top. Default: `10`.
 `filetypes`|`List`|List of file types to enable for a specific source. Default: `['*']` (all file types) except for _dictionary_ source, which is set to `['text', 'markdown']`.
 
-### Buffer Module Options
+## Buffer Module Options
 
 In addition to the options mentioned above, the _Buffer_ completion _module_ has its specific configurations.
 
@@ -110,7 +110,7 @@ In addition to the options mentioned above, the _Buffer_ completion _module_ has
 | `urlComplete`      | `Boolean` | Enable complete http links in entirety. Useful when typing the same URL multiple times. Default: `false`. |
 | `envComplete`      | `Boolean` | Complete environment variables after `$`. Default: `false`.                                         |
 
-### Path Module Options
+## Path Module Options
 
 In addition to the general options mentioned above, the _Path_ completion _module_ has its specific configurations.
 
@@ -120,7 +120,7 @@ In addition to the general options mentioned above, the _Path_ completion _modul
 
 **Note**: Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory, type `/` at the end.
 
-### Configuration Options
+## Configure Options
 
 Options are configured using the global function `g:VimCompleteOptionsSet()`. Below is an example showcasing how to enable and configure completion sources. Not all options are demonstrated here; please refer to the tables above for all available options.
 
@@ -145,7 +145,7 @@ var options = {
 autocmd VimEnter * g:VimCompleteOptionsSet(options)
 ```
 
-### Tab Completion
+# Tab Completion
 
 You can map `<Tab>` and `<S-Tab>` keys to select autocompletion items. By default, `<C-N>` and `<C-P>` select the menu items.
 
@@ -154,7 +154,7 @@ vim9script
 g:vimcomplete_tab_enable = 1
 ```
 
-### Enabling and Disabling
+# Enabling and Disabling
 
 Autocompletion is enabled by default. You can enable or disable the plugin anytime using commands.
 
@@ -178,7 +178,7 @@ vim9script
 g:vimcomplete_noname_buf_enable = true
 ```
 
-### Listing Completion Sources
+# Listing Completion Sources
 
 The following command displays a list of completion sources enabled for the current buffer.
 
@@ -186,11 +186,11 @@ The following command displays a list of completion sources enabled for the curr
 :VimCompleteCompletors
 ```
 
-## Demo
+# Demo
 
 [![asciicast](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X.svg)](https://asciinema.org/a/jNfngGm1FUxB0fkFryJxFBR3X)
 
-## Writing Your Own Extension
+# Writing Your Own Extension
 
 Start by examining the implementation of external plugins like [Vimscript](https://github.com/girishji/vimscript-complete.vim) completion, [ngrams](https://github.com/girishji/ngram-complete.vim), and [ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (which spawns a new process to handle http requests).
 
@@ -213,7 +213,7 @@ The name of the completion function does not matter, but it should take two argu
 
 When users set options through the configuration file, a `User` event with type `VimCompleteOptionsChanged` is issued. The plugin should register for this event and update its internal state accordingly.
 
-## Contributing
+# Contributing
 
 Pull requests are welcomed.
 
