@@ -10,6 +10,7 @@ export var options: dict<any> = {
     recency: true,
     recentItemCount: 5,
     shuffleEqualPriority: false,
+    alwaysOn: true,
 }
 
 export var alloptions: dict<any> = {}
@@ -248,14 +249,16 @@ def VimCompletePopupVisible()
     endif
 enddef
 
-import autoload './util.vim'
-
 def LRU_Cache()
     if !options.recency || v:completed_item->type() != v:t_dict
         return
     endif
     recent.CacheAdd(v:completed_item)
 enddef
+
+command VimCompleteCmd pumvisible() ? VimCompletePopupVisible() : VimComplete()
+
+import autoload './util.vim'
 
 export def Enable()
     var bnr = bufnr()
@@ -267,9 +270,17 @@ export def Enable()
         :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
+    if !options.alwaysOn
+        :silent! iunmap <buffer> <c-space>
+        :inoremap <c-space> <cmd>VimCompleteCmd<cr>
+        :imap <C-@> <C-Space>
+    endif
+
     augroup VimCompBufAutocmds | autocmd! * <buffer>
-        autocmd TextChangedI <buffer> call VimComplete()
-        autocmd TextChangedP <buffer> call VimCompletePopupVisible()
+        if options.alwaysOn
+            autocmd TextChangedI <buffer> call VimComplete()
+            autocmd TextChangedP <buffer> call VimCompletePopupVisible()
+        endif
         autocmd BufEnter,BufReadPost <buffer> call SetupCompletors()
         autocmd CompleteDone <buffer> call LRU_Cache()
     augroup END

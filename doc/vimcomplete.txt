@@ -146,6 +146,11 @@ noNewlineInCompletion 	|Boolean| option. |<Enter>| key in insert mode stops
 			completion and inserts an |<Enter>|. Default is set to
 			|false|.
 
+							*vimcomplete-alwaysOn*
+alwaysOn 		|Boolean| option. If |false| use `<c-space>`
+			(control-space) to trigger completion. Default is
+			|true|.
+
 Completion Provider Module General Options~
 
 Following options are common to all completion provider modules.

@@ -85,6 +85,7 @@ Option|Type|Description
 `kindName`|`Boolean`|Show the completion kind as a full word instead of a single letter. Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority so that the first item from each source appears at the top. Default: `false`.
 `noNewlineInCompletion`|`Boolean`|In insert mode, pressing `<Enter>` stops completion and inserts an `<Enter>`. Default: `false`.
+`alwaysOn`|`Boolean`| If `false` use `<c-space>` (control-space) to trigger completion. Default is `true`.
 
 ## Completion Provider Module General Options
 

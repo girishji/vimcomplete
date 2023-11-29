@@ -31,7 +31,7 @@ command! -nargs=0 VimCompleteDisable completor.Disable() | g:vimcomplete_noname_
 command! -nargs=0 VimCompleteCompletors completor.ShowCompletors()
 
 augroup VimcompleteAutoCmds | autocmd!
-    autocmd BufNewFile,BufReadPost * completor.Enable()
+    autocmd BufNewFile,BufReadPost,VimEnter * completor.Enable()
 augroup END
 
 if exists('#User#VimCompleteLoaded')
