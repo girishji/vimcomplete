@@ -153,10 +153,7 @@ def GetItems(cmp: dict<any>, line: string): list<any>
     # characters. slice(), strpart(), col('.'), len() use byte index, while
     # strcharpart(), strcharlen() use char index.
     var base = line->strpart(cmp.startcol - 1)
-    if base->empty()
-        # Should not happen
-        return []
-    endif
+    # Note: when triggerCharacter is used in LSP (like '.') base is empty.
     var items = cmp.completor(0, base)
     if options.kindName
         items->map((_, v) => {
@@ -201,7 +198,7 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     if asyncompletors->empty()
         DisplayPopup(citems, line)
     else
-        timer_start(2, function(AsyncGetItems, [line, asyncompletors, citems, count - 1]))
+        timer_start(5, function(AsyncGetItems, [line, asyncompletors, citems, count - 1]))
     endif
 enddef
 
