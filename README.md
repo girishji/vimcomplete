@@ -127,11 +127,12 @@ Options are configured using the global function `g:VimCompleteOptionsSet()`. Be
 
 ```vim
 vim9script
-var options = {
+export var options = {
     completor: { shuffleEqualPriority: true },
     buffer: { enable: true, priority: 10, urlComplete: true, envComplete: true },
     abbrev: { enable: true, priority: 10 },
-    lsp: { enable: true, priority: 10, maxCount: 5 },
+    dictionary: { enable: true, priority: 6, icase: false, filetypes: ['c', 'cpp'] },
+    lsp: { enable: true, priority: 12, maxCount: 5 },
     omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
     vsnip: { enable: true, priority: 11 },
     vimscript: { enable: true, priority: 11 },

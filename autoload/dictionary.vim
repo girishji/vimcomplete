@@ -82,7 +82,7 @@ export def Completor(findstart: number, base: string): any
         return 1
     elseif findstart == 1
         var line = getline('.')->strpart(0, col('.') - 1)
-        var prefix = line->matchstr('\a\+$')
+        var prefix = line->matchstr('\k\+$')
         if prefix == '' || prefix->len() < 2
             return -2
         endif
@@ -106,12 +106,9 @@ export def Completor(findstart: number, base: string): any
     if options.icase
         var camelcase = prefix =~# '^\u\U'
         if camelcase
-            candidates->map('toupper(v:val[0]) .. v:val[1:]')
+            candidates->map('toupper(v:val[0]) .. v:val[1 :]')
         else
-            var uppercase = prefix =~# '^\u\+\$'
-            if uppercase
-                candidates->map('toupper(v:val)')
-            endif
+            candidates->map('toupper(v:val)')
         endif
     endif
     var citems = []
