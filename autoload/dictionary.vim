@@ -45,19 +45,15 @@ enddef
 # Binary search dictionary buffer. Use getbufline() instead of creating a list
 # (time consuming).
 def GetWords(prefix: string, bufnr: number): list<string>
-    var lidx = 1
     var binfo = getbufinfo(bufnr)
-    if binfo == []
-        return []
-    endif
+    if binfo == [] | return [] | endif
+    var lidx = 1 
     var ridx = binfo[0].linecount
     while lidx + 1 < ridx
         var mid: number = (ridx + lidx) / 2
         var words = bufnr->getbufoneline(mid)->split() # in case line has >1 word, split
-        if words->empty()
-            return [] # error in dictionary file
-        endif
-        if prefix->tolower() < words[0]->tolower()
+        if words->empty() | return [] | endif # error in dictionary file
+        if prefix < words[0]
             ridx = mid
         else
             lidx = mid
@@ -108,7 +104,10 @@ export def Completor(findstart: number, base: string): any
         if camelcase
             candidates->map('toupper(v:val[0]) .. v:val[1 :]')
         else
-            candidates->map('toupper(v:val)')
+            var uppercase = prefix =~# '^\u\+\$'
+            if uppercase
+                candidates->map('toupper(v:val)')
+            endif
         endif
     endif
     var citems = []
