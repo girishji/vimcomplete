@@ -273,6 +273,8 @@ export def Enable()
         # text is already inserted, and this causes buffer completion to send
         # more items. To work around this, use <ESC> to dismiss the new popup
         # menu.
+    else
+        :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
     if !options.alwaysOn
