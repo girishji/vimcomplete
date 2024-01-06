@@ -274,12 +274,14 @@ export def Completor(findstart: number, base: string): any
             candidates += envs
         endif
     endif
-    if base =~ '^\k\+$'
+    if base =~ '^\k\+$' # not url or env complete
         candidates += CurBufMatches(base)
         if candidates->len() < options.maxCount
             candidates = OtherBufMatches(candidates, base)
         endif
-        # remove item which looks like xxx|yyy (where '|' is the cursor)
+        # remove items identical to what is already typed
+        candidates->filter((_, v) => v.word !=# base)
+        # remove item xxxyyy when it appears in the form of xxx|yyy (where '|' is the cursor)
         var postfix = getline('.')->matchstr('^\k\+', col('.') - 1)
         if !postfix->empty()
             var excluded = $'{base}{postfix}'

@@ -265,9 +265,14 @@ export def Enable()
     setbufvar(bnr, '&completeopt', 'menuone,popup,noinsert,noselect')
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
-    # <Enter> in insert mode stops completion and inserts a <Enter>
-    if !options.noNewlineInCompletion
-        :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
+    # <Enter> in insert mode accepts completion choice and does not insert a newline
+    if options.noNewlineInCompletion
+        :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<ESC>a" : "\<CR>"
+        # NOTE: <C-Y> alone does not work above. It will show further results
+        # after inserting selected item. TextChangedP is triggered after any
+        # text is already inserted, and this causes buffer completion to send
+        # more items. To work around this, use <ESC> to dismiss the new popup
+        # menu.
     endif
 
     if !options.alwaysOn

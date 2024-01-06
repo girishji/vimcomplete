@@ -143,8 +143,10 @@ shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
 
 					   *vimcomplete-noNewlineInCompletion*
 noNewlineInCompletion 	|Boolean| option. |<Enter>| key in insert mode stops
-			completion and inserts an |<Enter>|. Default is set to
-			|false|.
+			completion, accepts selected item, and does not
+			insert a newline. This is identical to the behaviour of
+			<C-Y>. When set to `false` <Enter> simply inserts a
+			newline. Default is set to |false|.
 
 							*vimcomplete-alwaysOn*
 alwaysOn 		|Boolean| option. If |false| use `<c-space>`
