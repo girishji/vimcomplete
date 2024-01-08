@@ -277,7 +277,11 @@ export def Enable()
     # if false, <Enter> in insert mode accepts completion choice and inserts a newline
     # if true, <cr> has default behavior (accept choice or dismiss popup
     # without newline).
-    if !options.noNewlineInCompletion
+    if options.noNewlineInCompletion
+        if maparg("<CR>", "i") != ''
+            :iunmap <expr> <buffer> <CR>
+        endif
+    else
         :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
