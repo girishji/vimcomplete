@@ -142,11 +142,11 @@ shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
 			appear at the top. Default is set to |false|.
 
 					   *vimcomplete-noNewlineInCompletion*
-noNewlineInCompletion 	|Boolean| option. |<Enter>| key in insert mode stops
-			completion, accepts selected item, and does not
-			insert a newline. This is identical to the behaviour of
-			<C-Y>. When set to `false` <Enter> simply inserts a
-			newline. Default is set to |false|.
+noNewlineInCompletion 	|Boolean| option. If false, <Enter> key in insert mode
+			always inserts a newline whether it accepts selected item
+			or if no item is selected. Otherwise, <CR> has default
+			behavior (accept selected item and dismiss popup
+			without inserting newline). Default is set to |false|.
 
 							*vimcomplete-alwaysOn*
 alwaysOn 		|Boolean| option. If |false| use `<c-space>`

@@ -203,8 +203,17 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     endif
 enddef
 
+var prevCompletionInput: string = ''
+
 def VimComplete()
     var line = GetCurLine()
+    if line == prevCompletionInput
+        # Text does not change after <c-e> or <c-y> but TextChanged will get
+        # called anyway. To avoid <c-e> from closing popup and reopening
+        # again check if text is really different.
+        return
+    endif
+    prevCompletionInput = line
     if line->empty()
         return
     endif
@@ -265,15 +274,10 @@ export def Enable()
     setbufvar(bnr, '&completeopt', 'menuone,popup,noinsert,noselect')
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
-    # <Enter> in insert mode accepts completion choice and does not insert a newline
-    if options.noNewlineInCompletion
-        :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<ESC>a" : "\<CR>"
-        # NOTE: <C-Y> alone does not work above. It will show further results
-        # after inserting selected item. TextChangedP is triggered after any
-        # text is already inserted, and this causes buffer completion to send
-        # more items. To work around this, use <ESC> to dismiss the new popup
-        # menu.
-    else
+    # if false, <Enter> in insert mode accepts completion choice and inserts a newline
+    # if true, <cr> has default behavior (accept choice or dismiss popup
+    # without newline).
+    if !options.noNewlineInCompletion
         :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 

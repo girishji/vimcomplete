@@ -84,7 +84,7 @@ Option|Type|Description
 `matchCase`|`Boolean`|Show items that match the case of the prefix being completed at the top. Default: `true`.
 `kindName`|`Boolean`|Show the completion kind as a full word instead of a single letter. Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority so that the first item from each source appears at the top. Default: `false`.
-`noNewlineInCompletion`|`Boolean`|`<Enter>` key in insert mode accepts selected item and does not insert a newline. This is identical to the behaviour of `<C-Y>`. When set to `false` `<Enter>` stops completion and inserts a newline. Default: `false`.
+`noNewlineInCompletion`|`Boolean`|If false, `<Enter>` key in insert mode always inserts a newline whether it accepts selected item or if no item is selected. Otherwise, <CR> has default behavior (accept selected item and dismiss popup without inserting newline). Default: `false`.
 `alwaysOn`|`Boolean`| If `false` use `<c-space>` (control-space) to trigger completion. Default is `true`.
 
 ## Completion Provider Module General Options
