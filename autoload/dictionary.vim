@@ -151,7 +151,7 @@ def GetCompletionItems(prefix: string): list<any>
         if options.matcher == 'casematch'
             var camelcase = prefix =~# '^\u\U'
             if camelcase
-                candidates->map('toupper(v:val[0]) .. v:val[1:]')
+                candidates->map('toupper(v:val[0]) .. v:val[1 : ]')
             else
                 var uppercase = prefix =~# '^\u\+$'
                 if uppercase

@@ -123,14 +123,7 @@ standard with linux distributions. Sorted dictionaries are very responsive since
 binary search is used. Unsorted dictionaries have acceptable performance below
 5MB (based on your system of course).
 
-The _dictionary_ completion _module_ has the following options.
-
-    enable: false,
-    matcher: 'case', # 'case', 'ignorecase', 'smartcase', 'casematch'. not active when onlyWords is false.
-    maxCount: 10,
-    sortedDict: true,
-    onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed
-    timeout: 0, # not implemented yet
+In addition to the general options mentioned above, the _dictionary_ completion _module_ has the following options.
 
 | Option             | Type      | Description                                                                                       |
 |--------------------|-----------|---------------------------------------------------------------------------------------------------|
