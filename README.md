@@ -65,7 +65,7 @@ installation and configuration instructions:
 
 - _LSP_ based [code completion](https://github.com/girishji/lsp-complete.vim)
 - Vim's _omnifunc_ based [code completion](https://github.com/girishji/omnifunc-complete.vim)
-- Dictionary and next-word completion using [_ngram_](https://github.com/girishji/ngram-complete.vim)
+- Next-word completion using [_ngram_](https://github.com/girishji/ngram-complete.vim)
 - _vimscript_ [language completion](https://github.com/girishji/vimscript-complete.vim) (akin to LSP)
 - _vsnip_ [snippet completion](https://github.com/girishji/vsnip-complete.vim)
 
@@ -111,13 +111,61 @@ In addition to the options mentioned above, the _Buffer_ completion _module_ has
 | `urlComplete`      | `Boolean` | Enable complete http links in entirety. Useful when typing the same URL multiple times. Default: `false`. |
 | `envComplete`      | `Boolean` | Complete environment variables after `$`. Default: `false`.                                         |
 
+## Dictionary Module Options
+
+Dictionary module can search arbitrary list of words placed one per line in a
+(dictionary) file. The words may contain any non-space characters and file need not be
+sorted. This opens a lot of possibilities. You can create a dictionary like
+[pydiction](https://github.com/vim-scripts/Pydiction) and complete Python keywords,
+functions, and methods. The possibilities are endless. Of course, it can also
+search a sorted dictionary like the dictionary of English words that comes
+standard with linux distributions. Sorted dictionaries are very responsive since
+binary search is used. Unsorted dictionaries have acceptable performance below
+5MB (based on your system of course).
+
+The _dictionary_ completion _module_ has the following options.
+
+    enable: false,
+    matcher: 'case', # 'case', 'ignorecase', 'smartcase', 'casematch'. not active when onlyWords is false.
+    maxCount: 10,
+    sortedDict: true,
+    onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed
+    timeout: 0, # not implemented yet
+
+| Option             | Type      | Description                                                                                       |
+|--------------------|-----------|---------------------------------------------------------------------------------------------------|
+| `sortedDict`       | `Boolean` | True if the dictionary file is sorted, false otherwise. This option affects both performance and correctness. Take care to set it correctly. Default: `true`. |
+| `onlyWords`| `Boolean` | Set this to `true` if dictionary contains only alphanumeric words. If dictionary contains characters like `@`, `.`, `(`, etc. set this to `false`. Default: `true`. |
+| `matcher`| `String` | This option is active only when `onlyWords` is set to `true`. Accepted values are 'case' (case sensitive), 'ignorecase', and 'smartcase' (case sensitive in the presence of upper case letters, otherwise like `ignorecase`). |
+
+Dictionary files can be configured for each 'filetype' (`:h filetype`). A
+sample configuration is listed below. Dictionary module is enabled for
+filetypes 'python' and 'text', `dictionaries` option is set, and dictionary specific options are set
+for each filetype.
+
+```
+vim9script
+var dictproperties = {
+    python: { onlyWords: false, sortedDict: false},
+    text: { onlyWords: true, sortedDict: true }
+}
+var vcoptions = {
+    dictionary: { enable: true, priority: 11, filetypes: ['python', 'text'], properties: dictproperties },
+}
+autocmd VimEnter * g:VimCompleteOptionsSet(vcoptions)
+autocmd FileType text set dictionary+=/usr/share/dict/words
+autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
+```
+
+More explanation about setting options is provided below.
+
 ## Path Module Options
 
 In addition to the general options mentioned above, the _Path_ completion _module_ has its specific configurations.
 
 | Option              | Type      | Description                                                                                   |
 |---------------------|-----------|-----------------------------------------------------------------------------------------------|
-| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Default: `true`.     |
+| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Default: `true`.    |
 
 **Note**: Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory, type `/` at the end.
 
