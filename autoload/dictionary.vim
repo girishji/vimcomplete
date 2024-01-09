@@ -38,9 +38,9 @@ var dictbufs = {}
 #
 # Return a list of buffer numbers of dictionary files.
 def GetDict(): list<any>
-    var bufnr = bufnr() # bufnr of active buffer
-    if dictbufs->has_key(bufnr)
-        return dictbufs[bufnr]
+    var ftype = &filetype # filetype of active buffer
+    if dictbufs->has_key(ftype)
+        return dictbufs[ftype]
     endif
     if &dictionary == ''
         return []
@@ -55,9 +55,9 @@ def GetDict(): list<any>
         dictbuf->add(bnr)
     endfor
     if !dictbuf->empty()
-        dictbufs[bufnr] = dictbuf
+        dictbufs[ftype] = dictbuf
     endif
-    return dictbuf
+    return dictbufs[ftype]
 enddef
 
 var dictwords: dict<any> = {} # dictionary file -> words

@@ -121,7 +121,7 @@ functions, and methods. The possibilities are endless. Of course, it can also
 search a sorted dictionary like the dictionary of English words that comes
 standard with linux distributions. Sorted dictionaries are very responsive since
 binary search is used. Unsorted dictionaries have acceptable performance below
-5MB (based on your system of course).
+3MB file size (depending on your system of course).
 
 In addition to the general options mentioned above, the _dictionary_ completion _module_ has the following options.
 
@@ -136,11 +136,15 @@ sample configuration is listed below. Dictionary module is enabled for
 filetypes 'python' and 'text', `dictionaries` option is set, and dictionary specific options are set
 for each filetype.
 
+Aside: For completing English words use ngram-completion (below) or use custom
+dictionary with frequently used words. The builtin dictionary that comes with
+Linux will spam you with rarely used words.
+
 ```
 vim9script
 var dictproperties = {
     python: { onlyWords: false, sortedDict: false},
-    text: { onlyWords: true, sortedDict: true }
+    text: { onlyWords: true, sortedDict: true, matcher: 'ignorecase' }
 }
 var vcoptions = {
     dictionary: { enable: true, priority: 11, filetypes: ['python', 'text'], properties: dictproperties },
