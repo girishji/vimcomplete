@@ -104,13 +104,11 @@ Option|Type|Description
 
 ## Buffer Completion
 
-Current buffer (and other open buffers) are searched for completion candidates
-using async mechanism with timeout. This ensures that large buffers do not bog
-down completion engine.
+The current buffer, as well as other open buffers, are searched for completion candidates using an asynchronous mechanism with a timeout. This approach ensures that the completion engine is not slowed down by large buffers.
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`Boolean`|Set this to `false` to disable this source. Default: `true`.
+`enable`|`Boolean`|Set this to `false` to disable buffer completion. Default: `true`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
@@ -118,43 +116,33 @@ Option|Type|Description
 `searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
 `otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Default: `3`.
 `icase`            | `Boolean` | Ignore case when searching for completion candidates. Default: `true`.
-`urlComplete`      | `Boolean` | Enable completion of http links in entirety. Useful when typing the same URL multiple times. Default: `false`.
+`urlComplete`      | `Boolean` | Enable completion of http links in entirety. This is useful when typing the same URL multiple times. Default: `false`.
 `envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
 
 ## Dictionary Completion
 
-Dictionary provider can search arbitrary list of words placed one per line in a
-text file. The words may contain any non-space characters, and file need not be
-sorted. This opens up a lot of possibilities. You can create a dictionary like
-[pydiction](https://github.com/vim-scripts/Pydiction) and complete keywords,
-functions, and methods for any programming language. Of course, it can also
-search a sorted dictionary efficiently (binary search), like the dictionary of
-English words that comes standard with linux distributions. Unsorted
-dictionaries are searched in `O(n)` time but have acceptable performance below
-3MB file size (depending on your system of course).
+The dictionary provider is capable of searching an arbitrary list of words placed one per line in a text file. These words can encompass any non-space characters, and the file doesn't necessarily need to be sorted. This feature presents various opportunities. For instance, you can create a dictionary akin to [Pydiction](https://github.com/vim-scripts/Pydiction), enabling the completion of keywords, functions, and method names for any programming language. Moreover, it can efficiently search a sorted dictionary using binary search.
 
-Dictionary files can have comments. Lines starting with `---` are treated as
-comments and ignored.
+Unsorted dictionaries are searched in linear time `O(n)`, but they tend to perform acceptably well for file sizes below 3MB (performance might vary depending on your system).
+
+Additionally, the dictionary files can include comments. Lines beginning with `---` are treated as comments and are disregarded during the search process.
+
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`Boolean`|Set this to `true` to enable this source. Default: `false`.
+`enable`|`Boolean`|Set this to `true` to enable dictionary completion. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['text', 'markdown']`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
 `sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Default: `true`.
-`onlyWords`| `Boolean` | Set this to `true` if dictionary contains only alphanumeric words. If dictionary contains characters like `@`, `.`, `(`, etc. set this to `false`. Default: `true`.
-`matcher`| `String` | This option is active only when `onlyWords` is set to `true`. Accepted values are 'case' (case sensitive), 'ignorecase', and 'smartcase' (case sensitive in the presence of upper case letters, otherwise like `ignorecase`).
+`onlyWords`| `Boolean` | Set this to `true` if dictionary contains only alphanumeric words. If dictionary contains characters like `@`, `.`, `(`, etc. set this option to `false`. Default: `true`.
+`matcher`| `String` | This option is active only when `onlyWords` is set to `true`. Accepted values are 'case' (case sensitive), 'ignorecase', and 'smartcase' (case sensitive in the presence of upper case letters, otherwise ignores case).
 
 <details><summary><b>Show sample configuration</b></summary>
 
-There is more information about setting up configuration later on. However, a
-sample configuration specific to dictionary source is provided here.
+Further information about setting up configurations will be available later. Nonetheless, here is a sample configuration specifically targeting the dictionary source.
 
-Dictionary files can be configured for each 'filetype' (`:h filetype`). In the
-following sample, dictionary module is enabled for
-filetypes 'python' and 'text'. Vim option `dictionaries` is set appropriately.
-Dictionary specific options are set for each filetype.
+Dictionary files can be configured individually for each 'filetype' (`:h filetype`). In the provided sample, the dictionary module is enabled for filetypes 'python' and 'text'. The Vim option `dictionaries` is appropriately set. Moreover, specific dictionary options are defined for each respective filetype.
 
 ```
 vim9script
@@ -173,7 +161,7 @@ autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
 </details>/
 
 > [!TIP]
-> For completing English words use [ngram]() completion (below) or use custom dictionary with frequently used words. The builtin dictionary that comes with Linux or MacOS contains many rarely used words.
+> For completing English words, you can utilize [ngram](https://en.wikipedia.org/wiki/N-gram) completion as outlined below, or opt for a custom dictionary containing frequently used words. The default dictionary that comes pre-installed with Linux or MacOS encompasses numerous infrequently used words.
 
 ## LSP Completion
 
@@ -185,10 +173,10 @@ This source obtains autocompletion items from the
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`Boolean`|Set this to `true` to enable this source. Default: `false`.
+`enable`|`Boolean`|Set this to `true` to enable LSP completion. Default: `false`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.`. Default: `false`.
+`keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
 `filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
 
 ## Vsnip Completion
@@ -202,8 +190,6 @@ This source provides snippet completion from [vim-vsnip](https://github.com/hrsh
 > Optional:
 > - [friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
 
-> [!NOTE]
-> `<Tab>` key can be used to hop within a snippet. Popup completion menu will not open when snippet is active. However, the last stop within the snippet will activate the popup window. If you want to hop back within the snippet using `<S-Tab>` simply dismiss the popup using `CTRL-E`.
 
 Option|Type|Description
 ------|----|-----------
@@ -212,6 +198,10 @@ Option|Type|Description
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
 `adaptNonKeyword`|`Boolean`|(experimental) When completing snippets starting with non-keywords, say '#i' for instance, adjust completion such that they are compatible with items starting with keywords like 'i' (returned by LSP, for instance). Default is `false`.
+
+> [!NOTE]
+> The `<Tab>` key facilitates movement within a snippet. When a snippet is active, the popup completion menu won't open. However, the popup window will activate upon reaching the final stop within the snippet. If you wish to navigate backward within the snippet using `<S-Tab>`, you can dismiss the popup by using `CTRL-E`.
+
 
 ## Ngrams Completion
 
@@ -222,7 +212,7 @@ installation and usage instructions.
 
 ## Omnifunc Completion
 
-This source completes items emitted by the function set in `omnifunc` (`:h 'omnifunc'`) Vim variable.
+This source completes items emitted by the function set in `omnifunc` (`:h 'omnifunc'`).
 
 Vim provides language based autocompletion through Omni completion for many
 languages (see `$VIMRUNTIME/autoload`). This is a lightweight alternative to using LSP.
@@ -248,7 +238,7 @@ Also, any user defined `omnifunc` can also be used for autocompletion.
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`Boolean`|Set this to `true` to enable this source. Default: `false`.
+`enable`|`Boolean`|Set this to `true` to enable omnifunc completion. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['python', 'javascript']`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
@@ -259,14 +249,14 @@ Both relative and absolute path names are completed.
 
 | Option              | Type      | Description                                                                                   |
 |---------------------|-----------|-----------------------------------------------------------------------------------------------|
-| `enable`|`Boolean`|Set this to `false` to disable this source. Default: `true`. |
+| `enable`|`Boolean`|Set this to `false` to disable path completion. Default: `true`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `12`. |
-| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Default: `true`.    |
+| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the dicrectory from which Vim is started. Default: `true`.    |
 
 > [!NOTE]
-> Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory, type `/` at the end.
+> Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
 
 ## Abbreviations Completion
 
@@ -274,7 +264,7 @@ Abbreviations (`:h abbreviations`) are completed based on the `id`.
 
 | Option              | Type      | Description                                                                                   |
 |---------------------|-----------|-----------------------------------------------------------------------------------------------|
-| `enable`|`Boolean`|Set this to `true` to enable this source. Default: `false`. |
+| `enable`|`Boolean`|Set this to `true` to enable abbreviation completion. Default: `false`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
@@ -282,12 +272,9 @@ Abbreviations (`:h abbreviations`) are completed based on the `id`.
 ## Vim9script Language Completion
 
 This source completes Vim9 script function names, arguments, variables, reserved words and
-the like. If you are developing a Vim plugin or configuring a non-trivial _.vimrc_ this
-can be useful.
+the like. Enable this if you are developing a Vim plugin or configuring a non-trivial _.vimrc_.
 
 <details><summary><b>Show demo</b></summary>
-
-[![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
 
 [![asciicast](https://asciinema.org/a/lggBAwfS2Zg7RpCccfTRem0pb.svg)](https://asciinema.org/a/lggBAwfS2Zg7RpCccfTRem0pb)
 
