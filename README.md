@@ -1,10 +1,11 @@
 <h1 align="center">
-  <br>
   VimComplete
   <br>
 </h1>
 
+<h4 align="center">
 Async autocompletion plugin for Vim, written in vim9script.
+</h4>h4>
 
 ## Features
 
