@@ -86,14 +86,13 @@ packadd vimcomplete
 # Configuration
 
 The completion sources mentioned above are not enabled by default except for
-buffer words and path completion. This section shows how to configure completion
+buffer words and path completion. This section shows how to configure both the completion
 sources and the completion engine itself.
 
 ## Completion Engine
 
 This entity obtains completion items from the configured completion sources
-and displays the popup menu. Options that affect all sources and list displayed
-in the popup menu are configured here.
+and displays the popup menu.
 
 Option|Type|Description
 ------|----|-----------
