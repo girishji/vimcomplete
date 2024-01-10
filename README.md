@@ -1,6 +1,6 @@
-# vimcomplete
+# VimComplete
 
-A lightweight async autocompletion plugin written in vim9script.
+A lightweight async autocompletion plugin for Vim, written in vim9script.
 
 ## Features
 
