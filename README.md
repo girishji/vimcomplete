@@ -1,4 +1,8 @@
-# VimComplete
+<h1 align="center">
+  <br>
+  VimComplete
+  <br>
+</h1>
 
 Async autocompletion plugin for Vim, written in vim9script.
 
