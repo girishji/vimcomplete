@@ -1,8 +1,8 @@
-# Async Autocompletion Plugin for Vim
+# vimcomplete
 
 A lightweight async autocompletion plugin written in vim9script.
 
-# Features
+## Features
 
 Words can be completed from various sources:
 
@@ -36,11 +36,11 @@ Completion items are sorted according to the following criteria:
 > For cmdline-mode completion (`/`, `?`, and `:` commands), refer to **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
 
 
-# Requirements
+## Requirements
 
 - Vim version 9.0 or higher
 
-# Installation
+## Installation
 
 Install it via [vim-plug](https://github.com/junegunn/vim-plug).
 
@@ -83,11 +83,11 @@ packadd vimcomplete
 
 </details>
 
-# Configuration
+## Configuration
 
 The completion sources mentioned above, aside from buffer words and path completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
 
-## Completion Engine
+### Completion Engine
 
 This entity retrieves completion items from the enabled completion sources and then displays the popup menu.
 
