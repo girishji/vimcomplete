@@ -18,7 +18,7 @@ Words can be completed from various sources:
 
 Each completion source above can be enabled and customized per 'file type' (`:h filetype`).
 
-Completion items are sorted according to the following criteria.
+Completion items are sorted according to the following criteria:
 
 - Recency (using a LRU cache)
 - Length of item
