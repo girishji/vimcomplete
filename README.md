@@ -102,7 +102,7 @@ Option|Type|Description
 `noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (which is to accept selected item and dismiss popup window without inserting newline). Default: `false`.
 `alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
 
-## Buffer Completion
+### Buffer Completion
 
 The current buffer, as well as other open buffers, are searched for completion candidates using an asynchronous mechanism with a timeout. This approach ensures that the completion engine is not slowed down by large buffers.
 
@@ -119,7 +119,7 @@ Option|Type|Description
 `urlComplete`      | `Boolean` | Enable completion of http links in entirety. This is useful when typing the same URL multiple times. Default: `false`.
 `envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
 
-## Dictionary Completion
+### Dictionary Completion
 
 The dictionary provider is capable of searching an arbitrary list of words placed one per line in a text file. These words can encompass any non-space characters, and the file doesn't necessarily need to be sorted. This feature presents various opportunities. For instance, you can create a dictionary akin to [Pydiction](https://github.com/vim-scripts/Pydiction), enabling the completion of keywords, functions, and method names for any programming language. Moreover, it can efficiently search a sorted dictionary using binary search.
 
@@ -163,7 +163,7 @@ autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
 > [!TIP]
 > For completing English words, you can utilize [ngram](https://en.wikipedia.org/wiki/N-gram) completion as outlined below, or opt for a custom dictionary containing frequently used words. The default dictionary that comes pre-installed with Linux or MacOS encompasses numerous infrequently used words.
 
-## LSP Completion
+### LSP Completion
 
 This source obtains autocompletion items from the
 [LSP client](https://github.com/yegappan/lsp).
@@ -179,7 +179,7 @@ Option|Type|Description
 `keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
 `filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
 
-## Vsnip Completion
+### Vsnip Completion
 
 This source provides snippet completion from [vim-vsnip](https://github.com/hrsh7th/vim-vsnip).
 
@@ -203,14 +203,14 @@ Option|Type|Description
 > The `<Tab>` key facilitates movement within a snippet. When a snippet is active, the popup completion menu won't open. However, the popup window will activate upon reaching the final stop within the snippet. If you wish to navigate backward within the snippet using `<S-Tab>`, you can dismiss the popup by using `CTRL-E`.
 
 
-## Ngrams Completion
+### Ngrams Completion
 
 This source is kept as a separate plugin since it includes large database
 files. Please see
 **[ngram-complete](https://github.com/girishji/ngram-complete.vim)** for
 installation and usage instructions.
 
-## Omnifunc Completion
+### Omnifunc Completion
 
 This source completes items emitted by the function set in `omnifunc` (`:h 'omnifunc'`).
 
@@ -243,7 +243,7 @@ Option|Type|Description
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
 
-## Path Completion
+### Path Completion
 
 Both relative and absolute path names are completed.
 
@@ -258,7 +258,7 @@ Both relative and absolute path names are completed.
 > [!NOTE]
 > Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
 
-## Abbreviations Completion
+### Abbreviations Completion
 
 Abbreviations (`:h abbreviations`) are completed based on the `id`.
 
@@ -269,7 +269,7 @@ Abbreviations (`:h abbreviations`) are completed based on the `id`.
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
 
-## Vim9script Language Completion
+### Vim9script Language Completion
 
 This source completes Vim9 script function names, arguments, variables, reserved words and
 the like. Enable this if you are developing a Vim plugin or configuring a non-trivial _.vimrc_.
@@ -288,7 +288,7 @@ the like. Enable this if you are developing a Vim plugin or configuring a non-tr
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
 
 
-## Configure Options
+### Configure Options
 
 Options can be configured using the global function `g:VimCompleteOptionsSet()`. The example below illustrates how to enable and configure completion sources. Please note that not all options are demonstrated here; for a comprehensive list of all available options, refer to the tables provided above.
 
@@ -313,7 +313,7 @@ var options = {
 autocmd VimEnter * g:VimCompleteOptionsSet(options)
 ```
 
-## Tab Completion
+### Tab Completion
 
 You can map `<Tab>` and `<S-Tab>` keys to select autocompletion items. By default, `CTRL-N` and `CTRL-P` select the menu items.
 
@@ -325,7 +325,7 @@ g:vimcomplete_tab_enable = 1
 > [!NOTE]
 > For help with other keybindings see `:h popupmenu-keys`. This help section includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
 
-## Enabling and Disabling
+### Enabling and Disabling
 
 Autocompletion is enabled by default. At any time, you can enable or disable the plugin using the following commands:
 
@@ -349,7 +349,7 @@ vim9script
 g:vimcomplete_noname_buf_enable = true
 ```
 
-# Listing Completion Sources
+### Listing Completion Sources
 
 The following command displays a list of completion sources enabled for the current buffer.
 
@@ -357,7 +357,7 @@ The following command displays a list of completion sources enabled for the curr
 :VimCompleteCompletors
 ```
 
-# Writing Your Own Extension
+## Writing Your Own Extension
 
 Start by examining the implementation of an external plugin like [ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (which spawns a new process to handle http requests) or [ngram-complete](https://github.com/girishji/ngram-complete.vim).
 
@@ -378,11 +378,11 @@ The name of the completion function does not matter, but it should take two argu
 
 When users set options through the configuration file, a `User` event with type `VimCompleteOptionsChanged` is issued. The plugin should register for this event and update its internal state accordingly.
 
-# Contributing
+## Contributing
 
 Pull requests are welcomed.
 
-## Similar Vim Plugins
+### Similar Vim Plugins
 
 - [asyncomplete](https://github.com/prabirshrestha/asyncomplete.vim)
 - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
