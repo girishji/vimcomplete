@@ -2,7 +2,6 @@
 
 Async autocompletion plugin for Vim, written in vim9script.
 
-------
 
 <p>
   <a href="#key-features">Key Features</a> •
@@ -11,7 +10,7 @@ Async autocompletion plugin for Vim, written in vim9script.
   <a href="#configuration">Configuration</a> •
 </p>
 
-------
+
 
 [![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
 
