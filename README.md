@@ -6,7 +6,7 @@ A lightweight async autocompletion plugin written in vim9script.
 
 Words can be completed from the following sources.
 
-- **[Buffer]()** words
+- **Buffer** words
 - **[Dictionary]()** files
 - **[LSP](https://github.com/yegappan/lsp)** client
 - **[vsnip](https://github.com/hrsh7th/vim-vsnip)** client
@@ -26,11 +26,13 @@ Additionally, completion items can be sorted according to the following criteria
 - Proximity of item (for buffer completion)
 - Case match
 
-> [!NOTE]
-> For cmdline-mode completion (`/`, `?`, and `:` commands), refer to **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
-
 
 [![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
+
+
+
+> [!NOTE]
+> For cmdline-mode completion (`/`, `?`, and `:` commands), refer to **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
 
 
 # Requirements
@@ -103,7 +105,7 @@ Option|Type|Description
 `noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and dismiss popup window without inserting newline). Default: `false`.
 `alwaysOn`|`Boolean`| If `true` completion is triggered by `CTRL-N` and `CTRL-P` (see below to configure `<Tab>` and `<S-Tab>`). If `false` use `<C-Space>` (control-space) to trigger completion. Default is `true`.
 
-## Buffer Words Completion
+## Buffer Completion
 
 Current buffer (and other open buffers) are searched for completion candidates
 using async mechanism with timeout. This ensures that large buffers do not bog
@@ -245,7 +247,7 @@ Vim sets the `omnifunc` option automatically when file type is detected.
 Also, any user defined `omnifunc` can also be used for autocompletion.
 
 > [!CAUTION]
-> Disable the [LSP Completion]() when using this source.
+> Disable the [LSP Completion]() when using omnifunc.
 
 Option|Type|Description
 ------|----|-----------
