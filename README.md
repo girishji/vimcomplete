@@ -7,14 +7,14 @@ A lightweight async autocompletion plugin written in vim9script.
 Words can be completed from the following sources.
 
 - **Buffer** words
-- **[Dictionary]()** files
+- **Dictionary** files
 - **[LSP](https://github.com/yegappan/lsp)** client
 - **[vsnip](https://github.com/hrsh7th/vim-vsnip)** client
 - **[Ngrams](https://norvig.com/ngrams/)** database
-- Vim's **[omnifunc]()**
-- **[Path]()** search
-- Vim's **[abbreviations]()**
-- **[Vim9script]()** language (similar to LSP)
+- Vim's **omnifunc**
+- **Path** search
+- Vim's **abbreviations**
+- **Vim9script** language (similar to LSP)
 
 Each completion source above can be enabled and customized per 'file type' (`:h filetype`).
 
