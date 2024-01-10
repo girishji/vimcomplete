@@ -3,6 +3,7 @@ vim9script
 # Autocomplete file path
 
 export var options: dict<any> = {
+    enable: true,
     bufferRelativePath: true,
 }
 

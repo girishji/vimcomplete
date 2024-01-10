@@ -282,7 +282,7 @@ export def Completor(findstart: number, base: string): any
         # remove items identical to what is already typed
         candidates->filter((_, v) => v.word !=# base)
         # remove item xxxyyy when it appears in the form of xxx|yyy (where '|' is the cursor)
-        var postfix = getline('.')->matchstr('^\k\+', col('.') - 1)
+        var postfix = getline('.')->matchstr('^\W\+', col('.') - 1)
         if !postfix->empty()
             var excluded = $'{base}{postfix}'
             candidates->filter((_, v) => v.word !=# excluded)

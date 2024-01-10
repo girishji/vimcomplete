@@ -207,6 +207,10 @@ var prevCompletionInput: string = ''
 
 def VimComplete()
     var line = GetCurLine()
+    # if exists('*vsnip#jumpable') && (vsnip#jumpable(1) || vsnip#jumpable(-1))
+    if exists('*vsnip#jumpable') && vsnip#jumpable(1)
+        return
+    endif
     if line == prevCompletionInput
         # Text does not change after <c-e> or <c-y> but TextChanged will get
         # called anyway. To avoid <c-e> from closing popup and reopening
