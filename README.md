@@ -7,7 +7,7 @@ Async autocompletion plugin for Vim, written in vim9script.
   <a href="#key-features">Key Features</a> •
   <a href="#requirements">Requirements</a> •
   <a href="#installation">Installation</a> •
-  <a href="#configuration">Configuration</a> •
+  <a href="#configuration">Configuration</a>
 </p>
 
 
