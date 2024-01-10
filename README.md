@@ -290,10 +290,7 @@ the like. Enable this if you are developing a Vim plugin or configuring a non-tr
 
 ## Configure Options
 
-Options are configured using the global function `g:VimCompleteOptionsSet()`.
-Below example shows how to enable and configure completion sources. Not all
-options are demonstrated here; please refer to the tables above for all
-available options.
+Options can be configured using the global function `g:VimCompleteOptionsSet()`. The example below illustrates how to enable and configure completion sources. Please note that not all options are demonstrated here; for a comprehensive list of all available options, refer to the tables provided above.
 
 ```vim
 vim9script
@@ -316,7 +313,7 @@ var options = {
 autocmd VimEnter * g:VimCompleteOptionsSet(options)
 ```
 
-# Tab Completion
+## Tab Completion
 
 You can map `<Tab>` and `<S-Tab>` keys to select autocompletion items. By default, `CTRL-N` and `CTRL-P` select the menu items.
 
@@ -326,11 +323,11 @@ g:vimcomplete_tab_enable = 1
 ```
 
 > [!NOTE]
-> For help with other keybindings see `:h popupmenu-keys`. It includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
+> For help with other keybindings see `:h popupmenu-keys`. This help section includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
 
-# Enabling and Disabling
+## Enabling and Disabling
 
-Autocompletion is enabled by default. You can enable or disable the plugin anytime using commands.
+Autocompletion is enabled by default. At any time, you can enable or disable the plugin using the following commands:
 
 ```vim
 :VimCompleteEnable
@@ -345,7 +342,7 @@ You can selectively enable autocompletion for specific _file types_. For instanc
 
 `VimCompleteEnable` takes a space-separated list of _file types_ as an argument. If no argument is specified, autocompletion is enabled for _all file types_.
 
-When Vim opens an unnamed buffer without any arguments, this buffer is not associated with any _file type_. To enable or disable autocompletion on this buffer, use the following variable (set by default).
+When Vim opens an unnamed buffer, it is not associated with any _file type_. To enable or disable autocompletion on the unnamed buffer, set the following variable (set by default).
 
 ```vim
 vim9script
