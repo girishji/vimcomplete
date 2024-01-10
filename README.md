@@ -382,7 +382,7 @@ When users set options through the configuration file, a `User` event with type 
 
 Pull requests are welcomed.
 
-### Similar Vim Plugins
+## Similar Vim Plugins
 
 - [asyncomplete](https://github.com/prabirshrestha/asyncomplete.vim)
 - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
