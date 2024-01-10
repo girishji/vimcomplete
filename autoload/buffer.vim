@@ -240,8 +240,6 @@ def CurBufMatches(prefix: string): list<dict<any>>
     return candidates
 enddef
 
-# Using searchpos() is ~15% faster than gathering words by splitting lines and
-# comparing each word for pattern.
 export def Completor(findstart: number, base: string): any
     if findstart == 2
         return 1
