@@ -9,7 +9,7 @@ Words can be completed from the following sources.
 - **Buffer** words
 - **Dictionary** files
 - **[LSP](https://github.com/yegappan/lsp)** client
-- **[vsnip](https://github.com/hrsh7th/vim-vsnip)** client
+- **Snipets** ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
 - **[Ngrams](https://norvig.com/ngrams/)** database
 - Vim's **omnifunc**
 - **Path** search
