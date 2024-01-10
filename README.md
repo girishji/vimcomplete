@@ -85,14 +85,11 @@ packadd vimcomplete
 
 # Configuration
 
-The completion sources mentioned above are not enabled by default except for
-buffer words and path completion. This section shows how to configure both the completion
-sources and the completion engine itself.
+The completion sources mentioned above, aside from buffer words and path completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
 
 ## Completion Engine
 
-This entity obtains completion items from the configured completion sources
-and displays the popup menu.
+This entity retrieves completion items from the enabled completion sources and then displays the popup menu.
 
 Option|Type|Description
 ------|----|-----------
@@ -101,9 +98,9 @@ Option|Type|Description
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
 `kindName`|`Boolean`|Show the completion 'kind' as a full word instead of a single letter. This option displays the name of source that provided the completion candidate. Default: `true`.
-`shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority so that the first item from each source appears at the top. Default: `false`.
-`noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and dismiss popup window without inserting newline). Default: `false`.
-`alwaysOn`|`Boolean`| If `true` completion is triggered by `CTRL-N` and `CTRL-P` (see below to configure `<Tab>` and `<S-Tab>`). If `false` use `<C-Space>` (control-space) to trigger completion. Default is `true`.
+`shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
+`noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (which is to accept selected item and dismiss popup window without inserting newline). Default: `false`.
+`alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
 
 ## Buffer Completion
 
