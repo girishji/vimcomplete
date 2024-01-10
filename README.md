@@ -2,10 +2,21 @@
 
 Async autocompletion plugin for Vim, written in vim9script.
 
+------
+
+<p>
+  <a href="#key-features">Key Features</a> •
+  <a href="#requirements">Requirements</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#configuration">Configuration</a> •
+</p>
+
+------
+
 [![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
 
 
-## Features
+## Key Features
 
 Words can be completed from various sources:
 
