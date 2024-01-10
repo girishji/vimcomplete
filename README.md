@@ -2,6 +2,9 @@
 
 Async autocompletion plugin for Vim, written in vim9script.
 
+[![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
+
+
 ## Features
 
 Words can be completed from various sources:
@@ -27,8 +30,6 @@ Completion items are sorted according to the following criteria:
 - Case match
 
 --------
-
-[![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
 
 
 
