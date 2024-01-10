@@ -4,7 +4,7 @@ A lightweight async autocompletion plugin written in vim9script.
 
 # Features
 
-Words can be completed from the following sources.
+Words can be completed from various sources:
 
 - **Buffer** words
 - **Dictionary** files
