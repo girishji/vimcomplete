@@ -9,7 +9,7 @@ Words can be completed from the following sources.
 - **Buffer** words
 - **Dictionary** files
 - **[LSP](https://github.com/yegappan/lsp)** client
-- **Snipets** ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
+- **Snippets** ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
 - **[Ngrams](https://norvig.com/ngrams/)** database
 - Vim's **omnifunc**
 - **Path** search
@@ -18,7 +18,7 @@ Words can be completed from the following sources.
 
 Each completion source above can be enabled and customized per 'file type' (`:h filetype`).
 
-Additionally, completion items can be sorted according to the following criteria.
+Completion items are sorted according to the following criteria.
 
 - Recency (using a LRU cache)
 - Length of item
@@ -26,6 +26,7 @@ Additionally, completion items can be sorted according to the following criteria
 - Proximity of item (for buffer completion)
 - Case match
 
+--------
 
 [![asciicast](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ.svg)](https://asciinema.org/a/FMEp4BduAJdHtL48UpHL4JWbQ)
 
