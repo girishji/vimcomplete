@@ -144,7 +144,7 @@ Option|Type|Description
 `onlyWords`| `Boolean` | Set this to `true` if dictionary contains only alphanumeric words. If dictionary contains characters like `@`, `.`, `(`, etc. set this option to `false`. Default: `true`.
 `matcher`| `String` | This option is active only when `onlyWords` is set to `true`. Accepted values are 'case' (case sensitive), 'ignorecase', and 'smartcase' (case sensitive in the presence of upper case letters, otherwise ignores case).
 
-<details><summary><b>Show sample configuration</b></summary>
+#### Sample Configuration
 
 Further information about setting up configurations will be available later. Nonetheless, here is a sample configuration specifically targeting the dictionary source.
 
@@ -164,7 +164,6 @@ autocmd FileType text set dictionary+=/usr/share/dict/words
 autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
 ```
 
-</details>
 
 > [!TIP]
 > For completing English words, you can utilize [ngram](https://en.wikipedia.org/wiki/N-gram) completion as outlined below, or opt for a custom dictionary containing frequently used words. The default dictionary that comes pre-installed with Linux or MacOS encompasses numerous infrequently used words.
