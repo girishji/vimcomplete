@@ -38,10 +38,6 @@ Completion items are sorted according to the following criteria:
 - Proximity of item (for buffer completion)
 - Case match
 
---------
-
-
-
 > [!NOTE]
 > For cmdline-mode completion (`/`, `?`, and `:` commands), refer to **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
 
