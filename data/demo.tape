@@ -57,10 +57,15 @@
 
 Output ../img/demo.gif
 
+Set Margin 10
+Set MarginFill "#674EFF"
+Set BorderRadius 10
+Set Padding 10
+
 Set TypingSpeed 200ms
 Set FontSize 16
 Set Width 1000
-Set Height 700
+Set Height 650
 Set Shell "zsh"
 
 Type "vi fib.py" Sleep 500ms Enter
