@@ -11,7 +11,7 @@ Async autocompletion plugin for Vim, written in vim9script.
 </p>
 
 
-![Screenshot](img/630826.gif)
+![Screenshot](img/demo.gif)
 
 
 ## Key Features
