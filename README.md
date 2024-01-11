@@ -51,7 +51,8 @@ Completion items are sorted according to the following criteria:
 Install it via [vim-plug](https://github.com/junegunn/vim-plug).
 
 <details><summary><b>Show instructions</b></summary>
-
+<br>
+  
 Using vim9 script:
 
 ```vim
@@ -74,14 +75,15 @@ call plug#end()
 Install using Vim's built-in package manager.
 
 <details><summary><b>Show instructions</b></summary>
-
+<br>
+  
 ```bash
 $ mkdir -p $HOME/.vim/pack/downloads/opt
 $ cd $HOME/.vim/pack/downloads/opt
 $ git clone https://github.com/girishji/vimcomplete.git
 ```
 
-Add the following line to your $HOME/.vimrc file (for builtin package manager only).
+Add the following line to your $HOME/.vimrc file.
 
 ```vim
 packadd vimcomplete
