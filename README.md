@@ -280,11 +280,6 @@ Abbreviations (`:h abbreviations`) are completed based on the `id`.
 This source completes Vim9 script function names, arguments, variables, reserved words and
 the like. Enable this if you are developing a Vim plugin or configuring a non-trivial _.vimrc_.
 
-<details><summary><b>Show demo</b></summary>
-
-[![asciicast](https://asciinema.org/a/lggBAwfS2Zg7RpCccfTRem0pb.svg)](https://asciinema.org/a/lggBAwfS2Zg7RpCccfTRem0pb)
-
-</details>
 
 | Option              | Type      | Description                                                                                   |
 |---------------------|-----------|-----------------------------------------------------------------------------------------------|
