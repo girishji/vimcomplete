@@ -22,7 +22,7 @@ Words can be completed from various sources:
 
 - **[Buffer](#buffer-Completion)** words
 - **[Dictionary](#dictionary-Completion)** files
-- **[Code](#lsp-Completion)** completion sourced from [LSP](https://github.com/yegappan/lsp)** client
+- **[Code](#lsp-Completion)** completion sourced from [LSP](https://github.com/yegappan/lsp) client
 - **[Snippets](#snippets-Completion)** from ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
 - **[Words and bigrams](#ngrams-Completion)** from [Ngrams](https://norvig.com/ngrams/) database
 - Vim's **[omnifunc](#omnifunc-Completion)**
@@ -188,7 +188,7 @@ Option|Type|Description
 `keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
 `filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
 
-### Vsnip Completion
+### Snippets Completion
 
 This source provides snippet completion from [vim-vsnip](https://github.com/hrsh7th/vim-vsnip).
 
