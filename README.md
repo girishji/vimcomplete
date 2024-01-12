@@ -8,6 +8,7 @@ Async autocompletion plugin for Vim, written in vim9script.
   <a href="#requirements">Requirements</a> •
   <a href="#installation">Installation</a> •
   <a href="#configuration">Configuration</a> •
+  <a href="#commands">Commands</a> •
   <a href="#Writing-Your-Own-Extension">Add-on</a>
 </p>
 
@@ -94,7 +95,7 @@ packadd vimcomplete
 
 ## Configuration
 
-The completion sources mentioned above, aside from buffer words and path completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
+The completion sources mentioned above, aside from [buffer words](#Buffer-Completion) and [path](#path-completion) completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
 
 ### Completion Engine
 
@@ -328,7 +329,19 @@ g:vimcomplete_tab_enable = 1
 > [!NOTE]
 > For help with other keybindings see `:h popupmenu-keys`. This help section includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
 
-### Enabling and Disabling
+## Commands
+
+Commands are available to list completion sources and to enable or disable the plugin.
+
+### Listing Completion Sources
+
+The following command displays a list of completion sources enabled for the current buffer.
+
+```vim
+:VimCompleteCompletors
+```
+
+### Enable and Disable
 
 Autocompletion is enabled by default. At any time, you can enable or disable the plugin using the following commands:
 
@@ -350,14 +363,6 @@ When Vim opens an unnamed buffer, it is not associated with any _file type_. To 
 ```vim
 vim9script
 g:vimcomplete_noname_buf_enable = true
-```
-
-### Listing Completion Sources
-
-The following command displays a list of completion sources enabled for the current buffer.
-
-```vim
-:VimCompleteCompletors
 ```
 
 ## Writing Your Own Extension
