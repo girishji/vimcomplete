@@ -1,6 +1,6 @@
 # VimComplete
 
-#### A lightweight autocompletion plugin for Vim written in vim9script.
+#### A lightweight autocompletion plugin for Vim, written in vim9script.
 
 <p>
   <a href="#key-features">Key Features</a> •
