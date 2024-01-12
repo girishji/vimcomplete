@@ -20,15 +20,15 @@ Async autocompletion plugin for Vim, written in vim9script.
 
 Words can be completed from various sources:
 
-- **Buffer** words
-- **Dictionary** files
+- **[Buffer](#buffer-Completion)** words
+- **[Dictionary](#dictionary-Completion)** files
 - **[LSP](https://github.com/yegappan/lsp)** client
 - **Snippets** ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
 - **[Ngrams](https://norvig.com/ngrams/)** database
-- Vim's **omnifunc**
-- **Path** search
-- Vim's **abbreviations**
-- **Vim9script** language (similar to LSP)
+- Vim's **[omnifunc](#omnifunc-Completion)**
+- **[Path](#path-Completion)** search
+- Vim's **[abbreviations](#abbreviations-Completion)**
+- **[Vim9script](#vim9script-language-Completion)** language (similar to LSP)
 
 Each completion source above can be enabled and customized per 'file type' (`:h filetype`).
 
@@ -95,7 +95,7 @@ packadd vimcomplete
 
 ## Configuration
 
-The completion sources mentioned above, aside from [buffer words](#Buffer-Completion) and [path](#path-completion) completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
+The completion sources mentioned above, aside from [buffer](#Buffer-Completion) and [path](#path-completion) completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
 
 ### Completion Engine
 
