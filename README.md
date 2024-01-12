@@ -22,9 +22,9 @@ Words can be completed from various sources:
 
 - **[Buffer](#buffer-Completion)** words
 - **[Dictionary](#dictionary-Completion)** files
-- **[LSP](https://github.com/yegappan/lsp)** client
-- **Snippets** ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
-- **[Ngrams](https://norvig.com/ngrams/)** database
+- **[Code](#lsp-Completion)** completion sourced from [LSP](https://github.com/yegappan/lsp)** client
+- **[Snippets](#snippets-Completion)** from ([vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client)
+- **[Words and bigrams](#ngrams-Completion)** from [Ngrams](https://norvig.com/ngrams/) database
 - Vim's **[omnifunc](#omnifunc-Completion)**
 - **[Path](#path-Completion)** search
 - Vim's **[abbreviations](#abbreviations-Completion)**
