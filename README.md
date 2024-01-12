@@ -1,18 +1,18 @@
+<p align="center">
+  
 # VimComplete
 
 #### A lightweight autocompletion plugin for Vim, written in vim9script.
 
-<p>
   <a href="#key-features">Key Features</a> •
   <a href="#requirements">Requirements</a> •
   <a href="#installation">Installation</a> •
   <a href="#configuration">Configuration</a> •
   <a href="#commands">Commands</a> •
   <a href="#Writing-Your-Own-Extension">Add-on</a>
-</p>
 
 ![Demo](img/demo.gif)
-
+</p>
 
 ## Key Features
 
