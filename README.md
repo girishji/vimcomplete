@@ -1,6 +1,6 @@
 # VimComplete
 
-##### Async autocompletion plugin for Vim written in vim9script.
+#### A lightweight autocompletion plugin for Vim written in vim9script.
 
 <p>
   <a href="#key-features">Key Features</a> •
@@ -16,7 +16,7 @@
 
 ## Key Features
 
-Words can be completed from various sources:
+Words are sourced ***asynchronously*** from various sources:
 
 - **[Buffer](#buffer-Completion)** words
 - **[Dictionary](#dictionary-Completion)** files
