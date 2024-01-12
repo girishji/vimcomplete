@@ -262,7 +262,7 @@ Both relative and absolute path names are completed.
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `12`. |
-| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the dicrectory from which Vim is started. Default: `true`.    |
+| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the directory from which Vim is started. Default: `true`.    |
 
 > [!NOTE]
 > Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
