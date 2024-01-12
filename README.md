@@ -11,7 +11,7 @@ Async autocompletion plugin for Vim, written in vim9script.
   <a href="#commands">Commands</a> •
   <a href="#Writing-Your-Own-Extension">Add-on</a>
 </p>
-
+<br>
 
 ![Demo](img/demo.gif)
 
