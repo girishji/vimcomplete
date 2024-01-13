@@ -34,7 +34,7 @@ multiple plugins. Users have the flexibility to enable or disable each
 completion source and customize settings on a per-file-type basis (`:h filetype`).
 
 
-Completion items are sorted according to the following [criteria](#Completion-Engine):
+Completion items are _sorted_ according to the following criteria:
 
 - Recency (using a LRU cache)
 - Length of item
