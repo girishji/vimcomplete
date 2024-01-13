@@ -121,6 +121,7 @@ Option|Type|Description
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `timeout`          | `Number`  | Maximum time allocated for searching completion candidates in the current buffer. Default: `100` milliseconds. If searching in multiple buffers, an additional 100 milliseconds is allocated. The search is aborted if any key is pressed.
 `searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
 `otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Default: `3`.
@@ -143,6 +144,7 @@ Option|Type|Description
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['text', 'markdown']`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `false`.
 `sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Default: `true`.
 `onlyWords`| `Boolean` | Set this to `true` if dictionary contains only alphanumeric words. If dictionary contains characters like `@`, `.`, `(`, etc. set this option to `false`. Default: `true`.
 `matcher`| `String` | This option is active only when `onlyWords` is set to `true`. Accepted values are 'case' (case sensitive), 'ignorecase', and 'smartcase' (case sensitive in the presence of upper case letters, otherwise ignores case).
@@ -184,6 +186,7 @@ Option|Type|Description
 `enable`|`Boolean`|Set this to `true` to enable LSP completion. Default: `false`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
 `filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
 
@@ -205,6 +208,7 @@ Option|Type|Description
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `adaptNonKeyword`|`Boolean`|(experimental) When completing snippets starting with non-keywords, say '#i' for instance, adjust completion such that they are compatible with items starting with keywords like 'i' (returned by LSP, for instance). Default is `false`.
 
 > [!NOTE]
@@ -250,6 +254,7 @@ Option|Type|Description
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['python', 'javascript']`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 
 ### Path Completion
 
@@ -262,6 +267,7 @@ Both relative and absolute path names are completed.
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `12`. |
 | `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the directory from which Vim is started. Default: `true`.    |
+| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 > [!NOTE]
 > Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
@@ -276,6 +282,7 @@ Abbreviations (`:h abbreviations`) are completed based on the `id`.
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
+| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 ### Vim9script Language Completion
 
@@ -289,6 +296,7 @@ the like. Enable this if you are developing a Vim plugin or configuring a non-tr
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['vim']`. |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
+| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 
 ### Configure Options

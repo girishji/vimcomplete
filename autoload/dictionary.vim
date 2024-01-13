@@ -14,6 +14,7 @@ export var options: dict<any> = {
     sortedDict: true,
     onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed
     timeout: 0, # not implemented yet
+    dup: false, # suppress duplicates
 }
 
 def SortedDict(): bool
@@ -140,14 +141,15 @@ def GetCompletionItems(prefix: string): list<any>
         endif
     endfor
     var candidates = []
+    # remove duplicates
+    var found = {}
+    for item in items
+        if !found->has_key(item)
+            found[item] = 1
+            candidates->add(item)
+        endif
+    endfor
     if OnlyWords()
-        var found = {}
-        for item in items # remove duplicates
-            if !found->has_key(item)
-                found[item] = 1
-                candidates->add(item)
-            endif
-        endfor
         if options.matcher == 'casematch'
             var camelcase = prefix =~# '^\u\U'
             if camelcase
@@ -164,8 +166,6 @@ def GetCompletionItems(prefix: string): list<any>
                 candidates->filter((_, v) => v->slice(0, prefixlen) == prefix)
             endif
         endif
-    else
-        candidates = items
     endif
     candidates = candidates->slice(0, options.maxCount)
     var citems = []
@@ -173,6 +173,7 @@ def GetCompletionItems(prefix: string): list<any>
         citems->add({
             word: candidate,
             kind: 'D',
+            dup: options.dup ? 1 : 0,
         })
     endfor
     return citems
