@@ -29,9 +29,10 @@ Words are sourced ***asynchronously*** from various sources:
 - Vim's **[abbreviations](#abbreviations-Completion)**
 - **[Vim9script](#vim9script-language-Completion)** language (similar to LSP)
 
-All essential source modules are built-in -- no need to juggle multiple plugins.
-Each completion source can be enabled or disabled, and customized per 'file type' (`:h
-filetype`).
+All crucial source modules are integrated, eliminating the need to manage
+multiple plugins. Users have the flexibility to enable or disable each
+completion source and customize settings on a per-file-type basis (`:h filetype`).
+
 
 Completion items are sorted according to the following [criteria](#Completion-Engine):
 
