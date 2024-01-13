@@ -62,14 +62,9 @@ def GetDict(): list<any>
 enddef
 
 var dictwords: dict<any> = {} # dictionary file -> words
-var completionStartCol: number
 
-def GetWords(prefix: string, bufnr: number): list<string>
-    var pattern: string = prefix
-    var patternlen = len(pattern)
-    if OnlyWords()
-        pattern = (options.matcher == 'case') ? $'\C^{prefix}' : $'\c^{prefix}'
-    endif
+def GetWords(prefix: string, bufnr: number): dict<any>
+    var startcol: number
     if options.timeout <= 0
         # read the whole dict buffer at once and cache it
         if !dictwords->has_key(bufnr)
@@ -82,33 +77,48 @@ def GetWords(prefix: string, bufnr: number): list<string>
             endfor
         endif
 
-        var Matcher = OnlyWords() ? ((_, v) => v =~ pattern) : ((_, v) => v->slice(0, patternlen) == pattern)
-        var items = dictwords[bufnr]->copy()->filter(Matcher)
-        completionStartCol = col('.') - prefix->strlen()
-        if !OnlyWords() && items->empty()
-            var keywordOnlyPrefix = prefix->matchstr('\k\+$')
-            items->extend(dictwords[bufnr]->copy()->filter((_, v) => v =~ $'\C^{keywordOnlyPrefix}'))
-            completionStartCol = col('.') - keywordOnlyPrefix->strlen()
+        var items = []
+        if OnlyWords()
+            var pattern = (options.matcher == 'case') ? $'\C^{prefix}' : $'\c^{prefix}'
+            items = dictwords[bufnr]->copy()->filter((_, v) => v =~ pattern)
+            startcol = col('.') - prefix->strlen()
+        else
+            var prefixlen = prefix->len()
+            items = dictwords[bufnr]->copy()->filter((_, v) => v->slice(0, prefixlen) == prefix)
+            # check if we should return xxx from yyy.xxx
+            var second_part = prefix->matchstr('\k\+$')
+            if !second_part->empty() && second_part->len() < prefix->len()
+                var first_part_len = prefix->len() - second_part->len()
+                items->map((_, v) => v->slice(first_part_len))
+                startcol = col('.') - second_part->strlen()
+            else
+                if items->empty()
+                    var kwPrefix = prefix->matchstr('\k\+$')
+                    items->extend(dictwords[bufnr]->copy()->filter((_, v) => v =~ $'\C^{kwPrefix}'))
+                    startcol = col('.') - kwPrefix->strlen()
+                endif
+                startcol = col('.') - prefix->strlen()
+            endif
         endif
-        return items
+        return { startcol: startcol, items: items }
     endif
-    return []
+    return { startcol: 0, items: [] } # not implemented
 enddef
 
 # Binary search dictionary buffer. Use getbufline() instead of creating a
 # list (for efficiency).
-def GetWordsBinarySearch(prefix: string, bufnr: number): list<string>
+def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
     var lidx = 1
     var binfo = getbufinfo(bufnr)
     if binfo == []
-        return []
+        return { startcol: 0, items: [] }
     endif
     var ridx = binfo[0].linecount
     while lidx + 1 < ridx
         var mid: number = (ridx + lidx) / 2
         var words = bufnr->getbufoneline(mid)->split() # in case line has >1 word, split
         if words->empty()
-            return [] # error in dictionary file
+            return { startcol: 0, items: [] } # error in dictionary file
         endif
         if prefix->tolower() < words[0]->tolower()
             ridx = mid
@@ -127,19 +137,33 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): list<string>
             endif
         endfor
     endfor
-    completionStartCol = col('.') - prefix->strlen()
-    return items
+    var startcol = col('.') - prefix->strlen()
+    return { startcol: startcol, items: items }
 enddef
 
-def GetCompletionItems(prefix: string): list<any>
+def GetCompletionItems(prefix: string): dict<any>
     var items = []
-    for bufnr in GetDict()
-        if SortedDict() && OnlyWords()
-            items->extend(GetWordsBinarySearch(prefix, bufnr))
-        else
-            items->extend(GetWords(prefix, bufnr))
+    var startcol: number = -1
+    var dwords = {}
+    if OnlyWords()
+        for bufnr in GetDict()
+            if SortedDict()
+                dwords = GetWordsBinarySearch(prefix, bufnr)
+            else
+                dwords = GetWords(prefix, bufnr)
+            endif
+            items->extend(dwords.items)
+            startcol = dwords.startcol
+        endfor
+    else # only one dictionary supported, since startcol can differ among dicts
+        var dicts = GetDict()
+        if !dicts->empty()
+            dwords = GetWords(prefix, dicts[0])
+            items->extend(dwords.items)
+            startcol = dwords.startcol
         endif
-    endfor
+    endif
+
     var candidates = []
     # remove duplicates
     var found = {}
@@ -162,7 +186,7 @@ def GetCompletionItems(prefix: string): list<any>
             endif
         elseif options.matcher == 'smart'
             if prefix =~# '\u' # at least one uppercase letter
-                var prefixlen = len(prefix)
+                var prefixlen = prefix->len()
                 candidates->filter((_, v) => v->slice(0, prefixlen) == prefix)
             endif
         endif
@@ -176,10 +200,10 @@ def GetCompletionItems(prefix: string): list<any>
             dup: options.dup ? 1 : 0,
         })
     endfor
-    return citems
+    return { startcol: startcol, items: citems }
 enddef
 
-var completionItems: list<any> = []
+var completionItems: dict<any> = {}
 
 export def Completor(findstart: number, base: string): any
     if findstart == 2
@@ -191,7 +215,7 @@ export def Completor(findstart: number, base: string): any
             return -2
         endif
         completionItems = GetCompletionItems(prefix)
-        return completionStartCol
+        return completionItems.items->empty() ? -2 : completionItems.startcol
     endif
-    return completionItems
+    return completionItems.items
 enddef

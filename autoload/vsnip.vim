@@ -56,14 +56,8 @@ def GetItems(): dict<any>
             endfor
             startcol += lendiff
         endif
-        return { startcol: startcol, items: filtered }
     endif
-
-    filtered = items->copy()->filter((_, v) => v.abbr =~ '^\k')
-    if !filtered->empty() && !kwprefix->empty()
-        return { startcol: col('.') - kwprefix->strlen(), items: filtered }
-    endif
-    return { startcol: startcol, items: items }
+    return { startcol: startcol, items: filtered }
 enddef
 
 export def Completor(findstart: number, base: string): any
@@ -75,7 +69,7 @@ export def Completor(findstart: number, base: string): any
     endif
     var citems = GetItems()
     if findstart == 1
-        return citems.startcol
+        return citems.items->empty() ? -2 : citems.startcol
     endif
 
     citems.items->sort((v1, v2) => {
