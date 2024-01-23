@@ -109,7 +109,7 @@ Option|Type|Description
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
-`kindName`|`Boolean`|Show the completion 'kind' as a full word instead of a single letter. This option displays the name of source that provided the completion candidate. Default: `true`.
+`kindName`|`Boolean`|Show the completion 'kind' as a full word instead of first three letters. This option displays the name of source that provided the completion candidate. Default: `false`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
 `noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (which is to accept selected item and dismiss popup window without inserting newline). Default: `false`.
 `alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.

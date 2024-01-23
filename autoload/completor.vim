@@ -6,7 +6,7 @@ export var options: dict<any> = {
     noNewlineInCompletion: false,
     matchCase: true,
     sortByLength: false,
-    kindName: true,
+    kindName: false,
     recency: true,
     recentItemCount: 5,
     shuffleEqualPriority: false,
@@ -159,6 +159,11 @@ def GetItems(cmp: dict<any>, line: string): list<any>
     if options.kindName
         items->map((_, v) => {
             v.kind = $'[{cmp.name}]'
+            return v
+        })
+    else
+        items->map((_, v) => {
+            v.kind = $'[{cmp.name->slice(0, 3)}]'
             return v
         })
     endif

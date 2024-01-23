@@ -111,9 +111,8 @@ matchCase 		|Boolean| option. Some provider modules return items
 
 							*vimcomplete-kindName*
 kindName 		|Boolean| option. Show the kind of completion as a
-			full word (verbose) instead of a single letter. For
-			example, show `[snippet]` instead of `S`. Default is
-			|true|.
+			full word (verbose) instead of first three letters.
+			Default is |false|.
 
 					    *vimcomplete-shuffleEqualPriority*
 shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
