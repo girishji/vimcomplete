@@ -7,7 +7,7 @@ export var options: dict<any> = {
 
 def GetAbbrevs(prefix: string): list<any>
     var lines = execute('ia', 'silent!')
-    if lines->type() != v:t_list
+    if lines =~? 'No abbreviation found'
         return []
     endif
     var abb = []
