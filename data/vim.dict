@@ -251,6 +251,7 @@ cindent
 cinkeys
 cinoptions
 cinwords
+class
 clast
 clearmatches
 clipboard
@@ -288,6 +289,7 @@ completeopt
 concealcursor
 conceallevel
 confirm
+const
 conskey
 contained
 containedin
@@ -326,6 +328,7 @@ debug
 debuggreedy
 deepcopy
 def
+default
 define
 delcombine
 delcommand
@@ -374,6 +377,7 @@ elseif
 emenu
 empty
 encoding
+endclass
 enddef
 endfor
 endfunction
@@ -423,6 +427,7 @@ filetype
 filewritable
 fillchars
 filter
+final
 finally
 find
 finddir
