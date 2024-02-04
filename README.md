@@ -148,9 +148,10 @@ Option|Type|Description
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
 `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `false`.
-`sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Default: `true`.
-`onlyWords`| `Boolean` | Set this to `true` if dictionary contains only alphanumeric words. If dictionary contains characters like `@`, `.`, `(`, etc. set this option to `false`. Default: `true`.
-`matcher`| `String` | This option is active only when `onlyWords` is set to `true`. Accepted values are 'case' (case sensitive), 'ignorecase', and 'smartcase' (case sensitive in the presence of upper case letters, otherwise ignores case).
+`sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Searching is case sensitive. Default: `true`.
+`commentStr`       | `String` | Any lines beginning with this string is ignored. Default: `---`.
+`onlyWords`| `Boolean` | Set this to `true` if both the prefix you are trying to complete and the dictionary contain alphanumeric characters only (text files). For programming language dictionaries it should be set to `false`, since they can contain characters like `@`, `.`, `(`, etc. Default: `false`.
+`matcher`| `String` | This option is active only when `onlyWords` is `true` (text files). Accepted values are 'case' (case sensitive) and 'ignorecase'. Default: `case`.
 
 #### Sample Configuration
 

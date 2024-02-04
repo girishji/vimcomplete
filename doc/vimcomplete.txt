@@ -203,24 +203,29 @@ Unsorted dictionaries are searched in linear time `O(n)`, but they tend to
 perform acceptably well for file sizes below 3MB (performance might vary
 depending on your system).
 
-Additionally, the dictionary files can include comments. Lines beginning with
-`---` are treated as comments and are disregarded during the search process.
+Additionally, the dictionary files can include comments.
 
 					*vimcomplete-dictionary-sortedDict*
 sortedDict 	|Boolean| option. `true` if the dictionary file is sorted,
 		`false` otherwise. This option affects both performance and
-		correctness. Take care to set it correctly. Default: `true`.
+		correctness. Take care to set it correctly. Searching is case
+		sensitive. Default: `true`.
+
+					*vimcomplete-dictionary-commentStr*
+commentStr 	|String| option. Any lines beginning with this string is
+		ignored. Default: `---`.
 
 					*vimcomplete-dictionary-onlyWords*
-onlyWords 	Boolean option. Set this to `true` if dictionary contains only
-		alphanumeric words. If dictionary contains characters like
-		`@`, `.`, `(`, etc. set this option to `false`. Default: `true`.
+onlyWords 	Boolean option. Set this to `true` if both the prefix you are
+		trying to complete and the dictionary contain alphanumeric
+		characters only (text files). For programming language
+		dictionaries it should be set to `false`, since they can contain
+		characters like `@`, `.`, `(`, etc. Default: `false`.
 
 					*vimcomplete-dictionary-matcher*
-matcher 	String option. This option is active only when `onlyWords`
-		is set to `true`. Accepted values are 'case' (case sensitive),
-		'ignorecase', and 'smartcase' (case sensitive in the presence
-		of upper case letters, otherwise ignores case).
+matcher 	String option. This option is active only when `onlyWords` is
+		`true` (text files). Accepted values are 'case' (case sensitive)
+		and 'ignorecase'. Default: `case`.
 
 Further information about setting up configurations will be available later.
 Nonetheless, here is a sample configuration specifically targeting the

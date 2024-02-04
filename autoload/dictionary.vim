@@ -7,28 +7,37 @@ vim9script
 # 'look' which does binary search. 'look' maybe faster since Vim does not have
 # to read the file. Other options are :vimgrep and :grep commands.
 
+# Note: Sorted dictionaries cannot have empty lines
+
 export var options: dict<any> = {
     enable: false,
     matcher: 'case', # 'case', 'ignorecase', 'smartcase', 'casematch'. not active when onlyWords is false.
     maxCount: 10,
     sortedDict: true,
     onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed
+    commentStr: '---',
     timeout: 0, # not implemented yet
     dup: false, # suppress duplicates
 }
 
-def SortedDict(): bool
+def GetProperty(s: string): any
     if options->has_key('properties') && options.properties->has_key(&filetype)
-        return options.properties[$'{&filetype}'].sortedDict
+            && options.properties->get(&filetype)->has_key(s)
+        return options.properties->get(&filetype)->get(s)
     endif
-    return options.sortedDict
+    return options->get(s)
+enddef
+
+def CommentStr(): string
+    return GetProperty('commentStr')
 enddef
 
 def OnlyWords(): bool
-    if options->has_key('properties') && options.properties->has_key(&filetype)
-        return options.properties[$'{&filetype}'].onlyWords
-    endif
-    return options.onlyWords
+    return GetProperty('onlyWords')
+enddef
+
+def SortedDict(): bool
+    return GetProperty('sortedDict')
 enddef
 
 var dictbufs = {}
@@ -70,9 +79,12 @@ def GetWords(prefix: string, bufnr: number): dict<any>
         if !dictwords->has_key(bufnr)
             dictwords[bufnr] = []
             for line in bufnr->getbufline(1, '$')
-                if line !~ '^\s*---'
-                    # ignore comments a la https://github.com/vim-scripts/Pydiction
-                    dictwords[bufnr]->extend(line->split()) # needed when line has >1 words
+                if line->empty()
+                    continue
+                endif
+                if line !~ $'^\s*{CommentStr()}'
+                    # ignore comments (like in https://github.com/vim-scripts/Pydiction)
+                    dictwords[bufnr]->add(line)
                 endif
             endfor
         endif
@@ -107,20 +119,32 @@ enddef
 
 # Binary search dictionary buffer. Use getbufline() instead of creating a
 # list (for efficiency).
+# - Makes sense for only case match, since if a dictionary has both upper case and
+#   lower case letters they could occur far apart.
+# - Only one word per line
 def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
     var lidx = 1
     var binfo = getbufinfo(bufnr)
     if binfo == []
         return { startcol: 0, items: [] }
     endif
+    var prefixlen = prefix->strlen()
     var ridx = binfo[0].linecount
     while lidx + 1 < ridx
         var mid: number = (ridx + lidx) / 2
-        var words = bufnr->getbufoneline(mid)->split() # in case line has >1 word, split
+        var words: list<string>
+        var line = bufnr->getbufoneline(mid)
+        words = line->split() # in case line has >1 word, split
         if words->empty()
+            echoerr '(vimcomplete) error: Dictionary has empty line'
             return { startcol: 0, items: [] } # error in dictionary file
         endif
-        if prefix->tolower() < words[0]->tolower()
+        if prefix == words[0]->slice(0, prefixlen)
+            lidx = mid
+            ridx = mid
+            break
+        endif
+        if prefix < words[0]
             ridx = mid
         else
             lidx = mid
@@ -129,15 +153,12 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
     lidx = max([1, lidx - options.maxCount])
     ridx = min([binfo[0].linecount, ridx + options.maxCount])
     var items = []
-    var pattern = (options.matcher == 'case') ? $'\C^{prefix}' : $'\c^{prefix}'
     for line in bufnr->getbufline(lidx, ridx)
-        for word in line->split()
-            if word =~ pattern
-                items->add(word)
-            endif
+        if prefix == line->slice(0, prefixlen)
+            items->add(word)
         endfor
     endfor
-    var startcol = col('.') - prefix->strlen()
+    var startcol = col('.') - prefixlen
     return { startcol: startcol, items: items }
 enddef
 
@@ -145,24 +166,18 @@ def GetCompletionItems(prefix: string): dict<any>
     var items = []
     var startcol: number = -1
     var dwords = {}
-    if OnlyWords()
+    if SortedDict()
         for bufnr in GetDict()
-            if SortedDict()
-                dwords = GetWordsBinarySearch(prefix, bufnr)
-            else
-                dwords = GetWords(prefix, bufnr)
-            endif
-            items->extend(dwords.items)
-            startcol = dwords.startcol
+            dwords = GetWordsBinarySearch(prefix, bufnr)
         endfor
     else # only one dictionary supported, since startcol can differ among dicts
         var dicts = GetDict()
         if !dicts->empty()
             dwords = GetWords(prefix, dicts[0])
-            items->extend(dwords.items)
-            startcol = dwords.startcol
         endif
     endif
+    items->extend(dwords.items)
+    startcol = dwords.startcol
 
     var candidates = []
     # remove duplicates
@@ -173,24 +188,6 @@ def GetCompletionItems(prefix: string): dict<any>
             candidates->add(item)
         endif
     endfor
-    if OnlyWords()
-        if options.matcher == 'casematch'
-            var camelcase = prefix =~# '^\u\U'
-            if camelcase
-                candidates->map('toupper(v:val[0]) .. v:val[1 : ]')
-            else
-                var uppercase = prefix =~# '^\u\+$'
-                if uppercase
-                    candidates->map('toupper(v:val)')
-                endif
-            endif
-        elseif options.matcher == 'smart'
-            if prefix =~# '\u' # at least one uppercase letter
-                var prefixlen = prefix->len()
-                candidates->filter((_, v) => v->slice(0, prefixlen) == prefix)
-            endif
-        endif
-    endif
     candidates = candidates->slice(0, options.maxCount)
     var citems = []
     for candidate in candidates
