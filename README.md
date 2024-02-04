@@ -138,7 +138,7 @@ The dictionary provider is capable of searching an arbitrary list of words place
 
 Unsorted dictionaries are searched in linear time `O(n)`, but they tend to perform acceptably well for file sizes below 3MB (performance might vary depending on your system).
 
-Additionally, the dictionary files can include comments. Lines beginning with `---` are treated as comments and are disregarded during the search process.
+Additionally, the dictionary files can include comments.
 
 
 Option|Type|Description
