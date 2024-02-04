@@ -151,19 +151,19 @@ Option|Type|Description
 `sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Searching is case sensitive. Default: `true`.
 `commentStr`       | `String` | Any lines beginning with this string is ignored. Default: `---`.
 `onlyWords`| `Boolean` | Set this to `true` if both the prefix you are trying to complete and the dictionary contain alphanumeric characters only (text files). For programming language dictionaries it should be set to `false`, since they can contain characters like `@`, `.`, `(`, etc. Default: `false`.
-`matcher`| `String` | This option is active only when `onlyWords` is `true` (text files). Accepted values are 'case' (case sensitive) and 'ignorecase'. Default: `case`.
+`matcher`| `String` | This option is active only when `onlyWords` is `true` (text files). It makes sense only when `sortedDict` is set to `false` since binary search is done case sensitive (assuming that sorting of the dictionary file is done case sensitive). Accepted values are `case` (case sensitive) and `ignorecase`. Default: `case`.
 
 #### Sample Configuration
 
 Further information about setting up configurations will be available later. Nonetheless, here is a sample configuration specifically targeting the dictionary source.
 
-Dictionary files can be configured individually for each 'filetype' (`:h filetype`). In the provided sample, the dictionary module is enabled for filetypes 'python' and 'text'. The Vim option `dictionaries` is appropriately set. Moreover, specific dictionary options are defined for each respective filetype.
+Dictionary files can be configured individually for each 'filetype' (`:h filetype`). In the provided sample, the dictionary module is enabled for filetypes 'python' and 'text'. Vim `dictionary` option is appropriately set. Specific dictionary options are defined for each respective filetype.
 
 ```
 vim9script
 var dictproperties = {
-    python: { onlyWords: false, sortedDict: false},
-    text: { onlyWords: true, sortedDict: true, matcher: 'ignorecase' }
+    python: { sortedDict: false },
+    text: { sortedDict: true }
 }
 var vcoptions = {
     dictionary: { enable: true, priority: 11, filetypes: ['python', 'text'], properties: dictproperties },

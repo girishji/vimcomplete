@@ -224,8 +224,8 @@ onlyWords 	Boolean option. Set this to `true` if both the prefix you are
 
 					*vimcomplete-dictionary-matcher*
 matcher 	String option. This option is active only when `onlyWords` is
-		`true` (text files). Accepted values are 'case' (case sensitive)
-		and 'ignorecase'. Default: `case`.
+		`true` (text files) and `sortedDict` is false. Accepted values are
+		'case' (case sensitive) and 'ignorecase'. Default: `case`.
 
 Further information about setting up configurations will be available later.
 Nonetheless, here is a sample configuration specifically targeting the
@@ -240,8 +240,8 @@ filetype.
 >
 	vim9script
 	var dictproperties = {
-	    python: { onlyWords: false, sortedDict: false},
-	    text: { onlyWords: true, sortedDict: true, matcher: 'ignorecase' }
+	    python: { sortedDict: false },
+	    text: { sortedDict: true }
 	}
 	var vcoptions = {
 	    dictionary: {
