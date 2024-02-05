@@ -25,6 +25,7 @@ def GetProperty(s: string): any
             && options.properties->get(&filetype)->has_key(s)
         return options.properties->get(&filetype)->get(s)
     endif
+    echom options
     return options->get(s)
 enddef
 
@@ -155,8 +156,8 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
     var items = []
     for line in bufnr->getbufline(lidx, ridx)
         if prefix == line->slice(0, prefixlen)
-            items->add(word)
-        endfor
+            items->add(line)
+        endif
     endfor
     var startcol = col('.') - prefixlen
     return { startcol: startcol, items: items }
