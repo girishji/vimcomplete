@@ -25,7 +25,6 @@ def GetProperty(s: string): any
             && options.properties->get(&filetype)->has_key(s)
         return options.properties->get(&filetype)->get(s)
     endif
-    echom options
     return options->get(s)
 enddef
 
