@@ -163,12 +163,15 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
 enddef
 
 def GetCompletionItems(prefix: string): dict<any>
-    var items = []
     var startcol: number = -1
     var dwords = {}
     if SortedDict()
         for bufnr in GetDict()
-            dwords = GetWordsBinarySearch(prefix, bufnr)
+            if dwords->empty()
+                dwords = GetWordsBinarySearch(prefix, bufnr)
+            else
+                dwords.items->extend(GetWordsBinarySearch(prefix, bufnr).items)
+            endif
         endfor
     else # only one dictionary supported, since startcol can differ among dicts
         var dicts = GetDict()
@@ -179,7 +182,7 @@ def GetCompletionItems(prefix: string): dict<any>
     if dwords->empty()
         return { startcol: 0, items: [] }
     endif
-    items->extend(dwords.items)
+    var items = dwords.items
     startcol = dwords.startcol
 
     var candidates = []
