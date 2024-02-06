@@ -176,6 +176,9 @@ def GetCompletionItems(prefix: string): dict<any>
             dwords = GetWords(prefix, dicts[0])
         endif
     endif
+    if dwords->empty()
+        return { startcol: 0, items: [] }
+    endif
     items->extend(dwords.items)
     startcol = dwords.startcol
 
