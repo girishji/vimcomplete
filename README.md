@@ -340,6 +340,12 @@ g:vimcomplete_tab_enable = 1
 > [!NOTE]
 > For help with other keybindings see `:h popupmenu-keys`. This help section includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
 
+### Highlight Groups
+
+You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,
+`PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` highlight groups to alter the
+appearance of the popup menu.
+
 ## Commands
 
 Commands are available to list completion sources and to enable or disable the plugin.
