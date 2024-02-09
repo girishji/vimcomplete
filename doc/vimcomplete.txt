@@ -139,9 +139,9 @@ showKind 		|Boolean| option. Show the type ('kind') of completion
 kindDisplayType		String option. The 'kind' field of completion item
 			can be displayed in a number of ways: as a single
 			letter symbol (`symbol`), a single letter with descriptive
-			text (`symboltext`), an icon (`icon`) or icon with text
-			(`icontext`). For showing icons you need a
-			(patched font)[https://www.nerdfonts.com/].
+			text (`symboltext`), only text (`text`), an icon (`icon`),
+			or icon with text (`icontext`). For showing icons you need
+			a (patched font)[https://www.nerdfonts.com/].
 			Default: `symboltext`.
 
 						*vimcomplete-customCompletionKinds*

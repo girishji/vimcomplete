@@ -14,7 +14,7 @@ export var options: dict<any> = {
     showKind: true,
     customCompletionKinds: false,
     completionKinds: {},
-    kindDisplayType: 'symboltext' # 'icon', 'icontext', 'text', 'symboltext', 'symbol'
+    kindDisplayType: 'symboltext' # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
 }
 
 export var alloptions: dict<any> = {}
