@@ -14,6 +14,7 @@ CONTENTS                                            *vimcomplete-contents*
      6. Enable and Disable ....................... |vimcomplete-enable|
      7. List Completion Sources .................. |vimcomplete-list|
      8. Extensions ............................... |vimcomplete-extensions|
+     9. Notes .................................... |vimcomplete-notes|
 
 ==============================================================================
 1. Overview					*vimcomplete-overview*
@@ -109,10 +110,13 @@ matchCase 		|Boolean| option. Some provider modules return items
 			Show items that match case with prefix at the top
 			followed by other items. Default is |true|.
 
-							*vimcomplete-kindName*
-kindName 		|Boolean| option. Show the kind of completion as a
-			full word (verbose) instead of first three letters.
-			Default is |false|.
+							*vimcomplete-showSource*
+showSource 		|Boolean| option. Show the source where the completion
+			item came from. Default is |true|.
+
+							*vimcomplete-showKind*
+showKind 		|Boolean| option. Show the single letter 'kind' returned
+			by LSP. Default is |true|.
 
 					    *vimcomplete-shuffleEqualPriority*
 shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
@@ -478,6 +482,46 @@ should take two arguments `findstart: Number` and `base: String` and return
 When the user sets options through Vim configuration file a `User` event with
 type `VimCompleteOptionsChanged` is issued. The plugin should register for
 this event and update its internal state appropriately.
+
+## Notes
+==============================================================================
+9. Notes					*vimcomplete-notes*
+
+Singe letter 'kind' returned by the LSP server has the following meaning:
+
+Kind|Description
+----|-----------
+ t  | Text
+ m  | Method
+ f  | Function
+ C  | Constructor
+ F  | Field
+ v  | Variable
+ c  | Class
+ i  | Interface
+ M  | Module
+ p  | Property
+ u  | Unit
+ V  | Value
+ e  | Enum
+ k  | Keyword
+ S  | Snippet
+ C  | Color
+ f  | File
+ r  | Reference
+ F  | Folder
+ E  | EnumMember
+ d  | Constant
+ s  | Struct
+ E  | Event
+ o  | Operator
+ T  | TypeParameter
+ B  | Buffer
+ O  | Option
+ a  | Abbreviation
+ e  | EnvVariable
+
+Last three kinds are not from LSP server.
 
 ==============================================================================
 

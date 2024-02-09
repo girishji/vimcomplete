@@ -25,6 +25,7 @@ export def Completor(findstart: number, base: string): any
 
     var citems = []
     var cwd: string = ''
+    var sep: string = has('win32') ? '\' : '/'
     try
         if options.bufferRelativePath && expand('%:h') !=# '.' # not already in buffer dir
             # change directory to get completions for paths relative to current buffer dir
@@ -32,10 +33,17 @@ export def Completor(findstart: number, base: string): any
             :exec 'cd ' .. expand('%:p:h')
         endif
         for item in getcompletion(base, 'file', 1)
+            var citem = item
+            var itemlen = item->len()
+            var isdir = isdirectory(fnamemodify(item, ':p'))
+            if isdir && item[itemlen - 1] == sep
+                citem = item->slice(0, itemlen - 1)
+            endif
             citems->add({
-                word: item,
-                kind: 'P',
-                menu: (isdirectory(item) ? "[dir]" : "[file]")
+                word: citem,
+                abbr: item,
+                kind: isdir ? "F" : "f",
+                menu: isdir ? "folder" : "file"
             })
         endfor
     catch # on MacOS it does not complete /tmp/* (throws E344, looks for /private/tmp/...)

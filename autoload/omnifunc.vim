@@ -32,6 +32,7 @@ export def Completor(findstart: number, base: string): any
     if partial
         items->map((_, v) => {
             v.word = v.abbr
+            v.kind = (v->has_key('kind') ? v.kind : 't'
             return v
         })
     endif

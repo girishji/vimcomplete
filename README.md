@@ -109,11 +109,11 @@ Option|Type|Description
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
-`kindName`|`Boolean`|Show the completion 'kind' as a full word instead of first three letters. This option displays the name of source that provided the completion candidate. Default: `false`.
+`showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
+`showKind`|`Boolean`|Show a single letter 'kind' as returned by LSP server (see note at the end). Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
 `noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). Default: `false`.
 `alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
-
 ### Buffer Completion
 
 The current buffer, as well as other open buffers, are searched for completion candidates using an asynchronous mechanism with a timeout. This approach ensures that the completion engine is not slowed down by large buffers.
@@ -396,6 +396,44 @@ The function must return `true` or `false` to indicate whether completion candid
 The name of the completion function does not matter, but it should take two arguments: `findstart: Number` and `base: String`, and return `<any>`. Register this function with the completion engine by calling `vimcompletor.Register()`. Use the `User` event of type `VimCompleteLoaded` to time the registration.
 
 When users set options through the configuration file, a `User` event with type `VimCompleteOptionsChanged` is issued. The plugin should register for this event and update its internal state accordingly.
+
+## Notes
+
+Singe letter 'kind' returned by the LSP server has the following meaning:
+
+Kind|Description
+----|-----------
+t | Text
+m | Method
+f | Function
+C | Constructor
+F | Field
+v | Variable
+c | Class
+i | Interface
+M | Module
+p | Property
+u | Unit
+V | Value
+e | Enum
+k | Keyword
+S | Snippet
+C | Color
+f | File
+r | Reference
+F | Folder
+E | EnumMember
+d | Constant
+s | Struct
+E | Event
+o | Operator
+T | TypeParameter
+B | Buffer
+O | Option
+a | Abbreviation
+e | EnvVariable
+
+Last three kinds are not from LSP server.
 
 ## Contributing
 

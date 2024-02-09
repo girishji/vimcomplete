@@ -51,7 +51,7 @@ def Prefix(): list<any>
         # last resort, search vimscript reserved words dictionary
         if MatchStr('\v\k+$')
             type = 'vimdict'
-            kind = 'D'
+            kind = 't'
         endif
     endif
     return [prefix, type, kind, startcol]

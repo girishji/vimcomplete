@@ -48,7 +48,7 @@ export def Completor(findstart: number, base: string): any
         citems->add({
             word: abbrev.prefix,
             info: abbrev.expn,
-            kind: 'A',
+            kind: 'a',
             dup: options.dup ? 1 : 0,
         })
     endfor

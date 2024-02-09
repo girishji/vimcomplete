@@ -199,7 +199,7 @@ def GetCompletionItems(prefix: string): dict<any>
     for candidate in candidates
         citems->add({
             word: candidate,
-            kind: 'D',
+            kind: 't',
             dup: options.dup ? 1 : 0,
         })
     endfor
