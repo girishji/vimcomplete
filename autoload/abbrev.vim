@@ -1,5 +1,7 @@
 vim9script
 
+import autoload 'util.vim'
+
 export var options: dict<any> = {
     enable: false,
     dup: true,
@@ -44,11 +46,12 @@ export def Completor(findstart: number, base: string): any
         return []
     endif
     var citems = []
+    var kind = util.GetItemKindValue('Abbreviation')
     for abbrev in abbrevs
         citems->add({
             word: abbrev.prefix,
             info: abbrev.expn,
-            kind: 'a',
+            kind: kind,
             dup: options.dup ? 1 : 0,
         })
     endfor

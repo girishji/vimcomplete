@@ -109,11 +109,16 @@ Option|Type|Description
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
-`showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
-`showKind`|`Boolean`|Show a single letter 'kind' as returned by LSP server (see note at the end). Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
 `noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). Default: `false`.
 `alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
+`showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
+`showKind`|`Boolean`|Show the type ('kind') of completion item returned by LSP server. Default: `true`.
+`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), an icon (`icon`) or icon with text (`icontext`). For showing icons you need a (patched font)[https://www.nerdfonts.com/]. Default: `symboltext`.
+`customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
+`completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
+
+
 ### Buffer Completion
 
 The current buffer, as well as other open buffers, are searched for completion candidates using an asynchronous mechanism with a timeout. This approach ensures that the completion engine is not slowed down by large buffers.
@@ -264,8 +269,8 @@ Option|Type|Description
 
 Both relative and absolute path names are completed.
 
-| Option              | Type      | Description                                                                                   |
-|---------------------|-----------|-----------------------------------------------------------------------------------------------|
+| Option              | Type      | Description   |
+|---------------------|-----------|---------------|
 | `enable`|`Boolean`|Set this to `false` to disable path completion. Default: `true`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
@@ -280,8 +285,8 @@ Both relative and absolute path names are completed.
 
 Abbreviations (`:h abbreviations`) are completed based on the `id`.
 
-| Option              | Type      | Description                                                                                   |
-|---------------------|-----------|-----------------------------------------------------------------------------------------------|
+| Option              | Type      | Description   |
+|---------------------|-----------|---------------|
 | `enable`|`Boolean`|Set this to `true` to enable abbreviation completion. Default: `false`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
@@ -294,8 +299,8 @@ This source completes Vim9 script function names, arguments, variables, reserved
 the like. Enable this if you are developing a Vim plugin or configuring a non-trivial _.vimrc_.
 
 
-| Option              | Type      | Description                                                                                   |
-|---------------------|-----------|-----------------------------------------------------------------------------------------------|
+| Option              | Type      | Description   |
+|---------------------|-----------|---------------|
 | `enable`|`Boolean`|Set this to `false` to disable this source. Default: `true`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['vim']`. |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
@@ -382,30 +387,12 @@ vim9script
 g:vimcomplete_noname_buf_enable = true
 ```
 
-## Writing Your Own Extension
+## Custom Completion Kinds
 
-Start by examining the implementation of an external plugin like [ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (which spawns a new process to handle http requests) or [ngram-complete](https://github.com/girishji/ngram-complete.vim).
-
-The completion engine employs an interface similar to Vim's [complete-functions](https://vimhelp.org/insert.txt.html#complete-functions). However, the function is invoked in three ways instead of two:
-
-- First, to find the start of the text to be completed.
-- Next, to check if completion candidates are available.
-- Lastly, to find the actual matches.
-
-The first and last invocation are identical to Vim's [complete-functions](https://vimhelp.org/insert.txt.html#complete-functions). During the second invocation, the arguments are:
-
-- `findstart: 2`
-- `base: empty`
-
-The function must return `true` or `false` to indicate whether completion candidates are ready. Only when this return value is `true` will the function be invoked for the third time to get the actual matches. This step is essential for asynchronous completion.
-
-The name of the completion function does not matter, but it should take two arguments: `findstart: Number` and `base: String`, and return `<any>`. Register this function with the completion engine by calling `vimcompletor.Register()`. Use the `User` event of type `VimCompleteLoaded` to time the registration.
-
-When users set options through the configuration file, a `User` event with type `VimCompleteOptionsChanged` is issued. The plugin should register for this event and update its internal state accordingly.
-
-## Notes
-
-Singe letter 'kind' returned by the LSP server has the following meaning:
+Each item returned by the LSP server has a type associated with it, which can
+be displayed on the popup menu. To customize , you need to use the option
+`customCompletionKinds` and set all custom kinds in the `completionKinds`.
+This table has all default LSP kinds:
 
 Kind|Description
 ----|-----------
@@ -438,8 +425,51 @@ B | Buffer
 O | Option
 a | Abbreviation
 e | EnvVariable
+U | URL
+c | Command
 
-Last three kinds are not from LSP server.
+Last four kinds are not associated with LSP.
+
+For example, if you want to change the "Method" kind to the kind "method()":
+```
+vim9script
+g:VimCompleteOptionsSet({ Completor: {
+    customCompletionKinds: true,
+    completionKinds: {
+        "Method": "method()"
+    }
+})
+
+In the completion popup, will show something like this: >
+
+    var file = new File()
+
+    file.cre
+        | create                method() |
+        | createIfNotExists     method() |
+        | ...                 |
+```
+
+## Writing Your Own Extension
+
+Start by examining the implementation of an external plugin like [ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (which spawns a new process to handle http requests) or [ngram-complete](https://github.com/girishji/ngram-complete.vim).
+
+The completion engine employs an interface similar to Vim's [complete-functions](https://vimhelp.org/insert.txt.html#complete-functions). However, the function is invoked in three ways instead of two:
+
+- First, to find the start of the text to be completed.
+- Next, to check if completion candidates are available.
+- Lastly, to find the actual matches.
+
+The first and last invocation are identical to Vim's [complete-functions](https://vimhelp.org/insert.txt.html#complete-functions). During the second invocation, the arguments are:
+
+- `findstart: 2`
+- `base: empty`
+
+The function must return `true` or `false` to indicate whether completion candidates are ready. Only when this return value is `true` will the function be invoked for the third time to get the actual matches. This step is essential for asynchronous completion.
+
+The name of the completion function does not matter, but it should take two arguments: `findstart: Number` and `base: String`, and return `<any>`. Register this function with the completion engine by calling `vimcompletor.Register()`. Use the `User` event of type `VimCompleteLoaded` to time the registration.
+
+When users set options through the configuration file, a `User` event with type `VimCompleteOptionsChanged` is issued. The plugin should register for this event and update its internal state accordingly.
 
 ## Contributing
 

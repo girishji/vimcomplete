@@ -1,5 +1,7 @@
 vim9script
 
+import autoload 'util.vim'
+
 # Completion from current and loaded buffers
 
 # Completion candidates are sorted according to locality (how close they are to
@@ -20,12 +22,13 @@ export var options: dict<any> = {
 # Return a list of keywords from a buffer
 def BufWords(bufnr: number, prefix: string): list<dict<any>>
     var pattern = options.icase ? $'\c^{prefix}' : $'\C^{prefix}'
-    var bufname = expand($'#{bufnr}')
+    var bufname = $'#{bufnr}'->expand()->fnamemodify(':t')
     var found = {}
     var start = reltime()
     var timeout = options.timeout
     var linenr = 1
     var items = []
+    var kind = util.GetItemKindValue('Keyword')
     for line in getbufline(bufnr, 1, '$')
         for word in line->split('\W\+')
             if !found->has_key(word) && word->len() > 1
@@ -35,7 +38,7 @@ def BufWords(bufnr: number, prefix: string): list<dict<any>>
                         items->add({
                             word: word,
                             abbr: word,
-                            kind: 't',
+                            kind: kind,
                             menu: bufname,
                         })
                     endif
@@ -118,7 +121,8 @@ def UrlMatches(base: string): list<dict<any>>
         linenr += 1
     endfor
     items->sort()->uniq()
-    return items->map((_, v) => ({ word: v, abbr: v, kind: 't' }))
+    var kind = util.GetItemKindValue('URL')
+    return items->map((_, v) => ({ word: v, abbr: v, kind: kind }))
 enddef
 
 # Using searchpos() is ~15% faster than gathering words by splitting lines and
@@ -196,25 +200,26 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var fwdidx = 0
     var bwdidx = 0
     var citems = []
+    var kind = util.GetItemKindValue('Keyword')
     while fwdidx < fwdlen && bwdidx < bwdlen
         var wordf = fwd[fwdidx]
         var wordb = bwd[bwdidx]
         if wordf[1] < wordb[1]
-            citems->add({ word: wordf[0], kind: 't' })
+            citems->add({ word: wordf[0], kind: kind })
             fwdidx += 1
         else
-            citems->add({ word: wordb[0], kind: 't' })
+            citems->add({ word: wordb[0], kind: kind })
             bwdidx += 1
         endif
     endwhile
     while fwdidx < fwdlen
         var wordf = fwd[fwdidx]
-        citems->add({ word: wordf[0], kind: 't' })
+        citems->add({ word: wordf[0], kind: kind })
         fwdidx += 1
     endwhile
     while bwdidx < bwdlen
         var wordb = bwd[bwdidx]
-        citems->add({ word: wordb[0], kind: 't' })
+        citems->add({ word: wordb[0], kind: kind })
         bwdidx += 1
     endwhile
 
@@ -268,7 +273,8 @@ export def Completor(findstart: number, base: string): any
     if options.envComplete
         var line = getline('.')->strpart(0, col('.') - 1)
         if line =~ '$\k\+$'
-            var envs = base->getcompletion('environment')->map((_, v) => ({ word: v, abbr: v, menu: 'Env', kind: 'e' }))
+            var kind = util.GetItemKindValue('EnvVariable')
+            var envs = base->getcompletion('environment')->map((_, v) => ({ word: v, abbr: v, kind: kind }))
             candidates += envs
         endif
     endif

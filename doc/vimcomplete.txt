@@ -14,7 +14,7 @@ CONTENTS                                            *vimcomplete-contents*
      6. Enable and Disable ....................... |vimcomplete-enable|
      7. List Completion Sources .................. |vimcomplete-list|
      8. Extensions ............................... |vimcomplete-extensions|
-     9. Notes .................................... |vimcomplete-notes|
+     9. Custom Completion Kinds .................. |vimcomplete-customze|
 
 ==============================================================================
 1. Overview					*vimcomplete-overview*
@@ -110,14 +110,6 @@ matchCase 		|Boolean| option. Some provider modules return items
 			Show items that match case with prefix at the top
 			followed by other items. Default is |true|.
 
-							*vimcomplete-showSource*
-showSource 		|Boolean| option. Show the source where the completion
-			item came from. Default is |true|.
-
-							*vimcomplete-showKind*
-showKind 		|Boolean| option. Show the single letter 'kind' returned
-			by LSP. Default is |true|.
-
 					    *vimcomplete-shuffleEqualPriority*
 shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
 			arranged such that the first item of all modules
@@ -134,6 +126,31 @@ noNewlineInCompletion 	|Boolean| option. If false, <Enter> key in insert mode
 alwaysOn 		|Boolean| option. If |false| use `<c-space>`
 			(control-space) to trigger completion. Default is
 			|true|.
+
+							*vimcomplete-showSource*
+showSource 		|Boolean| option. Show the source where the completion
+			item came from. Default is |true|.
+
+							*vimcomplete-showKind*
+showKind 		|Boolean| option. Show the type ('kind') of completion
+			item returned by LSP server. Default is true.
+
+						*vimcomplete-kindDisplayType*
+kindDisplayType		String option. The 'kind' field of completion item
+			can be displayed in a number of ways: as a single
+			letter symbol (`symbol`), a single letter with descriptive
+			text (`symboltext`), an icon (`icon`) or icon with text
+			(`icontext`). For showing icons you need a
+			(patched font)[https://www.nerdfonts.com/].
+			Default: `symboltext`.
+
+						*vimcomplete-customCompletionKinds*
+customCompletionKinds	Boolean option. Set this option to customize the 'kind'
+			attribute (explained below). Default: `false`.
+
+						*vimcomplete-completionKinds*
+completionKinds		Dictionary option. Custom text to use when above option is
+			set. Default: `{}`.
 
 Completion Provider General Options~
 
@@ -489,11 +506,13 @@ When the user sets options through Vim configuration file a `User` event with
 type `VimCompleteOptionsChanged` is issued. The plugin should register for
 this event and update its internal state appropriately.
 
-## Notes
 ==============================================================================
-9. Notes					*vimcomplete-notes*
+9. Custom Completion Kinds			*vimcomplete-customize*
 
-Singe letter 'kind' returned by the LSP server has the following meaning:
+Each item returned by the LSP server has a type associated with it, which can
+be displayed on the popup menu. To customize , you need to use the option
+`customCompletionKinds` and set all custom kinds in the `completionKinds`.
+This table has all default LSP kinds:
 
 Kind|Description
 ----|-----------
@@ -526,8 +545,29 @@ Kind|Description
  O  | Option
  a  | Abbreviation
  e  | EnvVariable
+ U  | URL
+ c  | Command
 
-Last three kinds are not from LSP server.
+Last four kinds are not associated with LSP.
+
+For example, if you want to change the "Method" kind to the kind "method()":
+>
+    vim9script
+    g:VimCompleteOptionsSet({ Completor: {
+        customCompletionKinds: true,
+        completionKinds: {
+            "Method": "method()"
+        }
+    })
+
+    In the completion popup, will show something like this: >
+
+        var file = new File()
+
+        file.cre
+            | create                method() |
+            | createIfNotExists     method() |
+            | ...                 |
 
 ==============================================================================
 

@@ -1,5 +1,7 @@
 vim9script
 
+import autoload 'util.vim'
+
 export var options: dict<any> = {
     enable: false,
     filetypes: ['vim'],
@@ -19,19 +21,19 @@ def Prefix(): list<any>
     var kind = ''
     if MatchStr('\v-\>\zs\k+$')
         type = 'function'
-        kind = 'f'
+        kind = util.GetItemKindValue('Function')
     elseif MatchStr('\v(\A+:|^:)\zs\k+$')
         type = 'command'
-        kind = 'c'
+        kind = util.GetItemKindValue('Command')
     elseif MatchStr('\v(\A+\&|^\&)\zs\k+$')
         type = 'option'
-        kind = 'o'
+        kind = util.GetItemKindValue('Option')
     elseif MatchStr('\v(\A+\$|^\$)\zs\k+$')
         type = 'environment'
-        kind = 'e'
+        kind = util.GetItemKindValue('EnvVariable')
     elseif MatchStr('\v(\A+\zs\a:|^\a:)\k+$')
         type = 'var'
-        kind = 'v'
+        kind = util.GetItemKindValue('Variable')
     else
         # XXX: Following makes vim hang when typing ':cs find g'
         # var matches = line->matchlist('\v<(\a+)!{0,1}\s+(\k+)$')
@@ -51,7 +53,7 @@ def Prefix(): list<any>
         # last resort, search vimscript reserved words dictionary
         if MatchStr('\v\k+$')
             type = 'vimdict'
-            kind = 't'
+            kind = util.GetItemKindValue('Keyword')
         endif
     endif
     return [prefix, type, kind, startcol]
@@ -88,10 +90,8 @@ export def Completor(findstart: number, base: string): any
 
     var items = type == 'vimdict' ? GetDictCompletion(base) : prefix->getcompletion(type)
     items->sort((v1, v2) => v1->len() < v2->len() ? -1 : 1)
-    if kind != 'V'
-        items = items->copy()->filter((_, v) => v =~# $'\v^{prefix}') +
-            items->copy()->filter((_, v) => v !~# $'\v^{prefix}')
-    endif
+    items = items->copy()->filter((_, v) => v =~# $'\v^{prefix}') +
+        items->copy()->filter((_, v) => v !~# $'\v^{prefix}')
     var citems = []
     for item in items
         citems->add({

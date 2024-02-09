@@ -12,6 +12,9 @@ export var options: dict<any> = {
     alwaysOn: true,
     showSource: true,
     showKind: true,
+    customCompletionKinds: false,
+    completionKinds: {},
+    kindDisplayType: 'symboltext' # 'icon', 'icontext', 'text', 'symboltext', 'symbol'
 }
 
 export var alloptions: dict<any> = {}
@@ -159,18 +162,11 @@ def GetItems(cmp: dict<any>, line: string): list<any>
     var items = cmp.completor(0, base)
     if options.showSource
         items->map((_, v) => {
-            v.menu = v->has_key('menu') ? $'{cmp.name},{v.menu}' : cmp.name
+            v.menu = v->has_key('menu') ? $'{cmp.name}({v.menu})' : cmp.name
             return v
         })
     endif
-    if options.showKind
-        items->map((_, v) => {
-            if !v->has_key('kind')
-                v.kind = (cmp.name)->slice(0, 1)
-            endif
-            return v
-        })
-    else
+    if !options.showKind
         items->map((_, v) => {
             if v->has_key('kind')
                 v->remove('kind')

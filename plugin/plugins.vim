@@ -13,6 +13,7 @@ import autoload '../autoload/lsp.vim'
 import autoload '../autoload/omnifunc.vim'
 import autoload '../autoload/vimscript.vim'
 import autoload '../autoload/vsnip.vim'
+import autoload '../autoload/util.vim'
 
 # Enable completion in buffer loaded by default (which has no filetype)
 import '../autoload/completor.vim'
@@ -38,6 +39,7 @@ def RegisterPlugins()
     Register('omnifunc', ['python', 'javascript'], 8)
     Register('vimscript', ['vim'], 10)
     Register('vsnip', ['*'], 11)
+    util.LspCompletionKindsSetDefault()
 enddef
 
 def RegisterLsp()

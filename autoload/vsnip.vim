@@ -2,6 +2,8 @@ vim9script
 
 # Interface to github.com/hrsh7th/vim-vsnip
 
+import autoload 'util.vim'
+
 export var options: dict<any> = {
     enable: false,
     maxCount: 10,
@@ -22,7 +24,7 @@ def GetCandidates(line: string): list<dict<any>>
         if line->matchstr(Pattern(item.abbr)) == ''
             continue
         endif
-        item.kind = 'S'
+        item.kind = util.GetItemKindValue('Snippet')
         citems->add(item)
     endfor
     return citems

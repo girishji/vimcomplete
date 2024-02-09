@@ -2,6 +2,8 @@ vim9script
 
 # Autocomplete file path
 
+import autoload 'util.vim'
+
 export var options: dict<any> = {
     enable: true,
     bufferRelativePath: true,
@@ -32,6 +34,8 @@ export def Completor(findstart: number, base: string): any
             cwd = getcwd()
             :exec 'cd ' .. expand('%:p:h')
         endif
+        var Fkind = util.GetItemKindValue('Folder')
+        var fkind = util.GetItemKindValue('File')
         for item in getcompletion(base, 'file', 1)
             var citem = item
             var itemlen = item->len()
@@ -42,8 +46,7 @@ export def Completor(findstart: number, base: string): any
             citems->add({
                 word: citem,
                 abbr: item,
-                kind: isdir ? "F" : "f",
-                menu: isdir ? "folder" : "file"
+                kind: isdir ? Fkind : fkind,
             })
         endfor
     catch # on MacOS it does not complete /tmp/* (throws E344, looks for /private/tmp/...)

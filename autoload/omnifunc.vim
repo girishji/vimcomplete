@@ -1,5 +1,7 @@
 vim9script
 
+import autoload 'util.vim'
+
 export var options: dict<any> = {
     enable: false,
     maxCount: 10,
@@ -30,9 +32,10 @@ export def Completor(findstart: number, base: string): any
         return []
     endif
     if partial
+        var kind = util.GetItemKindValue('Keyword')
         items->map((_, v) => {
             v.word = v.abbr
-            v.kind = (v->has_key('kind') ? v.kind : 't'
+            v.kind = (v->has_key('kind') ? v.kind : kind
             return v
         })
     endif

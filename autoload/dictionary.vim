@@ -1,5 +1,7 @@
 vim9script
 
+import autoload 'util.vim'
+
 # /usr/share/dict/words is ~2M. Reading in the file took 33ms, and <c-x><c-k>
 # for string 'za' took 62ms. Parsing each line into a list took 1.2 sec. Three
 # options: 1) read in the file into a buffer and search it using searchpos(),
@@ -188,6 +190,7 @@ def GetCompletionItems(prefix: string): dict<any>
     var candidates = []
     # remove duplicates
     var found = {}
+    var kind = util.GetItemKindValue('Text')
     for item in items
         if !found->has_key(item)
             found[item] = 1
@@ -199,7 +202,7 @@ def GetCompletionItems(prefix: string): dict<any>
     for candidate in candidates
         citems->add({
             word: candidate,
-            kind: 't',
+            kind: kind,
             dup: options.dup ? 1 : 0,
         })
     endfor
