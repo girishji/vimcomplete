@@ -421,7 +421,7 @@ s | Struct
 E | Event
 o | Operator
 T | TypeParameter
-B | Buffer[^b]
+B 󰉿 | Buffer[^b]
 O | Option[^b]
 a | Abbreviation[^b]
 e | EnvVariable[^b]
