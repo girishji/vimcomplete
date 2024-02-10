@@ -294,19 +294,16 @@ export def Enable()
     # if true, <cr> has default behavior (accept choice or dismiss popup
     # without newline).
     if options.noNewlineInCompletion
-        if maparg("<CR>", "i") != ''
-            :iunmap <expr> <buffer> <CR>
-        endif
+        :silent! iunmap <buffer> <CR>
     else
         :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
+    :inoremap <c-space> <cmd>VimCompleteCmd<cr>
     if !options.alwaysOn
-        if maparg("<c-space>", "i") != ''
-            :silent! iunmap <buffer> <c-space>
-        endif
-        :inoremap <c-space> <cmd>VimCompleteCmd<cr>
-        :imap <C-@> <C-Space>
+        :silent! iunmap <buffer> <c-space>
+        :inoremap <buffer> <c-space> <cmd>VimCompleteCmd<cr>
+        :imap <buffer> <C-@> <C-Space>
     endif
 
     augroup VimCompBufAutocmds | autocmd! * <buffer>
