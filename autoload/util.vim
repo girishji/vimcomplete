@@ -98,7 +98,8 @@ enddef
 
 export def LspCompletionKindsSetDefault()
     var copts = completor.options
-    if copts.customCompletionKinds || copts.kindDisplayType != 'symbol'
+    if (copts.customCompletionKinds || copts.kindDisplayType != 'symbol') &&
+            exists('*g:LspOptionsSet')
         var kinds: dict<any> = {}
         for k in defaultKinds->keys()
             kinds[k] = GetItemKindValue(k)
