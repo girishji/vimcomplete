@@ -421,14 +421,14 @@ s | Struct
 E | Event
 o | Operator
 T | TypeParameter
-B | Buffer[^1]
-O | Option[^1]
-a | Abbreviation[^1]
-e | EnvVariable[^1]
-U | URL[^1]
-c | Command[^1]
+B | Buffer[^*]
+O | Option[^*]
+a | Abbreviation[^*]
+e | EnvVariable[^*]
+U | URL[^*]
+c | Command[^*]
 
-[^1]: Not returned by LSP.
+[^*]: Not returned by LSP.
 
 For example, if you want to change the "Method" kind to the kind "method()":
 
@@ -451,38 +451,6 @@ In the completion popup, will show something like this: >
         | ...                            |
 ```
 
-    'Text':           ['t', "󰉿"],
-    'Method':         ['m', "󰆧"],
-    'Function':       ['f', "󰊕"],
-    'Constructor':    ['C', ""],
-    'Field':          ['F', "󰜢"],
-    'Variable':       ['v', "󰀫"],
-    'Class':          ['c', "󰠱"],
-    'Interface':      ['i', ""],
-    'Module':         ['M', ""],
-    'Property':       ['p', "󰜢"],
-    'Unit':           ['u', "󰑭"],
-    'Value':          ['V', "󰎠"],
-    'Enum':           ['e', ""],
-    'Keyword':        ['k', "󰌋"],
-    'Snippet':        ['S', ""],
-    'Color':          ['C', "󰏘"],
-    'File':           ['f', "󰈙"],
-    'Reference':      ['r', "󰈇"],
-    'Folder':         ['F', "󰉋"],
-    'EnumMember':     ['E', ""],
-    'Constant':       ['d', "󰏿"],
-    'Struct':         ['s', "󰙅"],
-    'Event':          ['E', ""],
-    'Operator':       ['o', "󰆕"],
-    'TypeParameter':  ['T', ""],
-    'Buffer':         ['B', ""],
-    'Word':           ['w', ""],
-    'Option':         ['O', "󰘵"],
-    'Abbreviation':   ['a', ""],
-    'EnvVariable':    ['e', "󱄑"],
-    'URL':            ['U', ""],
-    'Command':        ['c', ""],
 ## Writing Your Own Extension
 
 Start by examining the implementation of an external plugin like [ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (which spawns a new process to handle http requests) or [ngram-complete](https://github.com/girishji/ngram-complete.vim).
