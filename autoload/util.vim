@@ -57,13 +57,13 @@ var defaultKinds: dict<list<string>> = {
     'Event':          ['E', ""],
     'Operator':       ['o', "󰆕"],
     'TypeParameter':  ['T', ""],
-    'Buffer':         ['B', ""],
-    'Word':           ['w', ""],
-    'Option':         ['O', ""],
-    'Abbreviation':   ['a', ""],
-    'EnvVariable':    ['e', ""],
-    'URL':            ['U', ""],
-    'Command':        ['c', "󰈇"],
+    'Buffer':         ['B', ""],
+    'Word':           ['w', ""],
+    'Option':         ['O', "󰘵"],
+    'Abbreviation':   ['a', ""],
+    'EnvVariable':    ['e', "󱄑"],
+    'URL':            ['U', ""],
+    'Command':        ['c', ""],
 }
 
 import autoload 'completor.vim'
