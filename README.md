@@ -392,7 +392,7 @@ g:vimcomplete_noname_buf_enable = true
 Each item returned by the LSP server has a type associated with it, which can
 be displayed on the popup menu. To customize , you need to use the option
 `customCompletionKinds` and set all custom kinds in the `completionKinds`.
-This table has all default LSP kinds:
+The following table has all default LSP kinds:
 
 Kind|Description
 ----|-----------
@@ -421,16 +421,17 @@ s | Struct
 E | Event
 o | Operator
 T | TypeParameter
-B | Buffer
-O | Option
-a | Abbreviation
-e | EnvVariable
-U | URL
-c | Command
+B | Buffer[^1]
+O | Option[^1]
+a | Abbreviation[^1]
+e | EnvVariable[^1]
+U | URL[^1]
+c | Command[^1]
 
-Last four kinds are not associated with LSP.
+[^1]: Not returned by LSP.
 
 For example, if you want to change the "Method" kind to the kind "method()":
+
 ```
 vim9script
 g:VimCompleteOptionsSet({ Completor: {
@@ -447,9 +448,41 @@ In the completion popup, will show something like this: >
     file.cre
         | create                method() |
         | createIfNotExists     method() |
-        | ...                 |
+        | ...                            |
 ```
 
+    'Text':           ['t', "󰉿"],
+    'Method':         ['m', "󰆧"],
+    'Function':       ['f', "󰊕"],
+    'Constructor':    ['C', ""],
+    'Field':          ['F', "󰜢"],
+    'Variable':       ['v', "󰀫"],
+    'Class':          ['c', "󰠱"],
+    'Interface':      ['i', ""],
+    'Module':         ['M', ""],
+    'Property':       ['p', "󰜢"],
+    'Unit':           ['u', "󰑭"],
+    'Value':          ['V', "󰎠"],
+    'Enum':           ['e', ""],
+    'Keyword':        ['k', "󰌋"],
+    'Snippet':        ['S', ""],
+    'Color':          ['C', "󰏘"],
+    'File':           ['f', "󰈙"],
+    'Reference':      ['r', "󰈇"],
+    'Folder':         ['F', "󰉋"],
+    'EnumMember':     ['E', ""],
+    'Constant':       ['d', "󰏿"],
+    'Struct':         ['s', "󰙅"],
+    'Event':          ['E', ""],
+    'Operator':       ['o', "󰆕"],
+    'TypeParameter':  ['T', ""],
+    'Buffer':         ['B', ""],
+    'Word':           ['w', ""],
+    'Option':         ['O', "󰘵"],
+    'Abbreviation':   ['a', ""],
+    'EnvVariable':    ['e', "󱄑"],
+    'URL':            ['U', ""],
+    'Command':        ['c', ""],
 ## Writing Your Own Extension
 
 Start by examining the implementation of an external plugin like [ngrams-viewer](https://github.com/girishji/ngramview-complete.vim) (which spawns a new process to handle http requests) or [ngram-complete](https://github.com/girishji/ngram-complete.vim).
