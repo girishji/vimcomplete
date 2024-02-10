@@ -421,14 +421,14 @@ s | Struct
 E | Event
 o | Operator
 T | TypeParameter
-B | Buffer[^a]
-O | Option[^a]
-a | Abbreviation[^a]
-e | EnvVariable[^a]
-U | URL[^a]
-c | Command[^a]
+B | Buffer[^b]
+O | Option[^b]
+a | Abbreviation[^b]
+e | EnvVariable[^b]
+U | URL[^b]
+c | Command[^b]
 
-[^a]: Not returned by LSP.
+[^b]: This is not returned by LSP.
 
 For example, if you want to change the "Method" kind to the kind "method()":
 
