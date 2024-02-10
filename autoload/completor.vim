@@ -299,7 +299,6 @@ export def Enable()
         :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
-    :inoremap <c-space> <cmd>VimCompleteCmd<cr>
     if !options.alwaysOn
         :silent! iunmap <buffer> <c-space>
         :inoremap <buffer> <c-space> <cmd>VimCompleteCmd<cr>
