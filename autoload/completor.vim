@@ -162,7 +162,7 @@ def GetItems(cmp: dict<any>, line: string): list<any>
     var items = cmp.completor(0, base)
     if options.showSource
         items->map((_, v) => {
-            v.menu = v->has_key('menu') ? $'{cmp.name}({v.menu})' : cmp.name
+            v.menu = v->has_key('menu') ? $'[{cmp.name}] {v.menu}' : $'[{cmp.name}]'
             return v
         })
     endif
