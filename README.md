@@ -114,7 +114,7 @@ Option|Type|Description
 `alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
 `showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
 `showKind`|`Boolean`|Show the type ('kind') of completion item returned by LSP server. Default: `true`.
-`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing icons you need a (patched font)[https://www.nerdfonts.com/]. Default: `symboltext`.
+`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need a (patched font)[https://www.nerdfonts.com/]. Default: `symboltext`.
 `customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
 `completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
 
