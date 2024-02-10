@@ -302,7 +302,9 @@ export def Enable()
     endif
 
     if !options.alwaysOn
-        :silent! iunmap <buffer> <c-space>
+        if maparg("<c-space>", "i") != ''
+            :silent! iunmap <buffer> <c-space>
+        endif
         :inoremap <c-space> <cmd>VimCompleteCmd<cr>
         :imap <C-@> <C-Space>
     endif
