@@ -46,7 +46,7 @@ export def Completor(findstart: number, base: string): any
         return []
     endif
     var citems = []
-    var kind = util.GetItemKindValue('Abbreviation')
+    var kind = util.GetItemKindValue('Abbrev')
     for abbrev in abbrevs
         citems->add({
             word: abbrev.prefix,

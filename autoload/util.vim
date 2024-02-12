@@ -60,7 +60,7 @@ var defaultKinds: dict<list<string>> = {
     'Buffer':         ['B', ""],
     'Word':           ['w', ""],
     'Option':         ['O', "󰘵"],
-    'Abbreviation':   ['a', ""],
+    'Abbrev':         ['a', ""],
     'EnvVariable':    ['e', "󱄑"],
     'URL':            ['U', ""],
     'Command':        ['c', ""],
