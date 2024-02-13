@@ -58,7 +58,7 @@ var defaultKinds: dict<list<string>> = {
     'Operator':       ['o', "󰆕"],
     'TypeParameter':  ['T', ""],
     'Buffer':         ['B', ""],
-    'Word':           ['w', "󰬄"],
+    'Word':           ['w', ""],
     'Option':         ['O', "󰘵"],
     'Abbrev':         ['a', ""],
     'EnvVariable':    ['e', ""],
