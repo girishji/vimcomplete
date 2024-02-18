@@ -14,13 +14,7 @@ import autoload '../autoload/omnifunc.vim'
 import autoload '../autoload/vimscript.vim'
 import autoload '../autoload/vsnip.vim'
 import autoload '../autoload/util.vim'
-
-# Enable completion in buffer loaded by default (which has no filetype)
 import '../autoload/completor.vim'
-g:vimcomplete_noname_buf_enable = true
-if get(g:, 'vimcomplete_noname_buf_enable', false)
-    completor.Enable()
-endif
 
 def RegisterPlugins()
     def Register(provider: string, ftypes: list<string>, priority: number)
