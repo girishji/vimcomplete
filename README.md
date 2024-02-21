@@ -277,7 +277,7 @@ Both relative and absolute path names are completed.
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `12`. |
 | `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the directory from which Vim is started. Default: `true`.    |
 | `groupDirectoriesFirst`| `Boolean` | Group directories before files (like linux's 'ls --group-directories-first'). Default: `false`.    |
-| `showPathSeparatorAtEnd`| `Boolean` | Show path separator (`/` in unix) at the end directory entry. Default: `false`.    |
+| `showPathSeparatorAtEnd`| `Boolean` | Show path separator (`/` in unix) at the end of directory entry. Default: `false`.    |
 | `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 > [!NOTE]
@@ -380,12 +380,20 @@ You can selectively enable autocompletion for specific _file types_. For instanc
 :VimCompleteEnable c cpp python vim text markdown
 ```
 
+To start Vim with autocompletion disabled, set the following variable.
+
+```
+g:vimcomplete_enable_by_default = true
+```
+
 `VimCompleteEnable` takes a space-separated list of _file types_ as an argument. If no argument is specified, autocompletion is enabled for _all file types_.
 
-When Vim opens an unnamed buffer, it is not associated with any _file type_. To enable or disable autocompletion on the unnamed buffer, set the following variable (set by default).
+When Vim is started without any arguments or a new buffer is created with
+`:bufnew`, it opens an unnamed buffer. This buffer is not associated with any
+_file type_. To enable/disable autocompletion on this buffer use the following
+variable. It is set by default.
 
 ```vim
-vim9script
 g:vimcomplete_noname_buf_enable = true
 ```
 

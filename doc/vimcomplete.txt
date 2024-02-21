@@ -443,7 +443,7 @@ anytime using commands.
 	:VimCompleteEnable
 	:VimCompleteDisable
 
-To start Vm with autocompletion disabled, set the following variable.
+To start Vim with autocompletion disabled, set the following variable.
 
 ```
 g:vimcomplete_enable_by_default = true
