@@ -17,11 +17,33 @@ def VimCompEnable(filetypes: string)
     # will not have the filetype available to verify. One way to verify, if
     # necessary, is by using getcompletion().
     augroup VimcompleteAutoCmds | autocmd!
+		if get(g:, 'vimcomplete_noname_buf_enable', true)
+            autocmd BufNewFile * completor.Enable()
+
+			if &filetype == ""
+				# Special case for noname buffers.
+				completor.Enable()
+			endif
+		endif
+
         if ftypes->empty()
-            autocmd BufNewFile,BufReadPost * completor.Enable()
+            autocmd BufReadPost * completor.Enable()
             g:vimcomplete_noname_buf_enable = true
+
+			# Enable for the current buffer, but only if it's not a noname buffer.
+			if &filetype != ""
+				completor.Enable()
+			endif
         else
+			# New buffers with matching file type will start with
+			# completion enabled.
             exec $'autocmd FileType {ftypes->join(",")} completor.Enable()'
+
+			# Enable for the current buffer if it has a
+			# matching file type.
+			if index(ftypes, &filetype) >= 0
+				completor.Enable()
+			endif
         endif
     augroup END
 enddef
@@ -31,7 +53,9 @@ command! -nargs=0 VimCompleteDisable completor.Disable() | g:vimcomplete_noname_
 command! -nargs=0 VimCompleteCompletors completor.ShowCompletors()
 
 augroup VimcompleteAutoCmds | autocmd!
-    autocmd BufNewFile,BufReadPost,VimEnter * completor.Enable()
+	if get(g:, 'vimcomplete_enable_by_default', true)
+		autocmd VimEnter * VimCompEnable("")
+	endif
 augroup END
 
 if exists('#User#VimCompleteLoaded')

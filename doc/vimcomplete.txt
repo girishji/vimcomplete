@@ -443,6 +443,12 @@ anytime using commands.
 	:VimCompleteEnable
 	:VimCompleteDisable
 
+To start Vm with autocompletion disabled, set the following variable.
+
+```
+g:vimcomplete_enable_by_default = true
+```
+
 You can selectively enable autocompletion for specified file types. For
 example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`, and
 `markdown` files.
@@ -460,9 +466,10 @@ $HOME/.vimrc.
 autocmd VimEnter * VimCompleteEnable c cpp python vim text markdown
 ```
 
-When Vim is started without any arguments it opens an unnamed buffer. This
-buffer is not associated with any _file type_. To enable/disable
-autocompletion on this buffer use the following variable. It is set by default.
+When Vim is started without any arguments or a new buffer is created with
+:bufnew, it opens an unnamed buffer. This buffer is not associated with any
+_file type_. To enable/disable autocompletion on this buffer use the following
+variable. It is set by default.
 
 ```
 g:vimcomplete_noname_buf_enable = true
