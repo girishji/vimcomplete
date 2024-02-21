@@ -21,6 +21,9 @@ export def Setup()
             autoComplete: false,
             omniComplete: true,
         }
+        if options->has_key('completionMatcher')
+            lspOpts->extend({completionMatcher: options.completionMatcher})
+        endif
         g:LspOptionsSet(lspOpts)
     endif
 enddef

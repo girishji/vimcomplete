@@ -7,6 +7,8 @@ import autoload 'util.vim'
 export var options: dict<any> = {
     enable: true,
     bufferRelativePath: true,
+    groupDirectoriesFirst: false,
+    showPathSeparatorAtEnd: false,
 }
 
 export def Completor(findstart: number, base: string): any
@@ -36,16 +38,24 @@ export def Completor(findstart: number, base: string): any
         endif
         var Fkind = util.GetItemKindValue('Folder')
         var fkind = util.GetItemKindValue('File')
-        for item in getcompletion(base, 'file', 1)
+        var completions = getcompletion(base, 'file', 1)
+        def IsDir(v: string): bool
+            return isdirectory(fnamemodify(v, ':p'))
+        enddef
+        if options.groupDirectoriesFirst
+            completions = completions->copy()->filter((_, v) => IsDir(v)) +
+                completions->copy()->filter((_, v) => !IsDir(v))
+        endif
+        for item in completions
             var citem = item
             var itemlen = item->len()
-            var isdir = isdirectory(fnamemodify(item, ':p'))
+            var isdir = IsDir(item)
             if isdir && item[itemlen - 1] == sep
                 citem = item->slice(0, itemlen - 1)
             endif
             citems->add({
                 word: citem,
-                abbr: item,
+                abbr: options.showPathSeparatorAtEnd ? item : citem,
                 kind: isdir ? Fkind : fkind,
             })
         endfor

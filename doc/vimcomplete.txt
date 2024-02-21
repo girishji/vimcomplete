@@ -375,6 +375,12 @@ bufferRelativePath 	|Boolean| option. Interpret relative paths as being
 			current working directory (see |:pwd|). Default is
 			|true|.
 
+groupDirectoriesFirst	Group directories before files (like linux's 'ls
+			--group-directories-first'). Default is |false|.
+
+showPathSeparatorAtEnd	Show path separator (`/` in unix) at the end of
+			directory entry. Default: |false|.
+
 > [NOTE]
 > Path completion activates when there is a `/` (`\` for Windows) or `.` in
 > the word before the cursor. To autocomplete deeper in a directory type `/`

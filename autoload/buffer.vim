@@ -12,7 +12,7 @@ export var options: dict<any> = {
     timeout: 100,
     maxCount: 10,
     searchOtherBuffers: true,   # search other listed buffers
-    otherBuffersCount: 3,	# Max count of other listed buffers to search
+    otherBuffersCount: 3,       # Max count of other listed buffers to search
     icase: true,
     urlComplete: false,
     envComplete: false,

@@ -276,6 +276,8 @@ Both relative and absolute path names are completed.
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `12`. |
 | `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the directory from which Vim is started. Default: `true`.    |
+| `groupDirectoriesFirst`| `Boolean` | Group directories before files (like linux's 'ls --group-directories-first'). Default: `false`.    |
+| `showPathSeparatorAtEnd`| `Boolean` | Show path separator (`/` in unix) at the end directory entry. Default: `false`.    |
 | `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 > [!NOTE]
