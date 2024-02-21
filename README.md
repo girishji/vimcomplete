@@ -134,6 +134,7 @@ Option|Type|Description
 `searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
 `otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Default: `3`.
 `icase`            | `Boolean` | Ignore case when searching for completion candidates. Default: `true`.
+`completionMatcher`| `String` | Enable fuzzy or case insensitive completion. Accepts one of the following values: `case` for case sensitive matching, `icase` for ignoring case while matching, and `fuzzy` for fuzzy match. Default: `icase`.
 `urlComplete`      | `Boolean` | Enable completion of http links in entirety. This is useful when typing the same URL multiple times. Default: `false`.
 `envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
 
@@ -198,6 +199,9 @@ Option|Type|Description
 `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
 `filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
+
+> [!NOTE]
+> For fuzzy and case insensitive completion, set the `completionMatcher` option in the [LSP client](https://github.com/yegappan/lsp). See `: lsp-opt-completionMatcher`.
 
 ### Snippets Completion
 

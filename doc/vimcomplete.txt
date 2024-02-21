@@ -196,9 +196,12 @@ searchOtherBuffers 	|Boolean| option. Search other listed buffers. Default
 otherBuffersCount 	|Number| option. Maximum number of other listed
 			buffers to search. Default is `3`.
 
-						    *vimcomplete-buffer-icase*
-icase 			|Boolean| option. Ignore case when searching for
-			completion candidates. Default is |true|.
+				    *vimcomplete-buffer-completionMatcher*
+completionMatcher 	|String| option. Enable fuzzy or case insensitive
+			completion. Accepts one of the following values: `case`
+			for case sensitive matching, `icase` for ignoring case
+			while matching, and `fuzzy` for fuzzy match.
+			Default is `icase`.
 
 					      *vimcomplete-buffer-urlComplete*
 urlComplete 		|Boolean| option. Complete http links in entirety.
