@@ -35,7 +35,7 @@ export def Completor(findstart: number, base: string): any
         var kind = util.GetItemKindValue('Keyword')
         items->map((_, v) => {
             v.word = v.abbr
-            v.kind = (v->has_key('kind') ? v.kind : kind
+            v.kind = (v->has_key('kind')) ? v.kind : kind
             return v
         })
     endif
