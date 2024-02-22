@@ -20,7 +20,7 @@ export var options: dict<any> = {
 }
 
 # Return a list of keywords from a buffer
-def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<dict<any>>
+def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
     var found = {}
     var start = reltime()
     var timeout = options.timeout
@@ -259,7 +259,12 @@ def CurBufMatches(prefix: string): list<dict<any>>
     return candidates
 enddef
 
+var _last_base_len = 666
 export def Completor(findstart: number, base: string): any
+    if findstart < 2 && strlen(base) >= _last_base_len
+        return []
+    endif
+
     if findstart == 2
         return 1
     elseif findstart == 1
@@ -315,6 +320,12 @@ export def Completor(findstart: number, base: string): any
     endif
     if options.dup
         candidates->map((_, v) => v->extend({ dup: 1 }))
+    endif
+
+    if candidates->empty()
+        _last_base_len = strlen(base)
+    else
+        _last_base_len = 666
     endif
     return candidates->slice(0, options.maxCount)
 enddef
