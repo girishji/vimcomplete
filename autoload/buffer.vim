@@ -20,7 +20,7 @@ export var options: dict<any> = {
 }
 
 # Return a list of keywords from a buffer
-def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<dict<any>>
+def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
     var found = {}
     var start = reltime()
     var timeout = options.timeout
@@ -259,10 +259,14 @@ def CurBufMatches(prefix: string): list<dict<any>>
     return candidates
 enddef
 
+var empty_at_last_str = ''
 export def Completor(findstart: number, base: string): any
     if findstart == 2
         return 1
     elseif findstart == 1
+        if empty_at_last_str is base
+            return -2
+        endif
         var line = getline('.')->strpart(0, col('.') - 1)
         var prefix: string
         if options.urlComplete
@@ -274,9 +278,11 @@ export def Completor(findstart: number, base: string): any
         if prefix == ''
             prefix = line->matchstr('\k\+$')
             if prefix == ''
+                empty_at_last_str = base
                 return -2
             endif
         endif
+        empty_at_last_str = ''
         return line->len() - prefix->len() + 1
     endif
 

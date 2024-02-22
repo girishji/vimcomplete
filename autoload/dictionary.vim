@@ -211,15 +211,21 @@ enddef
 
 var completionItems: dict<any> = {}
 
+var empty_at_last_str = ''
 export def Completor(findstart: number, base: string): any
     if findstart == 2
         return 1
     elseif findstart == 1
+        if empty_at_last_str is base
+            return -2
+        endif
         var line = getline('.')->strpart(0, col('.') - 1)
         var prefix = OnlyWords() ? line->matchstr('\w\+$') : line->matchstr('\S\+$')
         if prefix == ''
+            empty_at_last_str = base
             return -2
         endif
+        empty_at_last_str = ''
         completionItems = GetCompletionItems(prefix)
         return completionItems.items->empty() ? -2 : completionItems.startcol
     endif
