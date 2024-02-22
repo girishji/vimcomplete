@@ -259,12 +259,9 @@ def CurBufMatches(prefix: string): list<dict<any>>
     return candidates
 enddef
 
-var _last_base_len = 666
-export def Completor(findstart: number, base: string): any
-    if findstart < 2 && strlen(base) >= _last_base_len
-        return []
-    endif
+var previous = {prefix: '', completed: true}
 
+export def Completor(findstart: number, base: string): any
     if findstart == 2
         return 1
     elseif findstart == 1
@@ -282,6 +279,14 @@ export def Completor(findstart: number, base: string): any
                 return -2
             endif
         endif
+        if previous.prefix != '' && !previous.completed
+            var plen = (previous.prefix)->len()
+            if prefix->slice(0, plen) == previous.prefix
+                # if previous attempt was unsuccessful for the same prefix, do not try again
+                return -2
+            endif
+        endif
+        previous.prefix = prefix
         return line->len() - prefix->len() + 1
     endif
 
@@ -322,10 +327,6 @@ export def Completor(findstart: number, base: string): any
         candidates->map((_, v) => v->extend({ dup: 1 }))
     endif
 
-    if candidates->empty()
-        _last_base_len = strlen(base)
-    else
-        _last_base_len = 666
-    endif
+    previous.completed = !candidates->empty()
     return candidates->slice(0, options.maxCount)
 enddef
