@@ -133,7 +133,6 @@ Option|Type|Description
 `timeout`          | `Number`  | Maximum time allocated for searching completion candidates in the current buffer. Default: `100` milliseconds. If searching in multiple buffers, an additional 100 milliseconds is allocated. The search is aborted if any key is pressed.
 `searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
 `otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Default: `3`.
-`icase`            | `Boolean` | Ignore case when searching for completion candidates. Default: `true`.
 `completionMatcher`| `String` | Enable fuzzy or case insensitive completion. Accepts one of the following values: `case` for case sensitive matching, `icase` for ignoring case while matching, and `fuzzy` for fuzzy match. Default: `icase`.
 `urlComplete`      | `Boolean` | Enable completion of http links in entirety. This is useful when typing the same URL multiple times. Default: `false`.
 `envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
