@@ -200,7 +200,7 @@ Option|Type|Description
 `filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
 
 > [!NOTE]
-> For fuzzy and case insensitive completion, set the `completionMatcher` option in the [LSP client](https://github.com/yegappan/lsp). See `: lsp-opt-completionMatcher`.
+> For fuzzy and case insensitive completion, set the `completionMatcher` option in the [LSP client](https://github.com/yegappan/lsp). See `:h lsp-opt-completionMatcher`.
 
 ### Snippets Completion
 
