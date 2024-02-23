@@ -283,6 +283,7 @@ export def Completor(findstart: number, base: string): any
             var plen = (previous.prefix)->len()
             if prefix->slice(0, plen) == previous.prefix
                 # if previous attempt was unsuccessful for the same prefix, do not try again
+                previous.prefix = prefix
                 return -2
             endif
         endif
