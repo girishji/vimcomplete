@@ -23,12 +23,12 @@ export def TabEnable()
         return
     endif
     # suppress error message from iunmap when mapping is missing. maparg() can be used to check.
-    :silent! iunmap <silent> <tab>
-    :silent! iunmap <silent> <s-tab>
-    :inoremap <expr> <tab>   VCCleverTab()
-    :snoremap <expr> <tab>   VCCleverTab()
-    :inoremap <expr> <S-Tab> VCCleverSTab()
-    :snoremap <expr> <S-Tab> VCCleverSTab()
+    :silent! iunmap <buffer> <silent> <tab>
+    :silent! iunmap <buffer> <silent> <s-tab>
+    :inoremap <buffer> <expr> <tab>   VCCleverTab()
+    :snoremap <buffer> <expr> <tab>   VCCleverTab()
+    :inoremap <buffer> <expr> <S-Tab> VCCleverSTab()
+    :snoremap <buffer> <expr> <S-Tab> VCCleverSTab()
 enddef
 
 var defaultKinds: dict<list<string>> = {

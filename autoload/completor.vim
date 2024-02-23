@@ -307,10 +307,10 @@ export def Enable()
 
     augroup VimCompBufAutocmds | autocmd! * <buffer>
         if options.alwaysOn
-            autocmd TextChangedI <buffer> call VimComplete()
-            autocmd TextChangedP <buffer> call VimCompletePopupVisible()
+            autocmd TextChangedI <buffer> VimComplete()
+            autocmd TextChangedP <buffer> VimCompletePopupVisible()
         endif
-        autocmd BufEnter,BufReadPost <buffer> call SetupCompletors()
+        autocmd BufEnter,BufReadPost <buffer> SetupCompletors()
         autocmd CompleteDone <buffer> call LRU_Cache()
     augroup END
 
