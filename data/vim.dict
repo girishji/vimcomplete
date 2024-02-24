@@ -794,6 +794,17 @@ noselect
 nowrap
 nr2char
 nrformats
+null
+null_blob
+null_channel
+null_class
+null_dict
+null_function
+null_job
+null_list
+null_object
+null_partial
+null_string
 number
 numberwidth
 nunmap
@@ -1252,6 +1263,8 @@ uselast
 useopen
 user
 usetab
+v:none
+v:null
 values
 var
 verbose
