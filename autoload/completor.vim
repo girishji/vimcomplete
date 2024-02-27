@@ -14,7 +14,8 @@ export var options: dict<any> = {
     showKind: true,
     customCompletionKinds: false,
     completionKinds: {},
-    kindDisplayType: 'symboltext' # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
+    kindDisplayType: 'symboltext', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
+    customInfoWindow: true,
 }
 
 export var alloptions: dict<any> = {}
@@ -223,6 +224,7 @@ def VimComplete()
     if exists('*vsnip#jumpable') && vsnip#jumpable(1)
         return
     endif
+    all
     if line == prevCompletionInput
         # Text does not change after <c-e> or <c-y> but TextChanged will get
         # called anyway. To avoid <c-e> from closing popup and reopening
@@ -256,7 +258,6 @@ def VimComplete()
             asyncompletors->add(cmp)
         endif
     endfor
-
     DisplayPopup(citems, line)
     if !asyncompletors->empty()
         # wait a maximum 2 sec, checking every 2ms to receive items from completors
@@ -283,11 +284,41 @@ enddef
 
 command VimCompleteCmd pumvisible() ? VimCompletePopupVisible() : VimComplete()
 
+export var info_popup_options = {
+    borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
+    drag: false,
+    close: 'none',
+}
+
+def InfoPopupWindow()
+    # the only way to change the look of info window is to set popuphidden,
+    # subscribe to CompleteChanged, and set the text.
+    var id = popup_findinfo()
+    if id > 0
+        # it is possible to set options only once since info popup window is
+        # persistent for a buffer, but it'd require caching a buffer local
+        # variable (setbufvar()). not worth it.
+        id->popup_setoptions(info_popup_options)
+        var item = v:event.completed_item
+        if item->has_key('info') && item.info != ''
+            id->popup_settext(item.info)
+            id->popup_show()
+        endif
+        # setting completeopt back to 'menuone' causes a flicker, so comment out.
+        # setbufvar(bufnr(), '&completeopt', 'menuone,popup,noinsert,noselect')
+        # autocmd! VimCompBufAutocmds CompleteChanged <buffer>
+    endif
+enddef
+
 import autoload './util.vim'
 
 export def Enable()
     var bnr = bufnr()
-    setbufvar(bnr, '&completeopt', 'menuone,popup,noinsert,noselect')
+    if options.customInfoWindow
+        setbufvar(bnr, '&completeopt', 'menuone,popuphidden,noinsert,noselect')
+    else
+        setbufvar(bnr, '&completeopt', 'menuone,popup,noinsert,noselect')
+    endif
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
     # if false, <Enter> in insert mode accepts completion choice and inserts a newline
@@ -311,7 +342,10 @@ export def Enable()
             autocmd TextChangedP <buffer> VimCompletePopupVisible()
         endif
         autocmd BufEnter,BufReadPost <buffer> SetupCompletors()
-        autocmd CompleteDone <buffer> call LRU_Cache()
+        autocmd CompleteDone <buffer> LRU_Cache()
+        if options.customInfoWindow
+            autocmd CompleteChanged <buffer> InfoPopupWindow()
+        endif
     augroup END
 
     util.TabEnable()

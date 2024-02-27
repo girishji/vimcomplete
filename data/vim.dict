@@ -27,6 +27,9 @@ CmdwinEnter
 CmdwinLeave
 ColorScheme
 Comment
+CompleteChanged
+CompleteDone
+CompleteDonePre
 CursorHold
 CursorHoldI
 CursorMoved
@@ -139,6 +142,9 @@ augroup
 aunmenu
 autochdir
 autocmd
+autocmd_add
+autocmd_delete
+autocmd_get
 autoindent
 autoload
 autoread

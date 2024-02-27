@@ -117,6 +117,7 @@ Option|Type|Description
 `kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symboltext`.
 `customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
 `completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
+`customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
 
 
 ### Buffer Completion
@@ -355,6 +356,16 @@ g:vimcomplete_tab_enable = 1
 You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,
 `PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` highlight groups to alter the
 appearance of the popup menu.
+
+### Info Popup Window
+
+Vim's completion system opens an additional popup window next to the selected
+item if the item has additional info that need to be displayed. If you prefer to keep the
+default look of this window set `customInfoWindow` to `false`. Set it to `true` to see a more
+refined border. If you prefer to customize this window further use
+`g:VimCompleteInfoPopupOptionsSet()`. It takes a dictionary of popup window
+options like `borderchars`, `borderhighlight` and `popuphighlight`. See  `:h
+popup_create-arguments`.
 
 ## Commands
 

@@ -79,6 +79,10 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
     RegisterLsp()
 enddef
 
+def! g:VimCompleteInfoPopupOptionsSet(opts: dict<any>)
+    completor.info_popup_options->extend(opts)
+enddef
+
 def! g:VimCompleteOptionsGet(): dict<any>
     return completor.options->copy()
 enddef

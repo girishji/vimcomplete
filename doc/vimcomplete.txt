@@ -152,6 +152,10 @@ customCompletionKinds	Boolean option. Set this option to customize the 'kind'
 completionKinds		Dictionary option. Custom text to use when above option is
 			set. Default: `{}`.
 
+						*vimcomplete-customInfoWindow*
+customInfoWindow	Change the look of default info popup window
+			(explained below). Default: `true`.
+
 Completion Provider General Options~
 
 Following options are common to all completion provider modules.
@@ -436,6 +440,16 @@ Highlight Groups ~
 You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,
 `PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` highlight groups to alter the
 appearance of the popup menu.
+
+Info Popup Window ~
+
+Vim's completion system opens an additional popup window next to the selected
+item if the item has additional info that need to be displayed. If you prefer
+to keep the default look of this window set `customInfoWindow` to `false`. Set
+it to `true` to see a more refined border. If you prefer to customize this
+window further use `g:VimCompleteInfoPopupOptionsSet()`. It takes a dictionary
+of popup window options like `borderchars`, `borderhighlight` and
+`popuphighlight`. See |popup_create-arguments|.
 
 ==============================================================================
 6. Enable and Disable 		*vimcomplete_disable* *vimcomplete-enable*
