@@ -360,12 +360,12 @@ appearance of the popup menu.
 ### Info Popup Window
 
 Vim's completion system opens an additional popup window next to the selected
-item if the item has additional info that need to be displayed. If you prefer to keep the
+item if the item has additional info that needs to be displayed. If you prefer to keep the
 default look of this window set `customInfoWindow` to `false`. Set it to `true` to see a more
 refined border. If you prefer to customize this window further use
 `g:VimCompleteInfoPopupOptionsSet()`. It takes a dictionary of popup window
-options like `borderchars`, `borderhighlight` and `popuphighlight`. See  `:h
-popup_create-arguments`.
+options. See `:h popup_create-arguments`. You can set `borderchars`,
+`borderhighlight` and `popuphighlight` for instance.
 
 ## Commands
 
