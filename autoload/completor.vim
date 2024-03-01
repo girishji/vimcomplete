@@ -224,7 +224,6 @@ def VimComplete()
     if exists('*vsnip#jumpable') && vsnip#jumpable(1)
         return
     endif
-    all
     if line == prevCompletionInput
         # Text does not change after <c-e> or <c-y> but TextChanged will get
         # called anyway. To avoid <c-e> from closing popup and reopening
