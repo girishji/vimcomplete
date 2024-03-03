@@ -20,8 +20,8 @@ BufWrite
 BufWriteCmd
 BufWritePost
 BufWritePre
-CmdlineEnter
 CmdlineChanged
+CmdlineEnter
 CmdlineLeave
 CmdwinEnter
 CmdwinLeave
@@ -216,6 +216,7 @@ casemap
 catch
 cbuffer
 cc
+cchar
 cclose
 cd
 cdpath
@@ -292,12 +293,16 @@ complete_add
 complete_check
 completefunc
 completeopt
+conceal
 concealcursor
+concealends
 conceallevel
 confirm
-const
 conskey
+const
 contained
+contained
+containedin
 containedin
 contains
 continue
@@ -721,8 +726,8 @@ mapcheck
 mapclear
 maplist
 mapnew
-mapset
 mapping
+mapset
 mark
 marks
 match
@@ -779,6 +784,7 @@ nbkey
 new
 newtab
 next
+nextgroup
 nextnonblank
 nmap
 nmapclear
@@ -905,6 +911,7 @@ redraw
 redrawstatus
 redrawtime
 regexpengine
+region
 registers
 relativenumber
 reltime
@@ -1033,6 +1040,9 @@ simalt
 simplify
 sin
 sinh
+skipempty
+skipnl
+skipwhite
 slast
 sleep
 smagic
@@ -1229,6 +1239,7 @@ topleft
 toupper
 tprevious
 tr
+transparent
 trewind
 trunc
 try
