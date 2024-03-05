@@ -1,6 +1,6 @@
 vim9script
 
-import autoload 'util.vim'
+import autoload './util.vim'
 
 export var options: dict<any> = {
     enable: false,

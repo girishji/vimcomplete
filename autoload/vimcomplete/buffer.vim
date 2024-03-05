@@ -1,6 +1,6 @@
 vim9script
 
-import autoload 'util.vim'
+import autoload './util.vim'
 
 # Completion from current and loaded buffers
 

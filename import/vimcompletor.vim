@@ -1,7 +1,7 @@
 vim9script
 
-import autoload 'util.vim'
-import autoload 'completor.vim'
+import autoload '../autoload/vimcomplete/util.vim'
+import autoload '../autoload/vimcomplete/completor.vim'
 
 export def Register(name: string, Completor: func, ftype: list<string>, priority: number)
     completor.Register(name, Completor, ftype, priority)

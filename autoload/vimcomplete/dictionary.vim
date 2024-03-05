@@ -1,6 +1,6 @@
 vim9script
 
-import autoload 'util.vim'
+import autoload './util.vim'
 
 # /usr/share/dict/words is ~2M. Reading in the file took 33ms, and <c-x><c-k>
 # for string 'za' took 62ms. Parsing each line into a list took 1.2 sec. Three

@@ -9,7 +9,7 @@ vim9script
 
 g:loaded_vimcomplete = true
 
-import autoload '../autoload/completor.vim'
+import autoload '../autoload/vimcomplete/completor.vim'
 
 def VimCompEnable(filetypes: string)
     var ftypes = filetypes->split()

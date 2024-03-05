@@ -2,7 +2,7 @@ vim9script
 
 # Interface to github.com/hrsh7th/vim-vsnip
 
-import autoload 'util.vim'
+import autoload './util.vim'
 
 export var options: dict<any> = {
     enable: false,

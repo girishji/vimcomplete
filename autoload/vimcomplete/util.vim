@@ -66,7 +66,7 @@ var defaultKinds: dict<list<string>> = {
     'Command':        ['c', "󰘳"],
 }
 
-import autoload 'completor.vim'
+import autoload './completor.vim'
 
 # Map LSP complete item kind to a character
 export def GetItemKindValue(kind: string): string
