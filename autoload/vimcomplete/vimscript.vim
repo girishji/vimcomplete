@@ -69,7 +69,7 @@ def GetDictCompletion(prefix: string): list<string>
         if vpath->empty()
             return []
         endif
-        var path = fnamemodify(vpath[0].name, ':p:h:h')
+        var path = fnamemodify(vpath[0].name, ':p:h:h:h')
         var fname = $'{path}/data/vim.dict'
         dictwords = fname->readfile()
     endif
