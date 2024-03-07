@@ -14,7 +14,8 @@ import autoload '../autoload/vimcomplete/omnifunc.vim'
 import autoload '../autoload/vimcomplete/vimscript.vim'
 import autoload '../autoload/vimcomplete/vsnip.vim'
 import autoload '../autoload/vimcomplete/util.vim'
-import '../autoload/vimcomplete/completor.vim'
+import autoload '../autoload/vimcomplete/completor.vim'
+# import '../autoload/vimcomplete/completor.vim'
 
 def RegisterPlugins()
     def Register(provider: string, ftypes: list<string>, priority: number)
@@ -56,15 +57,10 @@ autocmd User VimCompleteLoaded ++once call RegisterPlugins()
 autocmd User LspAttached call RegisterLsp()
 autocmd VimEnter * lsp.Setup()
 
-
 # Set vimcomplete plugin options from 'opts'.
 def! g:VimCompleteOptionsSet(opts: dict<any>)
-    completor.alloptions = opts->copy()
-    for key in opts->keys()
-        var newopts = completor.alloptions[$'{key}']
-        if newopts->has_key('maxCount')
-            newopts.maxCount = abs(newopts.maxCount)
-        endif
+    completor.SetOptions(opts)
+    for [key, newopts] in opts->items()
         if !getscriptinfo({ name: $'vimcomplete/autoload/vimcomplete/{key}' })->empty()
             var o = eval($'{key}.options')
             o->extend(newopts)

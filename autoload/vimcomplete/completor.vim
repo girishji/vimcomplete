@@ -18,7 +18,15 @@ export var options: dict<any> = {
     customInfoWindow: true,
 }
 
-export var alloptions: dict<any> = {}
+var saved_options: dict<any> = {}
+
+export def GetOptions(provider: string): dict<any>
+    return saved_options->get(provider, {})
+enddef
+
+export def SetOptions(opts: dict<any>)
+    saved_options = opts
+enddef
 
 var registered: dict<any> = { any: [] }
 var completors: list<any>
