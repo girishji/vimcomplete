@@ -496,6 +496,18 @@ The name of the completion function does not matter, but it should take two argu
 
 When users set options through the configuration file, a `User` event with type `VimCompleteOptionsChanged` is issued. The plugin should register for this event and update its internal state accordingly.
 
+## Other Plugins to Enhance Your Workflow
+
+1. [**devdocs.vim**](https://github.com/girishji/devdocs.vim) - browse documentation from [devdocs.io](https://devdocs.io).
+
+2. [**easyjump.vim**](https://github.com/girishji/easyjump.vim) - makes code navigation a breeze.
+
+3. [**fFtT.vim**](https://github.com/girishji/fFtT.vim) - accurately target words in a line.
+
+4. [**scope.vim**](https://github.com/girishji/scope.vim) - fuzzy find anything.
+
+5. [**vimcomplete**](https://github.com/girishji/autosuggest.vim) - live autocompletion for Vim's command mode.
+
 ## Contributing
 
 Pull requests are welcomed.
