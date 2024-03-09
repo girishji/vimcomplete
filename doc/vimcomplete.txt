@@ -83,7 +83,7 @@ file:
 5. Configuration				*vimcomplete-configuration*
 
 
-The completion sources mentioned above, aside from buffer words and path
+The completion sources mentioned above, aside from buffer words, path and lsp
 completion, are not enabled by default. This section provides instructions on
 configuring both the completion sources and the completion engine itself.
 
