@@ -15,7 +15,6 @@ import autoload '../autoload/vimcomplete/vimscript.vim'
 import autoload '../autoload/vimcomplete/vsnip.vim'
 import autoload '../autoload/vimcomplete/util.vim'
 import autoload '../autoload/vimcomplete/completor.vim'
-# import '../autoload/vimcomplete/completor.vim'
 
 def RegisterPlugins()
     def Register(provider: string, ftypes: list<string>, priority: number)

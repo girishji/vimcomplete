@@ -3,7 +3,7 @@ vim9script
 # Interface to https://github.com/yegappan/lsp through omnifunc
 
 export var options: dict<any> = {
-    enable: false,
+    enable: true,
     maxCount: 10,
     keywordOnly: false, # 'false' will complete after '.' in 'builtins.'
     dup: true,

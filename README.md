@@ -97,7 +97,7 @@ packadd vimcomplete
 
 ## Configuration
 
-The completion sources mentioned above, aside from [buffer](#Buffer-Completion) and [path](#path-completion) completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
+The completion sources mentioned above, aside from [buffer](#Buffer-Completion), [path](#path-completion), and [lsp](#lsp-completion) completion, are not enabled by default. This section provides instructions on configuring both the completion sources and the completion engine itself.
 
 ### Completion Engine
 
@@ -193,7 +193,7 @@ This source obtains autocompletion items from the
 
 Option|Type|Description
 ------|----|-----------
-`enable`|`Boolean`|Set this to `true` to enable LSP completion. Default: `false`.
+`enable`|`Boolean`|Set this to `false` to disable LSP completion. Default: `true`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
 `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
