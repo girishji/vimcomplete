@@ -12,7 +12,7 @@
   <a href="#Writing-Your-Own-Extension">Add-on</a>
 </p>
 
-![Demo](img/demo.gif)
+![Demo](https://gist.githubusercontent.com/girishji/40e35cd669626212a9691140de4bd6e7/raw/6041405e45072a7fbc4e352cbd461e450a7af90e/vimcomplete-demo.gif)
 
 
 ## Key Features
