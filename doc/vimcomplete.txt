@@ -1,6 +1,6 @@
 vimcomplete.txt*		Autocompletion Plugin for Vim
 
-Author: Girish Palya (girishji AT gmail DOT com)
+Author: Girish (girishji AT gmail DOT com)
 For Vim version 9.0 and above
 
 ==============================================================================
