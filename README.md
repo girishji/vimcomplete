@@ -506,7 +506,7 @@ When users set options through the configuration file, a `User` event with type 
 
 4. [**scope.vim**](https://github.com/girishji/scope.vim) - fuzzy find anything.
 
-5. [**vimcomplete**](https://github.com/girishji/autosuggest.vim) - live autocompletion for Vim's command mode.
+5. [**autosuggest.vim**](https://github.com/girishji/autosuggest.vim) - autocompletion for Vim's command mode.
 
 ## Contributing
 
