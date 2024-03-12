@@ -1,4 +1,4 @@
-vimcomplete.txt*		Autocompletion Plugin for Vim
+*vimcomplete.txt*		Autocompletion Plugin for Vim
 
 Author: Girish (girishji AT gmail DOT com)
 For Vim version 9.0 and above
