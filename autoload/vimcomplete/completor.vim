@@ -224,21 +224,37 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     endif
 enddef
 
-var prevCompletionInput: string = ''
+# Text does not change after <c-e> or <c-y> but TextChanged will get
+# called anyway. To avoid <c-e> and <c-y> from closing popup and reopening
+# again, set a flag.
+# https://github.com/girishji/vimcomplete/issues/37
+var skip_complete: bool = false
 
-def VimComplete()
-    var line = GetCurLine()
+def SkipCompleteSet(): string
+    if pumvisible()
+        skip_complete = true
+    endif
+    return ''
+enddef
+inoremap <silent><expr> <Plug>(vimcomplete-skip) SkipCompleteSet()
+
+def SkipComplete(): bool
+    if skip_complete
+        skip_complete = false
+        return true
+    endif
     # if exists('*vsnip#jumpable') && (vsnip#jumpable(1) || vsnip#jumpable(-1))
     if exists('*vsnip#jumpable') && vsnip#jumpable(1)
+        return true
+    endif
+    return false
+enddef
+
+def VimComplete()
+    if SkipComplete()
         return
     endif
-    if line == prevCompletionInput
-        # Text does not change after <c-e> or <c-y> but TextChanged will get
-        # called anyway. To avoid <c-e> from closing popup and reopening
-        # again check if text is really different.
-        return
-    endif
-    prevCompletionInput = line
+    var line = GetCurLine()
     if line->empty()
         return
     endif
@@ -337,7 +353,10 @@ export def Enable()
         :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
     endif
 
-    if !options.alwaysOn
+    if options.alwaysOn
+        :inoremap <buffer> <c-y> <Plug>(vimcomplete-skip)<c-y>
+        :inoremap <buffer> <c-e> <Plug>(vimcomplete-skip)<c-e>
+    else
         :silent! iunmap <buffer> <c-space>
         :inoremap <buffer> <c-space> <cmd>VimCompleteCmd<cr>
         :imap <buffer> <C-@> <C-Space>
