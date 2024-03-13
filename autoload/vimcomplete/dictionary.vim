@@ -221,7 +221,15 @@ export def Completor(findstart: number, base: string): any
         return 1
     elseif findstart == 1
         var line = getline('.')->strpart(0, col('.') - 1)
-        var prefix = OnlyWords() ? line->matchstr('\w\+$') : line->matchstr(MatchStr())
+        var prefix: string
+        if OnlyWords()
+            prefix = line->matchstr('\w\+$')
+        else
+            prefix = line->matchstr(MatchStr())
+            if prefix == null_string
+                prefix = line->matchstr('\S\+$')
+            endif
+        endif
         if prefix == ''
             return -2
         endif
