@@ -21,6 +21,7 @@ export var options: dict<any> = {
     timeout: 0, # not implemented yet
     dup: false, # suppress duplicates
     matchStr: '\k\+$',
+    matchAny: false,
 }
 
 def GetProperty(s: string): any
@@ -226,7 +227,7 @@ export def Completor(findstart: number, base: string): any
             prefix = line->matchstr('\w\+$')
         else
             prefix = line->matchstr(MatchStr())
-            if prefix == null_string
+            if prefix == null_string && options.matchAny
                 prefix = line->matchstr('\S\+$')
             endif
         endif
