@@ -105,19 +105,19 @@ This entity retrieves completion items from the enabled completion sources and t
 
 Option|Type|Description
 ------|----|-----------
-`sortByLength`|`Boolean`|Sort completion items by length. Default: `false`.
+`alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
+`completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
+`customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
+`customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
+`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symboltext`.
+`matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
+`noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). Default: `false`.
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
-`matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
-`shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
-`noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). Default: `false`.
-`alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
-`showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
 `showKind`|`Boolean`|Show the type ('kind') of completion item returned by LSP server. Default: `true`.
-`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symboltext`.
-`customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
-`completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
-`customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
+`showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
+`shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
+`sortByLength`|`Boolean`|Sort completion items by length. Default: `false`.
 `textAction`|`Boolean`|When completing 'foo\<cursor\>bar' and the candidate is 'foosome', setting to `true` provides 'foosome' instead of 'foosomebar'. Default: `true`.
 
 
@@ -127,17 +127,17 @@ The current buffer, as well as other open buffers, are searched for completion c
 
 Option|Type|Description
 ------|----|-----------
+`completionMatcher`| `String` | Enable fuzzy or case insensitive completion. Accepts one of the following values: `case` for case sensitive matching, `icase` for ignoring case while matching, and `fuzzy` for fuzzy match. Default: `icase`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `enable`|`Boolean`|Set this to `false` to disable buffer completion. Default: `true`.
+`envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
-`priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
-`timeout`          | `Number`  | Maximum time allocated for searching completion candidates in the current buffer. Default: `100` milliseconds. If searching in multiple buffers, an additional 100 milliseconds is allocated. The search is aborted if any key is pressed.
-`searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
 `otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Default: `3`.
-`completionMatcher`| `String` | Enable fuzzy or case insensitive completion. Accepts one of the following values: `case` for case sensitive matching, `icase` for ignoring case while matching, and `fuzzy` for fuzzy match. Default: `icase`.
+`priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
+`timeout`          | `Number`  | Maximum time allocated for searching completion candidates in the current buffer. Default: `100` milliseconds. If searching in multiple buffers, an additional 100 milliseconds is allocated. The search is aborted if any key is pressed.
 `urlComplete`      | `Boolean` | Enable completion of http links in entirety. This is useful when typing the same URL multiple times. Default: `false`.
-`envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
 
 ### Dictionary Completion
 
@@ -150,15 +150,15 @@ Additionally, the dictionary files can include comments.
 
 Option|Type|Description
 ------|----|-----------
+`commentStr`       | `String` | Any lines beginning with this string is ignored. Default: `---`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `false`.
 `enable`|`Boolean`|Set this to `true` to enable dictionary completion. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['text', 'markdown']`.
-`maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
-`priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `false`.
-`sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Searching is case sensitive. Default: `true`.
-`commentStr`       | `String` | Any lines beginning with this string is ignored. Default: `---`.
-`onlyWords`| `Boolean` | Set this to `true` if both the prefix you are trying to complete and the dictionary contain alphanumeric characters only (text files). For programming language dictionaries it should be set to `false`, since they can contain characters like `@`, `.`, `(`, etc. Default: `false`.
 `matcher`| `String` | This option is active only when `onlyWords` is `true` (text files). It makes sense only when `sortedDict` is set to `false` since binary search is done case sensitive (assuming that sorting of the dictionary file is done case sensitive). Accepted values are `case` (case sensitive) and `ignorecase`. Default: `case`.
+`maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
+`onlyWords`| `Boolean` | Set this to `true` if both the prefix you are trying to complete and the dictionary contain alphanumeric characters only (text files). For programming language dictionaries it should be set to `false`, since they can contain characters like `@`, `.`, `(`, etc. Default: `false`.
+`priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
+`sortedDict`       | `Boolean` | `true` if the dictionary file is sorted, `false` otherwise. This option affects both performance and correctness. Take care to set it correctly. Searching is case sensitive. Default: `true`.
 
 #### Sample Configuration
 
@@ -194,12 +194,12 @@ This source obtains autocompletion items from the
 
 Option|Type|Description
 ------|----|-----------
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `enable`|`Boolean`|Set this to `false` to disable LSP completion. Default: `true`.
+`filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
+`keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
-`keywordOnly`|`Boolean`|If `true` completion will be triggered after any keyword character as defined by the file type (`:h 'iskeyword'`). `false` will trigger completion after non-keywords like `.` (for instance). Default: `false`.
-`filetypes`|`List`|This option need not be specified. If this option is not specified or is empty, completion items are sourced for any file type for which LSP is configured. Otherwise, items are sourced only for listed file types. Default: Not specified.
 
 > [!NOTE]
 > For fuzzy and case insensitive completion, set the `completionMatcher` option in the [LSP client](https://github.com/yegappan/lsp). See `:h lsp-opt-completionMatcher`.
@@ -218,12 +218,12 @@ This source provides snippet completion from [vim-vsnip](https://github.com/hrsh
 
 Option|Type|Description
 ------|----|-----------
+`adaptNonKeyword`|`Boolean`|(experimental) When completing snippets starting with non-keywords, say '#i' for instance, adjust completion such that they are compatible with items starting with keywords like 'i' (returned by LSP, for instance). Default is `false`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `enable`|`Boolean`|Set this to `true` to enable this source. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
-`adaptNonKeyword`|`Boolean`|(experimental) When completing snippets starting with non-keywords, say '#i' for instance, adjust completion such that they are compatible with items starting with keywords like 'i' (returned by LSP, for instance). Default is `false`.
 
 > [!NOTE]
 > The `<Tab>` key facilitates movement within a snippet. When a snippet is active, the popup completion menu won't open. However, the popup window will activate upon reaching the final stop within the snippet. If you wish to navigate backward within the snippet using `<S-Tab>`, you can dismiss the popup by using `CTRL-E`.
@@ -264,11 +264,11 @@ Also, any user defined `omnifunc` can also be used for autocompletion.
 
 Option|Type|Description
 ------|----|-----------
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `enable`|`Boolean`|Set this to `true` to enable omnifunc completion. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['python', 'javascript']`.
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 
 ### Path Completion
 
@@ -276,14 +276,14 @@ Both relative and absolute path names are completed.
 
 | Option              | Type      | Description   |
 |---------------------|-----------|---------------|
+| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the directory from which Vim is started. Default: `true`.    |
+| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 | `enable`|`Boolean`|Set this to `false` to disable path completion. Default: `true`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
+| `groupDirectoriesFirst`| `Boolean` | Group directories before files (like linux's 'ls --group-directories-first'). Default: `false`.    |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `12`. |
-| `bufferRelativePath`| `Boolean` | Interpret relative paths relative to the directory of the current buffer. Otherwise paths are interpreted relative to the directory from which Vim is started. Default: `true`.    |
-| `groupDirectoriesFirst`| `Boolean` | Group directories before files (like linux's 'ls --group-directories-first'). Default: `false`.    |
 | `showPathSeparatorAtEnd`| `Boolean` | Show path separator (`/` in unix) at the end of directory entry. Default: `false`.    |
-| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 > [!NOTE]
 > Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
@@ -294,11 +294,11 @@ Abbreviations (`:h abbreviations`) are completed based on the `id`.
 
 | Option              | Type      | Description   |
 |---------------------|-----------|---------------|
+| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 | `enable`|`Boolean`|Set this to `true` to enable abbreviation completion. Default: `false`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types). |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
-| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 ### Vim9script Language Completion
 
@@ -308,11 +308,11 @@ the like. Enable this if you are developing a Vim plugin or configuring a non-tr
 
 | Option              | Type      | Description   |
 |---------------------|-----------|---------------|
+| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 | `enable`|`Boolean`|Set this to `false` to disable this source. Default: `true`. |
 | `filetypes`|`List`|List of file types for which this source is enabled. Default: `['vim']`. |
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
-| `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`. |
 
 
 ### Configure Options
