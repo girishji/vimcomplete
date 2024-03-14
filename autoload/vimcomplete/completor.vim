@@ -334,7 +334,7 @@ def ConcealSave(id: number)
     conceal_saved.concealcursor = &concealcursor
 enddef
 
-def TextAction()
+export def TextAction()
     Unconceal()
     if v:completed_item->empty()
         # CompleteDone is triggered very frequently with empty dict
