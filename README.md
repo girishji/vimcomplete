@@ -118,7 +118,7 @@ Option|Type|Description
 `showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
 `sortByLength`|`Boolean`|Sort completion items by length. Default: `false`.
-`textAction`|`Boolean`|When completing 'foo\<cursor\>bar' and the candidate is 'foosome', setting to `true` provides 'foosome' instead of 'foosomebar'. Default: `true`.
+`textAction`|`Boolean`|When completing 'foo\<cursor\>bar' and the candidate is 'foosome', setting to `true` provides 'foosome' instead of 'foosomebar'. Default: `false`.
 
 
 ### Buffer Completion

@@ -16,7 +16,7 @@ export var options: dict<any> = {
     completionKinds: {},
     kindDisplayType: 'symboltext', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
     customInfoWindow: true,
-    textAction: true,
+    textAction: false,
 }
 
 var saved_options: dict<any> = {}

@@ -159,9 +159,8 @@ customInfoWindow	Change the look of default info popup window
 						*vimcomplete-textAction*
 textAction		When completing 'foo<cursor>bar' and the candidate is
 			'foosome', setting to `true` provides 'foosome'
-			instead of 'foosomebar'. Default: `true`.
+			instead of 'foosomebar'. Default: `false`.
 
-`textAction`|`Boolean`
 Completion Provider General Options~
 
 Following options are common to all completion provider modules.
