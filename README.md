@@ -118,6 +118,7 @@ Option|Type|Description
 `customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
 `completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
 `customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
+`textAction`|`Boolean`|While completing 'foo<cursor>bar' and completion candidate is 'foosome', you get 'foosome' instead of 'foosomebar'. Default: `true`.
 
 
 ### Buffer Completion

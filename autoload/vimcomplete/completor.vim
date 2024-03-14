@@ -16,6 +16,7 @@ export var options: dict<any> = {
     completionKinds: {},
     kindDisplayType: 'symboltext', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
     customInfoWindow: true,
+    textAction: true,
 }
 
 var saved_options: dict<any> = {}
@@ -299,10 +300,72 @@ def VimCompletePopupVisible()
 enddef
 
 def LRU_Cache()
-    if !options.recency || v:completed_item->type() != v:t_dict
+    if v:completed_item->empty()
+        # CompleteDone is triggered very frequently with empty dict
         return
     endif
-    recent.CacheAdd(v:completed_item)
+    if options.recency
+        recent.CacheAdd(v:completed_item)
+    endif
+enddef
+
+# when completing word where cursor is in the middle, like xxx|yyy, yyy should
+# be hidden while tabbing through menu.
+var conceal_saved = {
+    id: -1,
+    conceallevel: 0,
+    concealcursor: '',
+}
+
+def Unconceal(): string
+    if conceal_saved.id > 0
+        conceal_saved.id->matchdelete()
+        conceal_saved.id = 0
+        &conceallevel = conceal_saved.conceallevel
+        &concealcursor = conceal_saved.concealcursor
+    endif
+    return ''
+enddef
+inoremap <silent><expr> <Plug>(vimcomplete-unconceal) Unconceal()
+
+def ConcealSave(id: number)
+    conceal_saved.id = id
+    conceal_saved.conceallevel = &conceallevel
+    conceal_saved.concealcursor = &concealcursor
+enddef
+
+def TextAction()
+    Unconceal()
+    if v:completed_item->empty()
+        # CompleteDone is triggered very frequently with empty dict
+        return
+    endif
+    # when cursor is in the middle, say xx|yy (| is cursor) pmenu leaves yy at
+    # the end after insertion. it looks like xxfooyy. in many cases it is best
+    # to remove yy.
+    var line = getline('.')
+    var curpos = col('.')
+    var postfix = line->matchstr('^\k\+', curpos - 1)
+    if postfix != null_string
+        var newline = line->strpart(0, curpos - 1) .. line->strpart(curpos + postfix->len() - 1)
+        setline('.', newline)
+    endif
+enddef
+
+def TextActionPre()
+    # hide text that is going to be removed by TextAction()
+    var line = getline('.')
+    var curpos = col('.')
+    var postfix = line->matchstr('^\k\+', curpos - 1)
+    if postfix != null_string && v:event.completed_item->has_key('word')
+        Unconceal()
+        var id = matchaddpos('Conceal', [[line('.'), curpos, postfix->len()]], 100, -1, {conceal: ''})
+        if id > 0
+            ConcealSave(id)
+            :set conceallevel=3
+            :set concealcursor=i
+        endif
+    endif
 enddef
 
 command VimCompleteCmd pumvisible() ? VimCompletePopupVisible() : VimComplete()
@@ -362,6 +425,10 @@ export def Enable()
         :imap <buffer> <C-@> <C-Space>
     endif
 
+    if options.textAction
+        :inoremap <buffer> <c-c> <Plug>(vimcomplete-unconceal)<c-c>
+    endif
+
     augroup VimCompBufAutocmds | autocmd! * <buffer>
         if options.alwaysOn
             autocmd TextChangedI <buffer> VimComplete()
@@ -369,6 +436,11 @@ export def Enable()
         endif
         autocmd BufEnter,BufReadPost <buffer> SetupCompletors()
         autocmd CompleteDone <buffer> LRU_Cache()
+        if options.textAction
+            autocmd CompleteDone <buffer> TextAction()
+            autocmd CompleteChanged <buffer> TextActionPre()
+            autocmd InsertLeave <buffer> Unconceal()
+        endif
         if options.customInfoWindow
             autocmd CompleteChanged <buffer> InfoPopupWindow()
         endif

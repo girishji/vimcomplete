@@ -156,6 +156,12 @@ completionKinds		Dictionary option. Custom text to use when above option is
 customInfoWindow	Change the look of default info popup window
 			(explained below). Default: `true`.
 
+						*vimcomplete-textAction*
+textAction		While completing 'foo<cursor>bar' and completion
+			candidate is 'foosome', you get 'foosome' instead of
+			'foosomebar'. Default: `true`.
+
+`textAction`|`Boolean`
 Completion Provider General Options~
 
 Following options are common to all completion provider modules.
