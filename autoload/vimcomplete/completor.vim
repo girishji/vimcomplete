@@ -18,7 +18,8 @@ export var options: dict<any> = {
     completionKinds: {},
     kindDisplayType: 'symboltext', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
     customInfoWindow: true,
-    textAction: false,
+    postfixClobber: false,
+    postfixHighlight: false,
 }
 
 var saved_options: dict<any> = {}
@@ -339,8 +340,14 @@ export def Enable()
         :imap <buffer> <C-@> <C-Space>
     endif
 
-    if options.textAction
-        :inoremap <buffer> <c-c> <Plug>(vimcomplete-unconceal)<c-c>
+    if options.postfixClobber
+        :inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction(true)
+        :inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
+    elseif options.postfixHighlight
+        :inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction()
+        :inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
+        :highlight default link VimCompletePostfix DiffChange
+        :inoremap <expr> <c-l> util.TextActionWrapper()
     endif
 
     augroup VimCompBufAutocmds | autocmd! * <buffer>
@@ -350,10 +357,13 @@ export def Enable()
         endif
         autocmd BufEnter,BufReadPost <buffer> SetupCompletors()
         autocmd CompleteDone <buffer> LRU_Cache()
-        if options.textAction
-            autocmd CompleteDone <buffer> TextAction()
-            autocmd CompleteChanged <buffer> TextActionPre()
-            autocmd InsertLeave <buffer> Unconceal()
+        if options.postfixClobber
+            autocmd CompleteDone <buffer> util.TextAction(true)
+            autocmd CompleteChanged <buffer> util.TextActionPre(true)
+            autocmd InsertLeave <buffer> util.UndoTextAction(true)
+        elseif options.postfixHighlight
+            autocmd CompleteChanged <buffer> util.TextActionPre()
+            autocmd CompleteDone,InsertLeave <buffer> util.UndoTextAction()
         endif
         if options.customInfoWindow
             autocmd CompleteChanged <buffer> util.InfoPopupWindow()

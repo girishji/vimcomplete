@@ -112,14 +112,14 @@ Option|Type|Description
 `kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symboltext`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
 `noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). Default: `false`.
+`postfixClobber` | `Boolean` | When completing 'foo\<cursor\>bar' and the candidate is 'foosome', enabling this option (`true`) will complete 'foosome' instead of 'foosomebar'. Default: `false`.
+`postfixHighlight` | `Boolean` | This option functions similarly to `postfixClobber`, but instead of deleting adjoining text to the right of the completed text, it highlights it using the 'VimCompletePostfix' highlight group. Use `<C-l>` to delete the adjoining text. Default: `false`.
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
 `showKind`|`Boolean`|Show the type ('kind') of completion item returned by LSP server. Default: `true`.
 `showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
 `sortByLength`|`Boolean`|Sort completion items by length. Default: `false`.
-`textAction`|`Boolean`|When completing 'foo\<cursor\>bar' and the candidate is 'foosome', setting to `true` provides 'foosome' instead of 'foosomebar'. Default: `false`.
-
 
 ### Buffer Completion
 
@@ -355,8 +355,10 @@ g:vimcomplete_tab_enable = 1
 ### Highlight Groups
 
 You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,
-`PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` highlight groups to alter the
+`PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` Vim highlight groups to alter the
 appearance of the popup menu.
+
+If `postfixHighlight` option is enabled, you can utilize the `VimCompletePostfix` highlight group to adjust the appearance of text adjacent to the completion. By default, it is linked to `DiffChange`.
 
 ### Info Popup Window
 
