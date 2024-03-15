@@ -322,7 +322,7 @@ Options can be configured using the global function `g:VimCompleteOptionsSet()`.
 ```vim
 vim9script
 var options = {
-    completor: { shuffleEqualPriority: true },
+    completor: { shuffleEqualPriority: true, postfixHighlight: true },
     buffer: { enable: true, priority: 10, urlComplete: true, envComplete: true },
     abbrev: { enable: true, priority: 10 },
     lsp: { enable: true, priority: 10, maxCount: 5 },
