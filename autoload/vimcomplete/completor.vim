@@ -2,6 +2,8 @@ vim9script
 
 # Main autocompletion engine
 
+import autoload './util.vim'
+
 export var options: dict<any> = {
     noNewlineInCompletion: false,
     matchCase: true,
@@ -309,95 +311,6 @@ def LRU_Cache()
     endif
 enddef
 
-# when completing word where cursor is in the middle, like xxx|yyy, yyy should
-# be hidden while tabbing through menu.
-var conceal_saved = {
-    id: -1,
-    conceallevel: 0,
-    concealcursor: '',
-}
-
-def Unconceal(): string
-    if conceal_saved.id > 0
-        conceal_saved.id->matchdelete()
-        conceal_saved.id = 0
-        &conceallevel = conceal_saved.conceallevel
-        &concealcursor = conceal_saved.concealcursor
-    endif
-    return ''
-enddef
-inoremap <silent><expr> <Plug>(vimcomplete-unconceal) Unconceal()
-
-def ConcealSave(id: number)
-    conceal_saved.id = id
-    conceal_saved.conceallevel = &conceallevel
-    conceal_saved.concealcursor = &concealcursor
-enddef
-
-export def TextAction()
-    Unconceal()
-    if v:completed_item->empty()
-        # CompleteDone is triggered very frequently with empty dict
-        return
-    endif
-    # when cursor is in the middle, say xx|yy (| is cursor) pmenu leaves yy at
-    # the end after insertion. it looks like xxfooyy. in many cases it is best
-    # to remove yy.
-    var line = getline('.')
-    var curpos = col('.')
-    var postfix = line->matchstr('^\k\+', curpos - 1)
-    if postfix != null_string
-        var newline = line->strpart(0, curpos - 1) .. line->strpart(curpos + postfix->len() - 1)
-        setline('.', newline)
-    endif
-enddef
-
-def TextActionPre()
-    # hide text that is going to be removed by TextAction()
-    var line = getline('.')
-    var curpos = col('.')
-    var postfix = line->matchstr('^\k\+', curpos - 1)
-    if postfix != null_string && v:event.completed_item->has_key('word')
-        Unconceal()
-        var id = matchaddpos('Conceal', [[line('.'), curpos, postfix->len()]], 100, -1, {conceal: ''})
-        if id > 0
-            ConcealSave(id)
-            :set conceallevel=3
-            :set concealcursor=i
-        endif
-    endif
-enddef
-
-command VimCompleteCmd pumvisible() ? VimCompletePopupVisible() : VimComplete()
-
-export var info_popup_options = {
-    borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
-    drag: false,
-    close: 'none',
-}
-
-def InfoPopupWindow()
-    # the only way to change the look of info window is to set popuphidden,
-    # subscribe to CompleteChanged, and set the text.
-    var id = popup_findinfo()
-    if id > 0
-        # it is possible to set options only once since info popup window is
-        # persistent for a buffer, but it'd require caching a buffer local
-        # variable (setbufvar()). not worth it.
-        id->popup_setoptions(info_popup_options)
-        var item = v:event.completed_item
-        if item->has_key('info') && item.info != ''
-            id->popup_settext(item.info)
-            id->popup_show()
-        endif
-        # setting completeopt back to 'menuone' causes a flicker, so comment out.
-        # setbufvar(bufnr(), '&completeopt', 'menuone,popup,noinsert,noselect')
-        # autocmd! VimCompBufAutocmds CompleteChanged <buffer>
-    endif
-enddef
-
-import autoload './util.vim'
-
 export def Enable()
     var bnr = bufnr()
     if options.customInfoWindow
@@ -421,6 +334,7 @@ export def Enable()
         :inoremap <buffer> <c-e> <Plug>(vimcomplete-skip)<c-e>
     else
         :silent! iunmap <buffer> <c-space>
+        :command! VimCompleteCmd pumvisible() ? VimCompletePopupVisible() : VimComplete()
         :inoremap <buffer> <c-space> <cmd>VimCompleteCmd<cr>
         :imap <buffer> <C-@> <C-Space>
     endif
@@ -442,7 +356,7 @@ export def Enable()
             autocmd InsertLeave <buffer> Unconceal()
         endif
         if options.customInfoWindow
-            autocmd CompleteChanged <buffer> InfoPopupWindow()
+            autocmd CompleteChanged <buffer> util.InfoPopupWindow()
         endif
     augroup END
 

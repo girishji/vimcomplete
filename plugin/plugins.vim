@@ -75,7 +75,7 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
 enddef
 
 def! g:VimCompleteInfoPopupOptionsSet(opts: dict<any>)
-    completor.info_popup_options->extend(opts)
+    util.info_popup_options->extend(opts)
 enddef
 
 def! g:VimCompleteOptionsGet(): dict<any>
