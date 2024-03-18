@@ -105,7 +105,7 @@ This entity retrieves completion items from the enabled completion sources and t
 
 Option|Type|Description
 ------|----|-----------
-`alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. Default: true.
+`alwaysOn`|`Boolean`| If set to `true`, the completion menu is automatically triggered by any change in the buffer. If set to `false`, use `<C-Space>` (control-space) to manually trigger auto-completion. If you choose to map some other key instead, map your favorite key to `<Plug>(vimcomplete-do-complete)`. Default: true.
 `completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
 `customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
 `customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
@@ -340,7 +340,7 @@ var options = {
 autocmd VimEnter * g:VimCompleteOptionsSet(options)
 ```
 
-### Tab Completion
+### Tab Completion and Key Mappings
 
 You can map `<Tab>` and `<S-Tab>` keys to select autocompletion items. By default, `CTRL-N` and `CTRL-P` select the menu items.
 

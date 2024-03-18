@@ -124,8 +124,9 @@ noNewlineInCompletion 	|Boolean| option. If false, <Enter> key in insert mode
 
 							*vimcomplete-alwaysOn*
 alwaysOn 		|Boolean| option. If |false| use `<c-space>`
-			(control-space) to trigger completion. Default is
-			|true|.
+			(control-space) to trigger completion. If you choose
+			to map some other key instead, map your favorite key
+			to `<Plug>(vimcomplete-do-complete)`. Default is |true|.
 
 							*vimcomplete-showSource*
 showSource 		|Boolean| option. Show the source where the completion

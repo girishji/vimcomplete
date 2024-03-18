@@ -234,13 +234,12 @@ enddef
 # https://github.com/girishji/vimcomplete/issues/37
 var skip_complete: bool = false
 
-def SkipCompleteSet(): string
+export def SkipCompleteSet(): string
     if pumvisible()
         skip_complete = true
     endif
     return ''
 enddef
-inoremap <silent><expr> <Plug>(vimcomplete-skip) SkipCompleteSet()
 
 def SkipComplete(): bool
     if skip_complete
@@ -302,6 +301,11 @@ def VimCompletePopupVisible()
     endif
 enddef
 
+export def DoComplete(): string
+    pumvisible() ? VimCompletePopupVisible() : VimComplete()
+    return ''
+enddef
+
 def LRU_Cache()
     if v:completed_item->empty()
         # CompleteDone is triggered very frequently with empty dict
@@ -321,13 +325,16 @@ export def Enable()
     endif
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
-    # if false, <Enter> in insert mode accepts completion choice and inserts a newline
-    # if true, <cr> has default behavior (accept choice or dismiss popup
-    # without newline).
-    if options.noNewlineInCompletion
-        :silent! iunmap <buffer> <CR>
-    else
-        :inoremap <expr> <buffer> <CR> pumvisible() ? "\<C-Y>\<CR>" : "\<CR>"
+    if maparg('<cr>', 'i')->empty()
+        # if noNewlineInCompletion is false, <Enter> in insert mode accepts
+        # completion choice and inserts a newline
+        # if true, <cr> has default behavior (accept choice and insert newline,
+        # or dismiss popup without inserting newline).
+        if options.noNewlineInCompletion
+            :inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
+        else
+            :inoremap <expr> <buffer> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+        endif
     endif
 
     if options.alwaysOn
@@ -335,8 +342,7 @@ export def Enable()
         :inoremap <buffer> <c-e> <Plug>(vimcomplete-skip)<c-e>
     else
         :silent! iunmap <buffer> <c-space>
-        :command! VimCompleteCmd pumvisible() ? VimCompletePopupVisible() : VimComplete()
-        :inoremap <buffer> <c-space> <cmd>VimCompleteCmd<cr>
+        :inoremap <buffer> <c-space> <Plug>(vimcomplete-do-complete)
         :imap <buffer> <C-@> <C-Space>
     endif
 
