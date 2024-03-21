@@ -6,6 +6,7 @@ import autoload './util.vim'
 
 export var options: dict<any> = {
     noNewlineInCompletion: false,
+    noNewlineInCompletionEver: false,
     matchCase: true,
     sortByLength: false,
     recency: true,
