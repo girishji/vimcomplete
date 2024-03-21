@@ -11,7 +11,6 @@ import autoload './util.vim'
 export var options: dict<any> = {
     timeout: 100,
     maxCount: 10,
-    searchOtherBuffers: true,   # search other listed buffers
     otherBuffersCount: 3,       # Max count of other listed buffers to search
     completionMatcher: 'icase', # 'case', 'fuzzy', 'icase'
     urlComplete: false,
@@ -94,7 +93,7 @@ def GetLength(items: list<dict<any>>, prefix: string): number
 enddef
 
 def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
-    if GetLength(items, prefix) > options.maxCount
+    if GetLength(items, prefix) > options.maxCount || options.otherBuffersCount < 1
         return items
     endif
     var buffers = getbufinfo({ bufloaded: 1 })

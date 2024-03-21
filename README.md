@@ -135,9 +135,8 @@ Option|Type|Description
 `envComplete`      | `Boolean` | Complete environment variables after typing the `$` character. Default: `false`.
 `filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
-`otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Default: `3`.
+`otherBuffersCount`| `Number`  | Maximum number of other listed buffers to search. Set it to `0` to only search current buffer. Default: `3`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-`searchOtherBuffers`| `Boolean` | Determines whether to search other listed buffers. Default: `true`.
 `timeout`          | `Number`  | Maximum time allocated for searching completion candidates in the current buffer. Default: `100` milliseconds. If searching in multiple buffers, an additional 100 milliseconds is allocated. The search is aborted if any key is pressed.
 `urlComplete`      | `Boolean` | Enable completion of http links in entirety. This is useful when typing the same URL multiple times. Default: `false`.
 

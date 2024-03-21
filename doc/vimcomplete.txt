@@ -216,13 +216,10 @@ timeout 		|Number| option. Maximum time spent searching for
 			additional 100 milliseconds is allocated. Search
 			is aborted if any key is pressed.
 
-				       *vimcomplete-buffer-searchOtherBuffers*
-searchOtherBuffers 	|Boolean| option. Search other listed buffers. Default
-			is |true|
-
 					*vimcomplete-buffer-otherBuffersCount*
 otherBuffersCount 	|Number| option. Maximum number of other listed
-			buffers to search. Default is `3`.
+			buffers to search. Set it to `0` to only search
+			current buffer. Default is `3`.
 
 				    *vimcomplete-buffer-completionMatcher*
 completionMatcher 	|String| option. Enable fuzzy or case insensitive
