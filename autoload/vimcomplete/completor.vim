@@ -20,6 +20,8 @@ export var options: dict<any> = {
     customInfoWindow: true,
     postfixClobber: false,
     postfixHighlight: false,
+    noinsert: true,
+    noselect: true,
 }
 
 var saved_options: dict<any> = {}
@@ -324,10 +326,12 @@ enddef
 
 export def Enable()
     var bnr = bufnr()
+    var complopt = $'{options.noinsert ? ",noinsert" : ""}'
+    complopt ..= $'{options.noselect ? ",noselect" : ""}'
     if options.customInfoWindow
-        setbufvar(bnr, '&completeopt', 'menuone,popuphidden,noinsert,noselect')
+        setbufvar(bnr, '&completeopt', $'menuone,popuphidden{complopt}')
     else
-        setbufvar(bnr, '&completeopt', 'menuone,popup,noinsert,noselect')
+        setbufvar(bnr, '&completeopt', $'menuone,popup{complopt}')
     endif
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
