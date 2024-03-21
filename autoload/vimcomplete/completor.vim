@@ -340,7 +340,10 @@ export def Enable()
         # completion choice and inserts a newline
         # if true, <cr> has default behavior (accept choice and insert newline,
         # or dismiss popup without inserting newline).
-        if options.noNewlineInCompletion
+        # if noNewlineInCompletionEver is 'true' newline will not be inserted even if item is selected.
+        if options.noNewlineInCompletionEver
+            :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ? "\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
+        elseif options.noNewlineInCompletion
             :inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
         else
             :inoremap <expr> <buffer> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"

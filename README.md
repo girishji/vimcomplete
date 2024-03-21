@@ -111,7 +111,8 @@ Option|Type|Description
 `customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
 `kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symboltext`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
-`noNewlineInCompletion`|`Boolean`|If false, `<Enter>` ('<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). Default: `false`.
+`noNewlineInCompletion`|`Boolean`|If `false`, `<Enter>` ('\<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default Vim behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). See next option. Default: `false`.
+`noNewlineInCompletionEver`|`Boolean`|Unlike `noNewlineInCompletion`, newline will not be inserted even if item is selected, when `true`. This is probably what you are looking for. Default: `false`.
 `noinsert` | `Boolean` | Do not insert the first item in the menu until the user selects. See `:h 'completopt'`. Default: `true`.
 `noselect` | `Boolean` | Do not select the first item in the menu, force the user to select. See `:h 'completopt'`. Default: `true`.
 `postfixClobber` | `Boolean` | When completing 'foo\<cursor\>bar' and the candidate is 'foosome', enabling this option (`true`) will complete 'foosome' instead of 'foosomebar'. Default: `false`.

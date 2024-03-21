@@ -119,8 +119,16 @@ shuffleEqualPriority 	|Boolean| option. Items of equal priority modules are
 noNewlineInCompletion 	|Boolean| option. If false, <Enter> key in insert mode
 			always inserts a newline whether it accepts selected item
 			or if no item is selected. Otherwise, <CR> has default
-			behavior (accept selected item and dismiss popup
-			without inserting newline). Default is set to |false|.
+			Vim behavior (accept selected item and insert newline
+			if item is selected, or dismiss popup without
+			inserting newline if no item is selected). Default is
+			set to |false|.
+
+				   *vimcomplete-noNewlineInCompletionEver*
+noNewlineInCompletionEver   Boolean option. Unlike 'noNewlineInCompletion',
+			newline will not be inserted even if item is selected.
+			This is probably what you are looking for. Default
+			is set to |false|.
 
 							*vimcomplete-alwaysOn*
 alwaysOn 		|Boolean| option. If |false| use `<c-space>`
