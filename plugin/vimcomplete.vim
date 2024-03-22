@@ -63,7 +63,7 @@ if exists('#User#VimCompleteLoaded')
 endif
 
 inoremap <silent> <Plug>(vimcomplete-do-complete) <c-r>=<SID>completor.DoComplete()<cr>
-inoremap <silent><expr> <Plug>(vimcomplete-skip) completor.SkipCompleteSet()
+inoremap <silent> <Plug>(vimcomplete-skip) <c-r>=<SID>completor.SkipCompleteSet()<cr>
 
 # filetype detection is needed for this plugin to work
 filetype plugin on
