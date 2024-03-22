@@ -336,7 +336,7 @@ export def Enable()
     endif
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
-    if maparg('<cr>', 'i')->empty()
+    if !maparg('<cr>', 'i')->empty()
         # if noNewlineInCompletion is false, <Enter> in insert mode accepts
         # completion choice and inserts a newline
         # if true, <cr> has default behavior (accept choice and insert newline,
