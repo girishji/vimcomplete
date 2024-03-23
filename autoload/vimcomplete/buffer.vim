@@ -162,7 +162,8 @@ def CurBufMatches(prefix: string): list<dict<any>>
         endtry
         while [lnum, cnum] != [0, 0]
             var [endl, endc] = icasepat->searchpos('ceW') # end of matching string
-            var mstr = getline(lnum)->strpart(cnum - 1, endc - cnum + 1)
+            const line = getline(lnum)
+            var mstr = line->strcharpart(line->charidx(cnum - 1), line->charidx(endc - 1) - line->charidx(cnum - 1) + 1)
             if mstr != prefix && !found->has_key(mstr)
                 found[mstr] = 1
                 words->add([mstr, abs(lnum - startl)])
