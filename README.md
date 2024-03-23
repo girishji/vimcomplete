@@ -213,6 +213,7 @@ This source provides snippet completion from [vim-vsnip](https://github.com/hrsh
 > Please install the following separately.
 > - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
 > - [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ)
+>
 > Optional:
 > - [friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
 
