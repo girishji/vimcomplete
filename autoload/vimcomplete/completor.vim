@@ -21,11 +21,16 @@ export var options: dict<any> = {
     customInfoWindow: true,
     postfixClobber: false,
     postfixHighlight: false,
-    noinsert: true,
-    noselect: true,
+    preselect: false,
 }
 
 var saved_options: dict<any> = {}
+
+var preselected: dict<any> = {
+    line: 0,
+    startcol: 0,
+    word: null_string,
+}
 
 export def GetOptions(provider: string): dict<any>
     return saved_options->get(provider, {})
@@ -145,15 +150,32 @@ def DisplayPopup(citems: list<any>, line: string)
     if options.matchCase
         items = items->copy()->filter((_, v) => v.word->slice(0, prefixlen) ==# prefix) +
             items->copy()->filter((_, v) => v.word->slice(0, prefixlen) !=# prefix)
-        # Note: Comparing strings (above) is more robust than regex match
-        # since items can include non-keyword characters like ')' that need to
-        # be escaped.
+        # Note: Comparing strings (above) is more robust than regex match, since
+        # items can include non-keyword characters like ')' which otherwise
+        # needs escaping.
     endif
 
     if options.recency
         items = recent.Recent(items, prefix, options.recentItemCount)
     endif
     items->complete(startcol)
+    if options.preselect
+        # If 'preselect' is set, insert first item only if it has not been inserted
+        # at the same place in previous completion attempts. Otherwise, user
+        # will not be able to do <BS> since next completion will simply
+        # overwrite.
+        var linenr = line('.')
+        var word = items[0].word
+        if (linenr == preselected.line && startcol == preselected.startcol &&
+                word == preselected.word) ||
+                getline('.')->strpart(startcol - 1, word->len()) == word
+            return
+        endif
+        preselected.line = linenr
+        preselected.startcol = startcol
+        preselected.word = word
+        feedkeys("\<c-n>", 'nt')
+    endif
 enddef
 
 def GetCurLine(): string
@@ -327,12 +349,10 @@ enddef
 
 export def Enable()
     var bnr = bufnr()
-    var complopt = $'{options.noinsert ? ",noinsert" : ""}'
-    complopt ..= $'{options.noselect ? ",noselect" : ""}'
     if options.customInfoWindow
-        setbufvar(bnr, '&completeopt', $'menuone,popuphidden{complopt}')
+        setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
     else
-        setbufvar(bnr, '&completeopt', $'menuone,popup{complopt}')
+        setbufvar(bnr, '&completeopt', $'menuone,popup,noselect,noinsert')
     endif
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
@@ -387,6 +407,9 @@ export def Enable()
         endif
         if options.customInfoWindow
             autocmd CompleteChanged <buffer> util.InfoPopupWindow()
+        endif
+        if options.preselect
+            autocmd InsertLeave <buffer> preselected.line = 0
         endif
     augroup END
 

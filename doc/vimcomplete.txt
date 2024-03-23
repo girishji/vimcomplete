@@ -178,15 +178,9 @@ postfixHighlight 	Boolean option. This option functions similarly to
 			it using the 'VimCompletePostfix' highlight group. Use
 			`<C-l>` to delete the adjoining text. Default: `false`.
 
-						*vimcomplete-noinsert*
-noinsert		Boolean option. Do not insert the first item in the
-			menu until the user selects. See `:h 'completopt'`.
-			Default: `true`.
-
-						*vimcomplete-noselect*
-noselect	 	Boolean option. Do not select the first item in the
-			menu, force the user to select. See `:h 'completopt'`.
-			Default: `true`.
+						*vimcomplete-preselect*
+preselect		Select and insert the first item when the popup
+			menu is displayed. Default: `false`.
 
 Completion Provider General Options~
 
