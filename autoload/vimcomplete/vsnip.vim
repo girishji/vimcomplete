@@ -38,7 +38,7 @@ def GetItems(): dict<any>
         return { startcol: -2, items: [] }
     endif
     var prefixlen = prefix->len()
-    var filtered = items->copy()->filter((_, v) => v.abbr->slice(0, prefixlen) ==? prefix)
+    var filtered = items->copy()->filter((_, v) => v.abbr->strpart(0, prefixlen) ==? prefix)
     var startcol = col('.') - prefixlen
     var kwprefix = line->matchstr('\k\+$')
     var lendiff = prefixlen - kwprefix->len()
@@ -48,11 +48,11 @@ def GetItems(): dict<any>
             # items but without '#'. To mix vsnip and LSP items '#' needs to
             # be removed from snippet (in 'user_data') and 'word'
             for item in filtered
-                item.word = item.word->slice(lendiff)
+                item.word = item.word->strpart(lendiff)
                 var user_data = item.user_data->json_decode()
                 var snippet = user_data.vsnip.snippet
                 if !snippet->empty()
-                    snippet[0] = snippet[0]->slice(lendiff)
+                    snippet[0] = snippet[0]->strpart(lendiff)
                 endif
                 item.user_data = user_data->json_encode()
             endfor

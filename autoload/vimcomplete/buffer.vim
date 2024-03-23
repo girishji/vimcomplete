@@ -123,7 +123,7 @@ def UrlMatches(base: string): list<dict<any>>
         var url = line->matchstr('\chttp\S\+')
         # url can have non-word characters like ~)( etc., (RFC3986) that need to be
         # escaped in a regex. Error prone. More robust way is to compare strings.
-        if !url->empty() && url->slice(0, baselen) ==? base
+        if !url->empty() && url->strpart(0, baselen) ==? base
             items->add(url)
         endif
         # Check every 200 lines if timeout is exceeded
@@ -280,7 +280,7 @@ export def Completor(findstart: number, base: string): any
         endif
         if previous.prefix != '' && !previous.completed
             var plen = (previous.prefix)->len()
-            if prefix->slice(0, plen) == previous.prefix
+            if prefix->strpart(0, plen) == previous.prefix
                 # if previous attempt was unsuccessful for the same prefix, do not try again
                 previous.prefix = prefix
                 return -2

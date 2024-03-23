@@ -27,7 +27,7 @@ export def Completor(findstart: number, base: string): any
     elseif findstart == 2
         return 1
     endif
-    var items = Omnifunc(findstart, partial ? base->slice(prefix->len()) : base)
+    var items = Omnifunc(findstart, partial ? base->strpart(prefix->len()) : base)
     if items->empty()
         return []
     endif

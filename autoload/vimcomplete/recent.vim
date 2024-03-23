@@ -42,7 +42,7 @@ export def Recent(items: list<dict<any>>, prefix: string, maxcount: number = 10)
         if !key
             continue
         endif
-        if cache->has_key(key) && KeyWord(item)->slice(0, prefix->len()) ==# prefix
+        if cache->has_key(key) && KeyWord(item)->strpart(0, prefix->len()) ==# prefix
             candidates->add({ key: key, item: item, reltime: cache[key].reltime })
         endif
     endfor

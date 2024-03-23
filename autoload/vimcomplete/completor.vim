@@ -106,7 +106,7 @@ def DisplayPopup(citems: list<any>, line: string)
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
     var items: list<dict<any>> = []
-    var prefix = line->slice(startcol - 1)
+    var prefix = line->strpart(startcol - 1)
     var prefixlen = prefix->len()
     if options.shuffleEqualPriority
         for priority in citems->copy()->map((_, v) => v.priority)->uniq()
@@ -123,11 +123,11 @@ def DisplayPopup(citems: list<any>, line: string)
                             repl = it.items[idx].word
                         endif
                         if exactMatch
-                            if repl->slice(0, prefixlen) ==# prefix
+                            if repl->strpart(0, prefixlen) ==# prefix
                                 items->add(it.items[idx])
                             endif
                         else
-                            if repl->slice(0, prefixlen) !=# prefix
+                            if repl->strpart(0, prefixlen) !=# prefix
                                 items->add(it.items[idx])
                             endif
                         endif
@@ -148,8 +148,8 @@ def DisplayPopup(citems: list<any>, line: string)
     endif
 
     if options.matchCase
-        items = items->copy()->filter((_, v) => v.word->slice(0, prefixlen) ==# prefix) +
-            items->copy()->filter((_, v) => v.word->slice(0, prefixlen) !=# prefix)
+        items = items->copy()->filter((_, v) => v.word->strpart(0, prefixlen) ==# prefix) +
+            items->copy()->filter((_, v) => v.word->strpart(0, prefixlen) !=# prefix)
         # Note: Comparing strings (above) is more robust than regex match, since
         # items can include non-keyword characters like ')' which otherwise
         # needs escaping.
@@ -193,8 +193,8 @@ enddef
 
 def GetItems(cmp: dict<any>, line: string): list<any>
     # Non ascii chars like ’ occupy >1 columns since they have composing
-    # characters. slice(), strpart(), col('.'), len() use byte index, while
-    # strcharpart(), strcharlen() use char index.
+    # characters. strpart(), col('.'), len() use byte index, while
+    # strcharpart(), slice(), strcharlen() use char index.
     var base = line->strpart(cmp.startcol - 1)
     # Note: when triggerCharacter is used in LSP (like '.') base is empty.
     var items = cmp.completor(0, base)

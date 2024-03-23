@@ -104,12 +104,12 @@ def GetWords(prefix: string, bufnr: number): dict<any>
             startcol = col('.') - prefix->strlen()
         else
             var prefixlen = prefix->len()
-            items = dictwords[bufnr]->copy()->filter((_, v) => v->slice(0, prefixlen) == prefix)
+            items = dictwords[bufnr]->copy()->filter((_, v) => v->strpart(0, prefixlen) == prefix)
             # check if we should return xxx from yyy.xxx
             var second_part = prefix->matchstr(MatchStr())
             if !second_part->empty() && second_part->len() < prefix->len()
                 var first_part_len = prefix->len() - second_part->len()
-                items->map((_, v) => v->slice(first_part_len))
+                items->map((_, v) => v->strpart(first_part_len))
                 startcol = col('.') - second_part->strlen()
             else
                 if items->empty()
@@ -147,7 +147,7 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
             echoerr '(vimcomplete) error: Dictionary has empty line'
             return { startcol: 0, items: [] } # error in dictionary file
         endif
-        if prefix == words[0]->slice(0, prefixlen)
+        if prefix == words[0]->strpart(0, prefixlen)
             lidx = mid
             ridx = mid
             break
@@ -162,7 +162,7 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
     ridx = min([binfo[0].linecount, ridx + options.maxCount])
     var items = []
     for line in bufnr->getbufline(lidx, ridx)
-        if prefix == line->slice(0, prefixlen)
+        if prefix == line->strpart(0, prefixlen)
             items->add(line)
         endif
     endfor
