@@ -261,7 +261,7 @@ Vim sets the `omnifunc` option automatically when file type is detected.
 Also, any user defined `omnifunc` can also be used for autocompletion.
 
 > [!CAUTION]
-> Disable the [LSP Completion]() when using omnifunc.
+> Disable the <a href="#lsp-completion">LSP Completion</a> when using omnifunc.
 
 Option|Type|Description
 ------|----|-----------
