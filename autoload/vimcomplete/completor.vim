@@ -22,6 +22,7 @@ export var options: dict<any> = {
     postfixClobber: false,
     postfixHighlight: false,
     preselect: false,
+    debug: false,
 }
 
 var saved_options: dict<any> = {}
@@ -157,6 +158,9 @@ def DisplayPopup(citems: list<any>, line: string)
 
     if options.recency
         items = recent.Recent(items, prefix, options.recentItemCount)
+    endif
+    if options.debug
+        echom items
     endif
     items->complete(startcol)
     if options.preselect
@@ -363,7 +367,8 @@ export def Enable()
         # or dismiss popup without inserting newline).
         # if noNewlineInCompletionEver is 'true' newline will not be inserted even if item is selected.
         if options.noNewlineInCompletionEver
-            :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ? "\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
+            :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ?
+                        \ "\<Plug>(vimcomplete-skip)\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
         elseif options.noNewlineInCompletion
             :inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
         else
