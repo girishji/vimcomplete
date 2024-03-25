@@ -178,10 +178,6 @@ postfixHighlight 	Boolean option. This option functions similarly to
 			it using the 'VimCompletePostfix' highlight group. Use
 			`<C-l>` to delete the adjoining text. Default: `false`.
 
-						*vimcomplete-preselect*
-preselect		Select and insert the first item when the popup
-			menu is displayed. Default: `false`.
-
 Completion Provider General Options~
 
 Following options are common to all completion provider modules.

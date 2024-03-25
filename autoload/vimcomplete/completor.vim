@@ -21,8 +21,8 @@ export var options: dict<any> = {
     customInfoWindow: true,
     postfixClobber: false,
     postfixHighlight: false,
-    preselect: false,
-    debug: false,
+    preselect: false,  # issue: https://github.com/girishji/vimcomplete/issues/43
+    # debug: false,
 }
 
 var saved_options: dict<any> = {}
@@ -159,9 +159,9 @@ def DisplayPopup(citems: list<any>, line: string)
     if options.recency
         items = recent.Recent(items, prefix, options.recentItemCount)
     endif
-    if options.debug
-        echom items
-    endif
+    # if options.debug
+    #     echom items
+    # endif
     items->complete(startcol)
     if options.preselect
         # If 'preselect' is set, insert first item only if it has not been inserted

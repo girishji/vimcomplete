@@ -113,7 +113,6 @@ Option|Type|Description
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
 `noNewlineInCompletion`|`Boolean`|If `false`, `<Enter>` ('\<CR>') key in insert mode always inserts a newline. Otherwise, `<CR>` has default Vim behavior (accept selected item and insert newline when an item is selected, or dismiss popup without inserting newline when no item is selected). See next option. Default: `false`.
 `noNewlineInCompletionEver`|`Boolean`|Unlike `noNewlineInCompletion`, newline will not be inserted even if item is selected, when `true`. This is probably what you are looking for. Default: `false`.
-`preselect` | `Boolean` | Select and insert the first item when the popup menu is displayed. Default: `false`.
 `postfixClobber` | `Boolean` | When completing 'foo\<cursor\>bar' and the candidate is 'foosome', enabling this option (`true`) will complete 'foosome' instead of 'foosomebar'. Default: `false`.
 `postfixHighlight` | `Boolean` | This option functions similarly to `postfixClobber`, but instead of deleting adjoining text to the right of the completed text, it highlights it using the 'VimCompletePostfix' highlight group. Use `<C-l>` to delete the adjoining text. Default: `false`.
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
