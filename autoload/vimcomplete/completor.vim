@@ -21,17 +21,10 @@ export var options: dict<any> = {
     customInfoWindow: true,
     postfixClobber: false,
     postfixHighlight: false,
-    preselect: false,  # issue: https://github.com/girishji/vimcomplete/issues/43
     # debug: false,
 }
 
 var saved_options: dict<any> = {}
-
-var preselected: dict<any> = {
-    line: 0,
-    startcol: 0,
-    word: null_string,
-}
 
 export def GetOptions(provider: string): dict<any>
     return saved_options->get(provider, {})
@@ -163,23 +156,6 @@ def DisplayPopup(citems: list<any>, line: string)
     #     echom items
     # endif
     items->complete(startcol)
-    if options.preselect
-        # If 'preselect' is set, insert first item only if it has not been inserted
-        # at the same place in previous completion attempts. Otherwise, user
-        # will not be able to do <BS> since next completion will simply
-        # overwrite.
-        var linenr = line('.')
-        var word = items[0].word
-        if (linenr == preselected.line && startcol == preselected.startcol &&
-                word == preselected.word) ||
-                getline('.')->strpart(startcol - 1, word->len()) == word
-            return
-        endif
-        preselected.line = linenr
-        preselected.startcol = startcol
-        preselected.word = word
-        feedkeys("\<c-n>", 'nt')
-    endif
 enddef
 
 def GetCurLine(): string
@@ -412,9 +388,6 @@ export def Enable()
         endif
         if options.customInfoWindow
             autocmd CompleteChanged <buffer> util.InfoPopupWindow()
-        endif
-        if options.preselect
-            autocmd InsertLeave <buffer> preselected.line = 0
         endif
     augroup END
 
