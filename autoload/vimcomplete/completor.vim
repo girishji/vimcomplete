@@ -21,7 +21,7 @@ export var options: dict<any> = {
     customInfoWindow: true,
     postfixClobber: false,
     postfixHighlight: false,
-    # debug: false,
+    debug: false,
 }
 
 var saved_options: dict<any> = {}
@@ -152,9 +152,9 @@ def DisplayPopup(citems: list<any>, line: string)
     if options.recency
         items = recent.Recent(items, prefix, options.recentItemCount)
     endif
-    # if options.debug
-    #     echom items
-    # endif
+    if options.debug
+        echom items
+    endif
     items->complete(startcol)
 enddef
 

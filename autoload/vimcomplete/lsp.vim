@@ -15,7 +15,7 @@ export def Setup()
     if exists('*g:LspOptionsSet')
         var lspOpts = {
             useBufferCompletion: false,
-            # completionTextEdit: false,  # https://github.com/girishji/vimcomplete/issues/37
+            completionTextEdit: true,  # https://github.com/girishji/vimcomplete/issues/37
             snippetSupport: true, # snippets from lsp server
             vsnipSupport: false,
             autoComplete: false,
