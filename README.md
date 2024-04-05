@@ -271,6 +271,9 @@ Option|Type|Description
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
 
+> [!NOTE]
+> For file types other than 'python' and 'javascript', explicitly specify `filetypes` (above).
+
 ### Path Completion
 
 Both relative and absolute path names are completed.

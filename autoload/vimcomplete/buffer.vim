@@ -324,6 +324,24 @@ export def Completor(findstart: number, base: string): any
             var excluded = $'{base}{postfix}'
             candidates->filter((_, v) => v.word !=# excluded)
         endif
+        # in 'txt' and 'help' files show camelcase as appropriate
+        if &filetype =~ 'text\|help'
+            if base =~ '^\l\+$'
+                candidates->mapnew((_, v) => {
+                    if v.word =~ '^\u\l\+$'
+                        v.word = v.word->tolower()
+                    endif
+                    return v
+                })
+            elseif base =~ '^\u\l\+$'
+                candidates->mapnew((_, v) => {
+                    if v.word =~ '^\l\+$'
+                        v.word = v.word->slice(0, 1)->toupper() .. v.word->slice(1)
+                    endif
+                    return v
+                })
+            endif
+        endif
     endif
     if options.dup
         candidates->map((_, v) => v->extend({ dup: 1 }))
