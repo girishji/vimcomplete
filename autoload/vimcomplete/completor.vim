@@ -19,8 +19,8 @@ export var options: dict<any> = {
     completionKinds: {},
     kindDisplayType: 'symboltext', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
     customInfoWindow: true,
-    postfixClobber: false,
-    postfixHighlight: false,
+    postfixClobber: false,  # remove yyy in xxx<cursor>yyy
+    postfixHighlight: false, # highlight yyy in xxx<cursor>yyy
     debug: false,
 }
 

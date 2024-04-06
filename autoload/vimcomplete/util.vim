@@ -123,7 +123,8 @@ export def InfoPopupWindow()
         id->popup_setoptions(info_popup_options)
         var item = v:event.completed_item
         if item->has_key('info') && item.info != ''
-            id->popup_settext(item.info)
+            # remove null chars (^@) (:h NL-used-for-Nul) by splitting into new lines
+            id->popup_settext(item.info->split('[[:cntrl:]]'))
             id->popup_show()
         endif
         # setting completeopt back to 'menuone' causes a flicker, so comment out.

@@ -30,7 +30,7 @@ def RegisterPlugins()
     Register('buffer', ['*'], 12)
     Register('path', ['*'], 13) # higher priority than buffer, so /xx/yy work
     Register('dictionary', ['text', 'markdown'], 8)
-    Register('omnifunc', ['python', 'javascript'], 8)
+    Register('omnifunc', ['*'], 8)
     Register('vimscript', ['vim'], 10)
     Register('vsnip', ['*'], 11)
     util.LspCompletionKindsSetDefault()

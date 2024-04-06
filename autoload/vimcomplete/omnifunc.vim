@@ -1,17 +1,17 @@
 vim9script
 
 import autoload './util.vim'
+import autoload './lsp.vim'
 
 export var options: dict<any> = {
     enable: false,
     maxCount: 10,
     dup: true,
-    filetypes: ['python', 'javascript'],
     partialWord: ['python3complete#Complete'], # returns 'ow()' instead of 'pow()' when completing builtins.p
 }
 
 export def Completor(findstart: number, base: string): any
-    if &omnifunc->empty()
+    if &omnifunc == null_string || lsp.options.enable
         return -2 # cancel but stay in completion mode
     endif
     var Omnifunc = &omnifunc =~ '^g:' ? function(&omnifunc) : function($'g:{&omnifunc}')

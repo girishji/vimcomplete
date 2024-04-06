@@ -267,12 +267,9 @@ Option|Type|Description
 ------|----|-----------
 `dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `true`.
 `enable`|`Boolean`|Set this to `true` to enable omnifunc completion. Default: `false`.
-`filetypes`|`List`|List of file types for which this source is enabled. Default: `['python', 'javascript']`.
+`filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']` (all file types).
 `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`.
-
-> [!NOTE]
-> For file types other than 'python' and 'javascript', explicitly specify `filetypes` (above).
 
 ### Path Completion
 
