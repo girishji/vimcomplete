@@ -186,7 +186,9 @@ autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
 
 > [!NOTE]
 > For legacy script, the syntax for 'autocmd' is:
-> `autocmd VimEnter * call g:VimCompleteOptionsSet(vcoptions)`.
+> ```
+> autocmd VimEnter * call g:VimCompleteOptionsSet(vcoptions)
+> ```
 
 ### LSP Completion
 
@@ -347,7 +349,9 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 
 > [!NOTE]
 > For legacy script, the syntax for 'autocmd' is:
-> `autocmd VimEnter * call g:VimCompleteOptionsSet(options)`.
+> ```
+> autocmd VimEnter * call g:VimCompleteOptionsSet(options)
+> ```
 
 ### Tab Completion and Key Mappings
 
