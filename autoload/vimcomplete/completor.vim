@@ -3,6 +3,7 @@ vim9script
 # Main autocompletion engine
 
 import autoload './util.vim'
+import autoload './lsp.vim'
 
 export var options: dict<any> = {
     noNewlineInCompletion: false,
@@ -21,6 +22,7 @@ export var options: dict<any> = {
     customInfoWindow: true,
     postfixClobber: false,  # remove yyy in xxx<cursor>yyy
     postfixHighlight: false, # highlight yyy in xxx<cursor>yyy
+    triggerWordLen: 0,
     debug: false,
 }
 
@@ -271,6 +273,12 @@ def VimComplete()
     var line = GetCurLine()
     if line->empty()
         return
+    endif
+    if options.triggerWordLen > 0
+        var keyword = line->matchstr('\k\+$')
+        if keyword->len() < options.triggerWordLen && lsp.GetTriggerKind() != 2
+            return
+        endif
     endif
     var syncompletors: list<any> = []
     for cmp in completors

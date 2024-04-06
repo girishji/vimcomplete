@@ -178,6 +178,11 @@ postfixHighlight 	Boolean option. This option functions similarly to
 			it using the 'VimCompletePostfix' highlight group. Use
 			`<C-l>` to delete the adjoining text. Default: `false`.
 
+						*vimcomplete-triggerWordLen*
+triggerWordLen		Number option. Minimum number of characters needed to
+			trigger completion menu. Not applicable to completion
+			triggered by LSP trigger characters. Default: `1`.
+
 Completion Provider General Options~
 
 Following options are common to all completion provider modules.
