@@ -185,7 +185,8 @@ autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
 > For completing English words, you can utilize [ngram](https://en.wikipedia.org/wiki/N-gram) completion as outlined below, or opt for a custom dictionary containing frequently used words. Unfortunately, the default dictionary that comes pre-installed with Linux or MacOS contains numerous infrequently used words that spam the menu.
 
 > [!NOTE]
-> For legacy script, the syntax for 'autocmd' is `autocmd VimEnter * call g:VimCompleteOptionsSet(vcoptions)`.
+> For legacy script, the syntax for 'autocmd' is:
+> `autocmd VimEnter * call g:VimCompleteOptionsSet(vcoptions)`.
 
 ### LSP Completion
 
@@ -345,7 +346,8 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 ```
 
 > [!NOTE]
-> For legacy script, the syntax for 'autocmd' is `autocmd VimEnter * call g:VimCompleteOptionsSet(options)`.
+> For legacy script, the syntax for 'autocmd' is:
+> `autocmd VimEnter * call g:VimCompleteOptionsSet(options)`.
 
 ### Tab Completion and Key Mappings
 
