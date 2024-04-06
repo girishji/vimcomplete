@@ -183,7 +183,7 @@ autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
 
 
 > [!TIP]
-> For completing English words, you can utilize [ngram](https://en.wikipedia.org/wiki/N-gram) completion as outlined below, or opt for a custom dictionary containing frequently used words. The default dictionary that comes pre-installed with Linux or MacOS encompasses numerous infrequently used words.
+> For completing English words, you can utilize [ngram](https://en.wikipedia.org/wiki/N-gram) completion as outlined below, or opt for a custom dictionary containing frequently used words. Unfortunately, the default dictionary that comes pre-installed with Linux or MacOS contains numerous infrequently used words that spam the menu.
 
 ### LSP Completion
 
