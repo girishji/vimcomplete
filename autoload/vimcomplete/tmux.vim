@@ -12,7 +12,7 @@ export var options: dict<any> = {
 }
 
 def ActivePane(): string
-    var cmd = options.name .. ' list-panes -a -F "#{pane_id}" -f "#{==:#{window_active}#{pane_active},11}"'
+    var cmd = options.name .. ' list-panes -a -F "#{pane_id}" -f "#{==:#{window_active}#{pane_active},11}" 2>/dev/null'
     return system(cmd)->trim()
 enddef
 
@@ -21,6 +21,7 @@ def Panes(exclude_current: bool = false): string
     if exclude_current
         cmd ..= ' -f "#{!=:#{window_active}#{pane_active},11}"'
     endif
+    cmd ..= ' 2>/dev/null'
     var lst = systemlist(cmd)
     return lst->join(' ')
 enddef
@@ -31,12 +32,12 @@ def CaptureCmd(): string
         var cmd_active = $'{cmd} -E -1 -t {ActivePane()}'  # scroll scrollCount lines above first line (for active pane)
         var panes = Panes(true)
         if panes != null_string
-            return $'sh -c "{cmd_active}; for p in {panes}; do {cmd} -t $p; done"'
+            return $'sh -c "{cmd_active}; for p in {panes}; do {cmd} -t $p; done 2>/dev/null"'
         endif
     else
         var panes = Panes()
         if panes != null_string
-            return $'sh -c "for p in {panes}; do {cmd} -t $p; done"'
+            return $'sh -c "for p in {panes}; do {cmd} -t $p; done 2>/dev/null"'
         endif
     endif
     return null_string
