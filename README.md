@@ -28,6 +28,7 @@ Words are sourced ***asynchronously*** from various sources:
 - **[Path](#path-Completion)** search
 - Vim's **[abbreviations](#abbreviations-Completion)**
 - **[Vim9script](#vim9script-language-Completion)** language (similar to LSP)
+- **[Tmux](#tmux-Completion)** panes
 
 All crucial source modules are integrated, eliminating the need to manage
 multiple plugins. Users have the flexibility to enable or disable each
@@ -321,6 +322,20 @@ the like. Enable this if you are developing a Vim plugin or configuring a non-tr
 | `maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`. |
 | `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `10`. |
 
+## Tmux Completion
+
+Words are sourced asynchronously from adjacent tmux panes, ensuring it won't hang even with a lot of output in the tmux windows.
+
+Option|Type|Description
+------|----|-----------
+`completionMatcher`| `String` | Enable fuzzy or case insensitive completion. Accepts one of the following values: `case` for case sensitive matching, `icase` for ignoring case while matching, and `fuzzy` for fuzzy match. Default: `icase`.
+`dup`|`Boolean`|If true, include items from this source that are duplicates of items from other sources. Default: `false`.
+`enable`|`Boolean`|Set this to `true` to enable tmux completion. Default: `false`.
+`filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']`.
+`maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
+`name`|`String`|Name of the executable. You can specify the full path if the *tmux* executable is not found in $PATH. Default: `tmux`.
+`priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `8`.
+`scrollCount`| `Number` | Number of lines above visible lines to search for words. Excludes visible lines if Vim is running in a pane. Default: 200.
 
 ## Configure Options
 

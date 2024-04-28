@@ -46,7 +46,7 @@ export def Completor(findstart: number, base: string): any
         var startcol = g:LspOmniFunc(findstart, base)
         return startcol < 0 ? startcol : startcol + 1
     elseif findstart == 2
-        return !g:LspOmniCompletePending()
+        return g:LspOmniCompletePending() ? 0 : 1
     endif
     var items = g:LspOmniFunc(findstart, base)
     # items->filter((_, v) => v.word != base)

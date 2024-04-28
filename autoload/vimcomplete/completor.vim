@@ -222,19 +222,24 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
 
     var citems = partialitems->copy()
     var asyncompletors: list<any> = []
+    var partial_items_returned = false
     for cmp in pendingcompletors
-        if cmp.completor(2, '')
+        if cmp.completor(2, '') > 0
             var items = GetItems(cmp, line)
             if !items->empty()
                 citems->add({ priority: cmp.priority, startcol: cmp.startcol,
                     items: items })
+            endif
+            if cmp.completor(2, '') == 2  # more items expected
+                asyncompletors->add(cmp)
+                partial_items_returned = true
             endif
         else
             asyncompletors->add(cmp)
         endif
     endfor
 
-    if asyncompletors->empty()
+    if asyncompletors->empty() || partial_items_returned
         DisplayPopup(citems, line)
     else
         timer_start(5, function(AsyncGetItems, [line, asyncompletors, citems, count - 1]))
