@@ -29,6 +29,7 @@ Words are sourced ***asynchronously*** from various sources:
 - Vim's **[abbreviations](#abbreviations-Completion)**
 - **[Vim9script](#vim9script-language-Completion)** language (similar to LSP)
 - **[Tmux](#tmux-Completion)** panes
+- **[Tag](#tag-Completion)** names
 
 All crucial source modules are integrated, eliminating the need to manage
 multiple plugins. Users have the flexibility to enable or disable each
@@ -324,7 +325,7 @@ the like. Enable this if you are developing a Vim plugin or configuring a non-tr
 
 ## Tmux Completion
 
-Words are sourced asynchronously from adjacent tmux panes, ensuring it won't hang even with a lot of output in the tmux windows.
+Words are sourced asynchronously from adjacent tmux panes, ensuring Vim won't hang even with a lot of output in the tmux windows.
 
 Option|Type|Description
 ------|----|-----------
@@ -336,6 +337,17 @@ Option|Type|Description
 `name`|`String`|Name of the executable. You can specify the full path if the *tmux* executable is not found in $PATH. Default: `tmux`.
 `priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `8`.
 `scrollCount`| `Number` | Number of lines above visible lines to search for words. Excludes visible lines if Vim is running in a pane. Default: 200.
+
+## Tag Completion
+
+Tag names are autocompleted if tags file is available.
+
+Option|Type|Description
+------|----|-----------
+`enable`|`Boolean`|Set this to `true` to enable tag name completion. Default: `false`.
+`filetypes`|`List`|List of file types for which this source is enabled. Default: `['*']`.
+`maxCount`|`Number`|Total number of completion candidates emitted by this source. Default: `10`.
+`priority`|`Number`|Priority of this source relative to others. Items from higher priority sources are displayed at the top. Default: `8`.
 
 ## Configure Options
 

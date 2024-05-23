@@ -35,6 +35,8 @@ Words can be completed from various sources:
 - Path search
 - Vim's abbreviations
 - Vim9script language (similar to LSP)
+- Tmux panes
+- Tag names
 
 Each completion source above can be enabled and customized per 'file type'
 (`:h filetype`).
@@ -363,7 +365,7 @@ adaptNonKeyword 	Boolean option. (Experimental) When completing snippets
 > popup by using `CTRL-E`.
 
 
-Ngrams Completion~
+Ngrams Completion ~
 
 This source is kept as a separate plugin since it includes large database
 files. Please see
@@ -421,11 +423,31 @@ Abbreviations Completion~
 
 Abbreviations (`:h abbreviations`) are completed based on the `id`.
 
-Vim9script Language Completion~
+Vim9script Language Completion ~
 
 This source completes Vim9 script function names, arguments, variables,
 reserved words and the like. Enable this if you are developing a Vim plugin or
 configuring a non-trivial .vimrc.
+
+Tmux Completion ~
+
+Words are sourced asynchronously from adjacent tmux panes, ensuring Vim won't
+hang even with a lot of output in the tmux windows.
+
+completionMatcher 	String optio. Enable fuzzy or case insensitive
+			completion. Accepts one of the following values: `case`
+			for case sensitive matching, `icase` for ignoring case
+			while matching, and `fuzzy` for fuzzy match. Default: `icase`.
+name 			String option. Name of the executable. You can specify the
+			full path if the tmux executable is not found in $PATH.
+			Default: `tmux`.
+scrollCount 		Number option. Number of lines above visible lines to
+			search for words. Excludes visible lines if Vim is
+			running in a pane. Default: 200.
+
+Tag Completion ~
+
+Tag names are autocompleted if tag file is available.
 
 Configure Options~
 

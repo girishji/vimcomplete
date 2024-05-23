@@ -14,6 +14,7 @@ import autoload '../autoload/vimcomplete/omnifunc.vim'
 import autoload '../autoload/vimcomplete/vimscript.vim'
 import autoload '../autoload/vimcomplete/vsnip.vim'
 import autoload '../autoload/vimcomplete/tmux.vim'
+import autoload '../autoload/vimcomplete/tag.vim'
 import autoload '../autoload/vimcomplete/util.vim'
 import autoload '../autoload/vimcomplete/completor.vim'
 
@@ -35,6 +36,7 @@ def RegisterPlugins()
     Register('vimscript', ['vim'], 10)
     Register('vsnip', ['*'], 11)
     Register('tmux', ['*'], 8)
+    Register('tag', ['*'], 8)
     util.LspCompletionKindsSetDefault()
 enddef
 

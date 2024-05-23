@@ -5,6 +5,7 @@ import autoload './util.vim'
 export var options: dict<any> = {
     enable: false,
     dup: true,
+    maxCount: 10,
 }
 
 def GetAbbrevs(prefix: string): list<any>
@@ -57,5 +58,5 @@ export def Completor(findstart: number, base: string): any
     endfor
     return citems->empty() ? [] : citems->sort((v1, v2) => {
         return v1.word < v2.word ? -1 : v1.word ==# v2.word ? 0 : 1
-    })
+    })->slice(0, options.maxCount)
 enddef

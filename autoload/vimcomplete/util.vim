@@ -167,6 +167,7 @@ export var defaultKinds: dict<list<string>> = {
     'URL':            ['U', ""],
     'Command':        ['c', "󰘳"],
     'Tmux':           ['X', ""],
+    'Tag':            ['G', "󰌋"],
 }
 
 import autoload './completor.vim'
