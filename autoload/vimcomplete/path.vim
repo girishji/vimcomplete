@@ -21,7 +21,7 @@ export def Completor(findstart: number, base: string): any
                 !(line->matchstr('\c\vhttp(s)?(:)?(/){0,2}\S+$')->empty())
             return -2
         endif
-        if prefix->empty() || prefix =~ '?$' || prefix !~ (has('unix') ? '/' : '\')
+        if prefix->empty() || prefix =~ '?$' || prefix !~ (has('unix') || &shellslash ? '/' : '\')
             return -2
         endif
         return col('.') - prefix->strlen()
@@ -29,7 +29,7 @@ export def Completor(findstart: number, base: string): any
 
     var citems = []
     var cwd: string = ''
-    var sep: string = has('win32') ? '\' : '/'
+    var sep: string = has('win32') && !&shellslash ? '\' : '/'
     try
         if options.bufferRelativePath && expand('%:h') !=# '.' # not already in buffer dir
             # change directory to get completions for paths relative to current buffer dir

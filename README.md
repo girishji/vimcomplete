@@ -295,7 +295,7 @@ Both relative and absolute path names are completed.
 | `showPathSeparatorAtEnd`| `Boolean` | Show path separator (`/` in unix) at the end of directory entry. Default: `false`.    |
 
 > [!NOTE]
-> Path completion activates when there is a `/` (`\` for Windows) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
+> Path completion activates when there is a `/` (`\` for Windows when Vim option `shellslash` is not set) or `.` in the word before the cursor. To autocomplete deeper in a directory type `/` at the end.
 
 ## Abbreviations Completion
 
