@@ -547,6 +547,8 @@ When users set options through the configuration file, a `User` event with type 
 
 3. [**VimBits**](https://github.com/girishji/vimbits) - curated suite of lightweight Vim plugins.
 
+4. [**Autosuggest.vim**](https://github.com/girishji/autosuggest.vim) - autocompletion for Vim's command mode.
+
 # Contributing
 
 Pull requests are welcomed.
