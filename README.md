@@ -541,15 +541,11 @@ When users set options through the configuration file, a `User` event with type 
 
 # Other Plugins to Enhance Your Workflow
 
-1. [**devdocs.vim**](https://github.com/girishji/devdocs.vim) - browse documentation from [devdocs.io](https://devdocs.io).
+1. [**Devdocs.vim**](https://github.com/girishji/devdocs.vim) - browse documentation from [devdocs.io](https://devdocs.io).
 
-2. [**easyjump.vim**](https://github.com/girishji/easyjump.vim) - makes code navigation a breeze.
+2. [**Scope.vim**](https://github.com/girishji/scope.vim) - fuzzy find anything.
 
-3. [**fFtT.vim**](https://github.com/girishji/fFtT.vim) - accurately target words in a line.
-
-4. [**scope.vim**](https://github.com/girishji/scope.vim) - fuzzy find anything.
-
-5. [**autosuggest.vim**](https://github.com/girishji/autosuggest.vim) - autocompletion for Vim's command mode.
+3. [**VimBits**](https://github.com/girishji/vimbits) - curated suite of lightweight Vim plugins.
 
 # Contributing
 
