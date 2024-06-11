@@ -54,6 +54,10 @@ export def ShowCompletors()
     endfor
 enddef
 
+export def IsCompletor(source: string): bool
+    return  completors->indexof((i, v) => v.name == source) != -1
+enddef
+
 export def ClearRegistered()
     registered = { any: [] }
 enddef

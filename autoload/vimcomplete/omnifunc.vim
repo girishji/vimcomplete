@@ -1,7 +1,7 @@
 vim9script
 
 import autoload './util.vim'
-import autoload './lsp.vim'
+import autoload './completor.vim'
 
 export var options: dict<any> = {
     enable: false,
@@ -11,7 +11,7 @@ export var options: dict<any> = {
 }
 
 export def Completor(findstart: number, base: string): any
-    if &omnifunc == null_string || lsp.options.enable
+    if &omnifunc == null_string || completor.IsCompletor('lsp')
         return -2 # cancel but stay in completion mode
     endif
     var Omnifunc = &omnifunc =~ '^g:' ? function(&omnifunc) : function($'g:{&omnifunc}')
