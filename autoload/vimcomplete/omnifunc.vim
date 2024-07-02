@@ -14,7 +14,7 @@ export def Completor(findstart: number, base: string): any
     if &omnifunc == null_string || completor.IsCompletor('lsp')
         return -2 # cancel but stay in completion mode
     endif
-    var Omnifunc = &omnifunc =~ '^g:' ? function(&omnifunc) : function($'g:{&omnifunc}')
+    var Omnifunc = function(&omnifunc)
     var line = getline('.')->strpart(0, col('.') - 1)
     if line =~ '\s$'
         return -2
