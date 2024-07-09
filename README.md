@@ -19,7 +19,7 @@
 
 Words are sourced ***asynchronously*** from various sources:
 
-- **[Buffer](#buffer-Completion)** words
+- **[Buffer](#buffer-Completion)**
 - **[Dictionary](#dictionary-Completion)** files
 - **[Code](#lsp-Completion)** completion sourced from [LSP](https://github.com/yegappan/lsp) client
 - **[Snippets](#snippets-Completion)** from [vim-vsnip](https://github.com/hrsh7th/vim-vsnip) client
