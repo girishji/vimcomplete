@@ -257,7 +257,7 @@ enddef
 var skip_complete: bool = false
 
 export def SkipCompleteSet(): string
-    if pumvisible()
+    if options.alwaysOn && pumvisible()
         skip_complete = true
     endif
     return ''
