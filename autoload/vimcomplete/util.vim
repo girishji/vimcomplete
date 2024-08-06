@@ -36,11 +36,18 @@ export def CREnable()
         return
     endif
     var copts = completor.options
-    # if noNewlineInCompletion is false, <Enter> in insert mode accepts
-    # completion choice and inserts a newline
-    # if true, <cr> has default behavior (accept choice and insert newline,
-    # or dismiss popup without inserting newline).
-    # if noNewlineInCompletionEver is 'true' newline will not be inserted even if item is selected.
+    # By default, Vim's behavior (using `<c-n>` or `<c-x><c-o>`) is as follows:
+    # - If an item is selected, pressing `<Enter>` accepts the item and inserts
+    #   a newline.
+    # - If no item is selected, pressing `<Enter>` dismisses the popup and
+    #   inserts a newline.
+    # This default behavior occurs when both `noNewlineInCompletion` and
+    #   `noNewlineInCompletionEver` are set to `false` (the default settings).
+    # - If `noNewlineInCompletion` is `true`, pressing `<Enter>` accepts the
+    #   completion choice and inserts a newline if an item is selected. If no
+    #   item is selected, it dismisses the popup and does not insert a newline.
+    # - If `noNewlineInCompletionEver` is `true`, pressing `<Enter>` will not
+    #   insert a newline, even if an item is selected.
     if copts.noNewlineInCompletionEver
         :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ?
                     \ "\<Plug>(vimcomplete-skip)\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
