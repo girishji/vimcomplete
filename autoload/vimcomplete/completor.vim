@@ -257,7 +257,7 @@ enddef
 var skip_complete: bool = false
 
 export def SkipCompleteSet(): string
-    if pumvisible()
+    if options.alwaysOn && pumvisible()
         skip_complete = true
     endif
     return ''
@@ -353,21 +353,7 @@ export def Enable()
     endif
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
-    if maparg('<cr>', 'i')->empty()
-        # if noNewlineInCompletion is false, <Enter> in insert mode accepts
-        # completion choice and inserts a newline
-        # if true, <cr> has default behavior (accept choice and insert newline,
-        # or dismiss popup without inserting newline).
-        # if noNewlineInCompletionEver is 'true' newline will not be inserted even if item is selected.
-        if options.noNewlineInCompletionEver
-            :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ?
-                        \ "\<Plug>(vimcomplete-skip)\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
-        elseif options.noNewlineInCompletion
-            :inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
-        else
-            :inoremap <expr> <buffer> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
-        endif
-    endif
+    util.CREnable()
 
     if options.alwaysOn
         :inoremap <buffer> <c-y> <Plug>(vimcomplete-skip)<c-y>

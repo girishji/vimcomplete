@@ -31,6 +31,26 @@ export def TabEnable()
     :snoremap <buffer> <expr> <S-Tab> VCCleverSTab()
 enddef
 
+export def CREnable()
+    if !get(g:, 'vimcomplete_cr_enable', 1) || !maparg('<cr>', 'i')->empty()
+        return
+    endif
+    var copts = completor.options
+    # if noNewlineInCompletion is false, <Enter> in insert mode accepts
+    # completion choice and inserts a newline
+    # if true, <cr> has default behavior (accept choice and insert newline,
+    # or dismiss popup without inserting newline).
+    # if noNewlineInCompletionEver is 'true' newline will not be inserted even if item is selected.
+    if copts.noNewlineInCompletionEver
+        :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ?
+                    \ "\<Plug>(vimcomplete-skip)\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
+    elseif copts.noNewlineInCompletion
+        :inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
+    else
+        :inoremap <expr> <buffer> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+    endif
+enddef
+
 # when completing word where cursor is in the middle, like xxx|yyy, yyy should
 # be hidden while tabbing through menu.
 var text_action_save = {

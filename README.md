@@ -389,6 +389,19 @@ vim9script
 g:vimcomplete_tab_enable = 1
 ```
 
+Additionally, `<Enter>` is mapped by default to insert the currently selected item and/or insert a literal `<CR>`, depending on configuration (see `noNewlineInCompletion` and `noNewlineInCompletionEver` options).
+
+In case of conflicts with other plugins, this mapping can be disabled entirely:
+
+```vim
+vim9script
+g:vimcomplete_cr_enable = 0
+```
+
+In this case, the user is responsible for defining an appropriate `<CR>` mapping to deconflict the plugins.
+In this mapping, consider emitting `<Plug>(vimcomplete-skip)` as necessary to prevent the next keystroke
+from automatically (re-)activating the completion popup. If `alwaysOn` is not used, this can be ignored.
+
 > [!NOTE]
 > For help with other keybindings see `:h popupmenu-keys`. This help section includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
 

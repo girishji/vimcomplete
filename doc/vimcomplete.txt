@@ -481,7 +481,16 @@ default `<C-N>` and `<C-P>` select the menu items.
 >
 	g:vimcomplete_tab_enable = 1
 
-Highlight Groups ~
+Enter Handling~
+
+`<CR>` (`<Enter>`) key is rebound to insert the selected item and/or insert a
+literal `<CR>`, according to |vimcomplete-noNewlineInCompletion| and
+|vimcomplete-noNewlineInCompletionEver|. In case of conflicts with other
+plugins, this mapping can be entirely disabled:
+>
+	g:vimcomplete_cr_enable = 0
+
+Highlight Groups~
 
 You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,
 `PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` highlight groups to alter the
