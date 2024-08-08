@@ -391,6 +391,7 @@ encoding
 endclass
 enddef
 endfor
+endfun
 endfunction
 endif
 endofline
@@ -478,6 +479,7 @@ formatlistpat
 formatoptions
 formatprg
 fsync
+fun
 funcref
 function
 garbagecollect
