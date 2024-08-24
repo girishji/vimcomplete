@@ -207,8 +207,8 @@ def GetCompletionItems(prefix: string): dict<any>
     for candidate in candidates
         citems->add({
             word: candidate,
-            kind: util.GetItemKindValue('Text'),
-            kind_hlgroup: util.GetKindHighlightGroup('Text'),
+            kind: util.GetItemKindValue('Dictionary'),
+            kind_hlgroup: util.GetKindHighlightGroup('Dictionary'),
             dup: options.dup ? 1 : 0,
         })
     endfor

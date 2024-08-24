@@ -25,8 +25,8 @@ def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
     var timeout = options.timeout
     var linenr = 1
     var items = []
-    var kind = util.GetItemKindValue('Keyword')
-    var kindhl = util.GetKindHighlightGroup('Keyword')
+    var kind = util.GetItemKindValue('Buffer')
+    var kindhl = util.GetKindHighlightGroup('Buffer')
     var bufname = ''
     def GetLines(): list<any>
         if curbuf
@@ -217,8 +217,8 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var fwdidx = 0
     var bwdidx = 0
     var citems = []
-    var kind = util.GetItemKindValue('Keyword')
-    var kind_hl = util.GetKindHighlightGroup('Keyword')
+    var kind = util.GetItemKindValue('Buffer')
+    var kind_hl = util.GetKindHighlightGroup('Buffer')
     while fwdidx < fwdlen && bwdidx < bwdlen
         var wordf = fwd[fwdidx]
         var wordb = bwd[bwdidx]

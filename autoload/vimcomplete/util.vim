@@ -188,6 +188,7 @@ export var defaultKindItems = [
     ['Operator',       'o', "󰆕"],
     ['TypeParameter',  'T', ""],
     ['Buffer',         'B', ""],
+    ['Dictionary',     'D', "󰉿"],
     ['Word',           'w', ""],
     ['Option',         'O', "󰘵"],
     ['Abbrev',         'a', ""],

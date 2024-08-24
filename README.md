@@ -502,11 +502,15 @@ E | Event
 o | Operator
 T | TypeParameter
 B | Buffer[^2]
+D | Dictionary[^2]
+w | Word[^2]
 O | Option[^2]
 a | Abbreviation[^2]
 e | EnvVariable[^2]
 U | URL[^2]
 c | Command[^2]
+X | Tmux[^2]
+G | Tag[^2]
 
 [^2]: This is not returned by LSP.
 
