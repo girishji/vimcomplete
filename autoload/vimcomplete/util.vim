@@ -245,8 +245,17 @@ export def GetItemKindValue(kind: any): string
     return kindValue
 enddef
 
-export def GetKindHighlightGroup(kind: string): string
-    return 'PmenuKind' .. kind
+export def GetKindHighlightGroup(kind: any): string
+    var kindValue: string
+    if kind->type() == v:t_number  # From LSP
+        if kind > 26
+            return 'PmenuKind'
+        endif
+        kindValue = defaultKindItems[kind][0]
+    else
+        kindValue = kind
+    endif
+    return 'PmenuKind' .. kindValue
 enddef
 
 export def InitKindHighlightGroups()
