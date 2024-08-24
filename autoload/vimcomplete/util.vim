@@ -230,6 +230,7 @@ export def GetItemKindValue(kind: any): string
     else
         if !defaultKinds->has_key(kindValue)
             echohl ErrorMsg | echo $"vimcomplete: {kindValue} not found in dict" | echohl None
+            return ''
         endif
         if copts.kindDisplayType ==? 'symboltext'
             kindValue = $'{defaultKinds[kindValue][0]} {kindValue}'
