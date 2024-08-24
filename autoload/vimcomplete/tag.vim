@@ -25,7 +25,6 @@ export def Completor(findstart: number, base: string): any
         return []
     endif
     var citems = []
-    var kind = util.GetItemKindValue('Tag')
     var found = {}
     for tag in taglist
         if !found->has_key(tag.name)
@@ -34,7 +33,8 @@ export def Completor(findstart: number, base: string): any
                 word: tag.name,
                 menu: tag.kind,
                 info: tag.filename,
-                kind: kind,
+                kind: util.GetItemKindValue('Tag'),
+                kind_hlgroup: util.GetKindHighlightGroup('Tag'),
                 dup: 0,
             })
         endif

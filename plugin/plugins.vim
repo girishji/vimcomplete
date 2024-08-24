@@ -37,7 +37,6 @@ def RegisterPlugins()
     Register('vsnip', ['*'], 11)
     Register('tmux', ['*'], 8)
     Register('tag', ['*'], 8)
-    util.LspCompletionKindsSetDefault()
 enddef
 
 def RegisterLsp()
@@ -56,8 +55,8 @@ def RegisterLsp()
     endif
 enddef
 
-autocmd User VimCompleteLoaded ++once call RegisterPlugins()
-autocmd User LspAttached call RegisterLsp()
+autocmd User VimCompleteLoaded ++once RegisterPlugins() | util.InitKindHighlightGroups()
+autocmd User LspAttached RegisterLsp()
 autocmd VimEnter * lsp.Setup()
 
 # Set vimcomplete plugin options from 'opts'.

@@ -26,6 +26,7 @@ def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
     var linenr = 1
     var items = []
     var kind = util.GetItemKindValue('Keyword')
+    var kindhl = util.GetKindHighlightGroup('Keyword')
     var bufname = ''
     def GetLines(): list<any>
         if curbuf
@@ -40,9 +41,9 @@ def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
             if !found->has_key(word) && word->len() > 1
                 found[word] = 1
                 if curbuf
-                    items->add({word: word, kind: kind})
+                    items->add({word: word, kind: kind, kind_hlgroup: kindhl})
                 else
-                    items->add({word: word, kind: kind, menu: bufname})
+                    items->add({word: word, kind: kind, kind_hlgroup: kindhl, menu: bufname})
                 endif
             endif
         endfor
@@ -135,7 +136,8 @@ def UrlMatches(base: string): list<dict<any>>
     endfor
     items->sort()->uniq()
     var kind = util.GetItemKindValue('URL')
-    return items->map((_, v) => ({ word: v, abbr: v, kind: kind }))
+    var kind_hl = util.GetKindHighlightGroup('URL')
+    return items->map((_, v) => ({ word: v, abbr: v, kind: kind, kind_hlgroup: kind_hl }))
 enddef
 
 # Using searchpos() is ~15% faster than gathering words by splitting lines and
@@ -216,25 +218,26 @@ def CurBufMatches(prefix: string): list<dict<any>>
     var bwdidx = 0
     var citems = []
     var kind = util.GetItemKindValue('Keyword')
+    var kind_hl = util.GetKindHighlightGroup('Keyword')
     while fwdidx < fwdlen && bwdidx < bwdlen
         var wordf = fwd[fwdidx]
         var wordb = bwd[bwdidx]
         if wordf[1] < wordb[1]
-            citems->add({ word: wordf[0], kind: kind })
+            citems->add({ word: wordf[0], kind: kind, kind_hlgroup: kind_hl })
             fwdidx += 1
         else
-            citems->add({ word: wordb[0], kind: kind })
+            citems->add({ word: wordb[0], kind: kind, kind_hlgroup: kind_hl })
             bwdidx += 1
         endif
     endwhile
     while fwdidx < fwdlen
         var wordf = fwd[fwdidx]
-        citems->add({ word: wordf[0], kind: kind })
+        citems->add({ word: wordf[0], kind: kind, kind_hlgroup: kind_hl })
         fwdidx += 1
     endwhile
     while bwdidx < bwdlen
         var wordb = bwd[bwdidx]
-        citems->add({ word: wordb[0], kind: kind })
+        citems->add({ word: wordb[0], kind: kind, kind_hlgroup: kind_hl })
         bwdidx += 1
     endwhile
 
@@ -303,7 +306,8 @@ export def Completor(findstart: number, base: string): any
         var line = getline('.')->strpart(0, col('.') - 1)
         if line =~ '$\k\+$'
             var kind = util.GetItemKindValue('EnvVariable')
-            var envs = base->getcompletion('environment')->map((_, v) => ({ word: v, abbr: v, kind: kind }))
+            var kind_hl = util.GetKindHighlightGroup('EnvVariable')
+            var envs = base->getcompletion('environment')->map((_, v) => ({ word: v, abbr: v, kind: kind, kind_hlgroup: kind_hl }))
             candidates += envs
         endif
     endif

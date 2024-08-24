@@ -48,11 +48,13 @@ export def Completor(findstart: number, base: string): any
     endif
     var citems = []
     var kind = util.GetItemKindValue('Abbrev')
+    var kindhl = util.GetKindHighlightGroup('Abbrev')
     for abbrev in abbrevs
         citems->add({
             word: abbrev.prefix,
             info: abbrev.expn,
             kind: kind,
+            kind_hlgroup: kindhl,
             dup: options.dup ? 1 : 0,
         })
     endfor

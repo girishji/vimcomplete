@@ -2,6 +2,8 @@ vim9script
 
 # Interface to https://github.com/yegappan/lsp through omnifunc
 
+import autoload './util.vim'
+
 export var options: dict<any> = {
     enable: true,
     maxCount: 10,
@@ -53,6 +55,15 @@ export def Completor(findstart: number, base: string): any
     if !options.dup
         items->map((_, v) => v->extend({ dup: 0 }))
     endif
+    items = items->mapnew((_, v) => {
+        if !v->has_key('kind_hlgroup')
+            v.kind_hlgroup = util.GetKindHighlightGroup(v.kind)
+        endif
+        if v.user_data->type() == v:t_dict
+            v.kind = util.GetItemKindValue(v.user_data.kind)
+        endif
+        return v
+    })
     return items
 enddef
 

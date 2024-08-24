@@ -106,8 +106,9 @@ export def Completor(findstart: number, base: string): any
         endif
         candidates = candidates->slice(0, options.maxCount)
         var kind = util.GetItemKindValue('Tmux')
+        var hlkind = util.GetKindHighlightGroup('Tmux')
         return candidates->mapnew((_, v) => {
-            return { word: v, kind: kind, dup: (options.dup ? 1 : 0) }
+            return { word: v, kind: kind, kind_hlgroup: hlkind, dup: (options.dup ? 1 : 0) }
         })
     endif
 enddef

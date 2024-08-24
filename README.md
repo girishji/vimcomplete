@@ -111,7 +111,7 @@ Option|Type|Description
 `completionKinds`|`Dictionary`|Custom text to use when `customCompletionKinds` is set (explained below). Default: `{}`.
 `customCompletionKinds`|`Boolean`|Set this option to customize the 'kind' attribute (explained below). Default: `false`.
 `customInfoWindow`|`Boolean`|Change the look of default info popup window (explained below). Default: `true`.
-`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symboltext`.
+`kindDisplayType`|`String`|The 'kind' field of completion item can be displayed in a number of ways: as a single letter symbol (`symbol`), a single letter with descriptive text (`symboltext`), only text (`text`), an icon (`icon`), or icon with text (`icontext`). For showing VSCode like icons you need [a patched font](https://www.nerdfonts.com/). Default: `symbol`.
 `matchCase`|`Boolean`|Prioritize the items that match the case of the prefix being completed. Default: `true`.
 - `noNewlineInCompletion` | `Boolean` | When `true`, pressing `<Enter>` (`<CR>`) in insert mode will insert a newline only if an item in the popup menu is selected. If an item is not selected, the popup is dismissed without inserting a newline. Default: `false`.
 - `noNewlineInCompletionEver` | `Boolean` | When `true`, pressing `<Enter>` (`<CR>`) will never insert a newline, regardless of whether an item in the popup menu is selected. This option overrides `noNewlineInCompletion`. If both options are `false`, `<CR>` behaves as per the default Vim behavior, inserting a newline whether an item is selected or not. Default: `false`.
@@ -408,6 +408,8 @@ In this case, the user must define an appropriate `<CR>` mapping to resolve conf
 You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,
 `PmenuKindSel`, `PmenuExtra` and `PmenuExtraSel` Vim highlight groups to alter the
 appearance of the popup menu.
+
+You can also customize the appearance of the column containing the 'kind' attribute in the menu. For example, to modify the appearance of the 'Keyword' kind, configure the `PmenuKindKeyword` highlight group. Refer to the [list](#Custom-Completion-Kinds) for all available 'kind' items.
 
 If `postfixHighlight` option is enabled, you can utilize the `VimCompletePostfix` highlight group to adjust the appearance of text adjacent to the completion. By default, it is linked to `DiffChange`.
 

@@ -25,6 +25,7 @@ def GetCandidates(line: string): list<dict<any>>
             continue
         endif
         item.kind = util.GetItemKindValue('Snippet')
+        item.kind_hlgroup = util.GetKindHighlightGroup('Snippet')
         citems->add(item)
     endfor
     return citems

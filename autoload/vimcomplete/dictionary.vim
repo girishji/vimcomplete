@@ -196,7 +196,6 @@ def GetCompletionItems(prefix: string): dict<any>
     var candidates = []
     # remove duplicates
     var found = {}
-    var kind = util.GetItemKindValue('Text')
     for item in items
         if !found->has_key(item)
             found[item] = 1
@@ -208,7 +207,8 @@ def GetCompletionItems(prefix: string): dict<any>
     for candidate in candidates
         citems->add({
             word: candidate,
-            kind: kind,
+            kind: util.GetItemKindValue('Text'),
+            kind_hlgroup: util.GetKindHighlightGroup('Text'),
             dup: options.dup ? 1 : 0,
         })
     endfor

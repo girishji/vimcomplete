@@ -19,21 +19,27 @@ def Prefix(): list<any>
         return prefix != ''
     }
     var kind = ''
+    var kindhl = ''
     if MatchStr('\v-\>\zs\k+$')
         type = 'function'
         kind = util.GetItemKindValue('Function')
+        kindhl = util.GetKindHighlightGroup('Function')
     elseif MatchStr('\v(\A+:|^:)\zs\k+$')
         type = 'command'
         kind = util.GetItemKindValue('Command')
+        kindhl = util.GetKindHighlightGroup('Command')
     elseif MatchStr('\v(\A+\&|^\&)\zs\k+$')
         type = 'option'
         kind = util.GetItemKindValue('Option')
+        kindhl = util.GetKindHighlightGroup('Option')
     elseif MatchStr('\v(\A+\$|^\$)\zs\k+$')
         type = 'environment'
         kind = util.GetItemKindValue('EnvVariable')
+        kindhl = util.GetKindHighlightGroup('EnvVariable')
     elseif MatchStr('\v(\A+\zs\a:|^\a:)\k+$')
         type = 'var'
         kind = util.GetItemKindValue('Variable')
+        kindhl = util.GetKindHighlightGroup('Variable')
     else
         # XXX: Following makes vim hang when typing ':cs find g'
         # var matches = line->matchlist('\v<(\a+)!{0,1}\s+(\k+)$')
@@ -54,9 +60,10 @@ def Prefix(): list<any>
         if MatchStr('\v\k+$')
             type = 'vimdict'
             kind = util.GetItemKindValue('Keyword')
+            kindhl = util.GetItemKindValue('Keyword')
         endif
-    endif
-    return [prefix, type, kind, startcol]
+     endif
+    return [prefix, type, kind, kindhl, startcol]
 enddef
 
 var dictwords = []
@@ -80,7 +87,7 @@ export def Completor(findstart: number, base: string): any
     if findstart == 2
         return 1
     endif
-    var [prefix, type, kind, startcol] = Prefix()
+    var [prefix, type, kind, kindhl, startcol] = Prefix()
     if findstart == 1
         if type == ''
             return -2
@@ -97,6 +104,7 @@ export def Completor(findstart: number, base: string): any
         citems->add({
             word: item,
             kind: kind,
+            kind_hl: kindhl,
         })
     endfor
     return citems->slice(0, options.maxCount) 

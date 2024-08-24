@@ -160,48 +160,69 @@ export def InfoPopupWindow()
     endif
 enddef
 
-export var defaultKinds: dict<list<string>> = {
-    'Text':           ['t', "󰉿"],
-    'Method':         ['m', "󰆧"],
-    'Function':       ['f', "󰊕"],
-    'Constructor':    ['C', ""],
-    'Field':          ['F', "󰜢"],
-    'Variable':       ['v', "󰀫"],
-    'Class':          ['c', "󰠱"],
-    'Interface':      ['i', ""],
-    'Module':         ['M', ""],
-    'Property':       ['p', "󰜢"],
-    'Unit':           ['u', "󰑭"],
-    'Value':          ['V', "󰎠"],
-    'Enum':           ['e', ""],
-    'Keyword':        ['k', "󰌋"],
-    'Snippet':        ['S', ""],
-    'Color':          ['C', "󰏘"],
-    'File':           ['f', "󰈙"],
-    'Reference':      ['r', "󰈇"],
-    'Folder':         ['F', "󰉋"],
-    'EnumMember':     ['E', ""],
-    'Constant':       ['d', "󰏿"],
-    'Struct':         ['s', "󰙅"],
-    'Event':          ['E', ""],
-    'Operator':       ['o', "󰆕"],
-    'TypeParameter':  ['T', ""],
-    'Buffer':         ['B', ""],
-    'Word':           ['w', ""],
-    'Option':         ['O', "󰘵"],
-    'Abbrev':         ['a', ""],
-    'EnvVariable':    ['e', ""],
-    'URL':            ['U', ""],
-    'Command':        ['c', "󰘳"],
-    'Tmux':           ['X', ""],
-    'Tag':            ['G', "󰌋"],
-}
+export var defaultKindItems = [
+    [],
+    ['Text',           't', "󰉿"],
+    ['Method',         'm', "󰆧"],
+    ['Function',       'f', "󰊕"],
+    ['Constructor',    'C', ""],
+    ['Field',          'F', "󰜢"],
+    ['Variable',       'v', "󰀫"],
+    ['Class',          'c', "󰠱"],
+    ['Interface',      'i', ""],
+    ['Module',         'M', ""],
+    ['Property',       'p', "󰜢"],
+    ['Unit',           'u', "󰑭"],
+    ['Value',          'V', "󰎠"],
+    ['Enum',           'e', ""],
+    ['Keyword',        'k', "󰌋"],
+    ['Snippet',        'S', ""],
+    ['Color',          'C', "󰏘"],
+    ['File',           'f', "󰈙"],
+    ['Reference',      'r', "󰈇"],
+    ['Folder',         'F', "󰉋"],
+    ['EnumMember',     'E', ""],
+    ['Constant',       'd', "󰏿"],
+    ['Struct',         's', "󰙅"],
+    ['Event',          'E', ""],
+    ['Operator',       'o', "󰆕"],
+    ['TypeParameter',  'T', ""],
+    ['Buffer',         'B', ""],
+    ['Word',           'w', ""],
+    ['Option',         'O', "󰘵"],
+    ['Abbrev',         'a', ""],
+    ['EnvVariable',    'e', ""],
+    ['URL',            'U', ""],
+    ['Command',        'c', "󰘳"],
+    ['Tmux',           'X', ""],
+    ['Tag',            'G', "󰌋"],
+]
+
+def CreateKindsDict(): dict<list<string>>
+    var d = {}
+    for it in defaultKindItems
+        if !it->empty()
+            d[it[0]] = [it[1], it[2]]
+        endif
+    endfor
+    return d
+enddef
+
+export var defaultKinds: dict<list<string>> = CreateKindsDict()
 
 import autoload './completor.vim'
 
-# Map LSP complete item kind to a character
-export def GetItemKindValue(kind: string): string
-    var kindValue: string = kind
+# Map LSP (and other) complete item kind to a character/symbol
+export def GetItemKindValue(kind: any): string
+    var kindValue: string
+    if kind->type() == v:t_number  # From LSP
+        if kind > 26
+            return ''
+        endif
+        kindValue = defaultKindItems[kind][0]
+    else
+        kindValue = kind
+    endif
     var copts = completor.options
     if copts.customCompletionKinds &&
             copts.completionKinds->has_key(kind)
@@ -210,30 +231,38 @@ export def GetItemKindValue(kind: string): string
         if !defaultKinds->has_key(kind)
             echohl ErrorMsg | echo $"vimcomplete: {kind} not found in dict" | echohl None
         endif
-        if copts.kindDisplayType == 'symbol'
-            kindValue = defaultKinds[kind][0]
-        elseif copts.kindDisplayType == 'symboltext'
-            kindValue = $'{defaultKinds[kind][0]} {kind}'
-        elseif copts.kindDisplayType == 'icon'
-            kindValue = defaultKinds[kind][1]
-        elseif copts.kindDisplayType == 'icontext'
-            kindValue = $'{defaultKinds[kind][1]} {kind}'
-        elseif copts.kindDisplayType == 'text'
-            kindValue = kind
-        else
-            kindValue = defaultKinds[kind][0]
+        if copts.kindDisplayType ==? 'symboltext'
+            kindValue = $'{defaultKinds[kindValue][0]} {kindValue}'
+        elseif copts.kindDisplayType ==? 'icon'
+            kindValue = defaultKinds[kindValue][1]
+        elseif copts.kindDisplayType ==? 'icontext'
+            kindValue = $'{defaultKinds[kindValue][1]} {kindValue}'
+        elseif copts.kindDisplayType !=? 'text'
+            kindValue = defaultKinds[kindValue][0]
         endif
     endif
     return kindValue
 enddef
 
+export def GetKindHighlightGroup(kind: string): string
+    return 'PmenuKind' .. kind
+enddef
+
+export def InitKindHighlightGroups()
+    for k in defaultKinds->keys()
+        var grp = GetKindHighlightGroup(k)
+        if hlget(grp)->empty()
+            exec $'highlight! default link {grp} PmenuKind'
+        endif
+    endfor
+enddef
+
+# This function is not used at this time. LSP provides a 'kind' number in the 'user_data'.
 export def LspCompletionKindsSetDefault()
-    var copts = completor.options
-    if (copts.customCompletionKinds || copts.kindDisplayType != 'symbol') &&
-            exists('*g:LspOptionsSet')
+    if exists('*g:LspOptionsSet')
         var kinds: dict<any> = {}
         for k in defaultKinds->keys()
-            kinds[k] = GetItemKindValue(k)
+            kinds[k] = k
         endfor
         g:LspOptionsSet({
             customCompletionKinds: true,

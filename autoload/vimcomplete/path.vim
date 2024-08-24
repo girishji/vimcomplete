@@ -36,8 +36,6 @@ export def Completor(findstart: number, base: string): any
             cwd = getcwd()
             :exec 'cd ' .. expand('%:p:h')
         endif
-        var Fkind = util.GetItemKindValue('Folder')
-        var fkind = util.GetItemKindValue('File')
         var completions = getcompletion(base, 'file', 1)
         def IsDir(v: string): bool
             return isdirectory(fnamemodify(v, ':p'))
@@ -56,7 +54,8 @@ export def Completor(findstart: number, base: string): any
             citems->add({
                 word: citem,
                 abbr: options.showPathSeparatorAtEnd ? item : citem,
-                kind: isdir ? Fkind : fkind,
+                kind: isdir ? util.GetItemKindValue('Folder') : util.GetItemKindValue('File'),
+                kind_hlgroup: isdir ? util.GetKindHighlightGroup('Folder') : util.GetKindHighlightGroup('File'),
             })
         endfor
     catch # on MacOS it does not complete /tmp/* (throws E344, looks for /private/tmp/...)
