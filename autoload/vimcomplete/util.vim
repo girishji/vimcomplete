@@ -262,8 +262,9 @@ enddef
 export def InitKindHighlightGroups()
     for k in defaultKinds->keys()
         var grp = GetKindHighlightGroup(k)
+        var tgt = hlget(k)->empty() ? 'PmenuKind' : k
         if hlget(grp)->empty()
-            exec $'highlight! default link {grp} PmenuKind'
+            exec $'highlight! default link {grp} {k}'
         endif
     endfor
 enddef
