@@ -630,13 +630,17 @@ Kind|Description
  o  | Operator
  T  | TypeParameter
  B  | Buffer
+ D  | Dictionary
+ w  | Word
  O  | Option
  a  | Abbreviation
  e  | EnvVariable
  U  | URL
  c  | Command
+ X  | Tmux
+ G  | Tag
 
-Last four kinds are not associated with LSP.
+Items after 'TypeParameter' are not associated with LSP.
 
 For example, if you want to change the "Method" kind to the kind "method()":
 >
