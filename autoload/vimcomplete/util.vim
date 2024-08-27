@@ -270,15 +270,15 @@ export def InitKindHighlightGroups()
 enddef
 
 # This function is not used at this time. LSP provides a 'kind' number in the 'user_data'.
-export def LspCompletionKindsSetDefault()
-    if exists('*g:LspOptionsSet')
-        var kinds: dict<any> = {}
-        for k in defaultKinds->keys()
-            kinds[k] = k
-        endfor
-        g:LspOptionsSet({
-            customCompletionKinds: true,
-            completionKinds: kinds,
-        })
-    endif
-enddef
+# export def LspCompletionKindsSetDefault()
+#     if exists('*g:LspOptionsSet')
+#         var kinds: dict<any> = {}
+#         for k in defaultKinds->keys()
+#             kinds[k] = k
+#         endfor
+#         g:LspOptionsSet({
+#             customCompletionKinds: true,
+#             completionKinds: kinds,
+#         })
+#     endif
+# enddef
