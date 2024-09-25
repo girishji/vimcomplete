@@ -418,6 +418,7 @@ exists
 exit
 exp
 expand
+expandcmd
 expandtab
 export
 expr
