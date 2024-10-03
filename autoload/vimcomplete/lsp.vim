@@ -67,7 +67,14 @@ export def Completor(findstart: number, base: string): any
     return items
 enddef
 
-if get(g:, 'loaded_lsp', false) && v:versionlong >= 9010650
+if v:versionlong < 9010650
+    export def GetTriggerKind(): number
+        return -1
+    enddef
+    finish
+endif
+
+if get(g:, 'loaded_lsp', false)
     import autoload 'lsp/buffer.vim' as buf
     # Return trigger kind and trigger char. If completion trigger is not a keyword
     # and not one of the triggerCharacters, return -1.
