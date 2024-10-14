@@ -75,8 +75,10 @@ export def Register(name: string, Completor: func, ftype: list<string>, priority
         return
     endif
     # clear prior registrations
-    for providers in registered->values()
-        providers->filter((_, v) => v.name != name)
+    for ft in ftype
+        if registered->has_key(ft)
+            registered[ft]->filter((_, v) => v.name != name)
+        endif
     endfor
     if ftype[0] == '*'
         AddCompletor('any')
