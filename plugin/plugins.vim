@@ -63,7 +63,7 @@ autocmd VimEnter * lsp.Setup()
 def! g:VimCompleteOptionsSet(opts: dict<any>)
     completor.SetOptions(opts)
     for [key, newopts] in opts->items()
-        if !getscriptinfo({ name: $'vimcomplete/autoload/vimcomplete/{key}' })->empty()
+        if exists($'{key}.options') == 1
             var o = eval($'{key}.options')
             o->extend(newopts)
         endif
