@@ -45,7 +45,7 @@ Completion items are _sorted_ according to the following criteria:
 - Case match
 
 > [!NOTE]
-> For cmdline-mode completion (`/`, `?`, and `:` commands), refer to **[autosuggest](https://github.com/girishji/autosuggest.vim)** plugin.
+> For cmdline-mode completion (`/`, `?`, and `:` commands), refer to **[VimSuggest](https://github.com/girishji/vimsuggest)** plugin.
 
 
 # Requirements
