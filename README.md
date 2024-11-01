@@ -380,16 +380,31 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 > autocmd VimEnter * call g:VimCompleteOptionsSet(options)
 > ```
 
-## Tab Completion and Key Mappings
+## Tab Completion
 
-You can map `<Tab>` and `<S-Tab>` keys to select autocompletion items. By default, `CTRL-N` and `CTRL-P` select the menu items.
+You can map the `<Tab>` and `<S-Tab>` keys to navigate autocomplete items in insert mode. By default, Vim uses `CTRL-N` and `CTRL-P` to cycle through completion menu options.
+
+To enable `<Tab>` and `<S-Tab>` for this purpose, add the following to your configuration:
 
 ```vim
 vim9script
-g:vimcomplete_tab_enable = 1
+let g:vimcomplete_tab_enable = 1
 ```
 
-Additionally, `<Enter>` is mapped by default to insert the currently selected item and/or insert a literal `<CR>`, depending on configuration (see `noNewlineInCompletion` and `noNewlineInCompletionEver` options).
+> **Note**: Enabling this option will remove any existing mappings for `<Tab>` and `<S-Tab>`.
+
+If you'd like to retain `<Tab>` and `<S-Tab>` mappings from other plugins, unset the above variable and instead use these custom mappings, substituting `{rhs}` as needed (using `"\<Tab>"` as `"{rhs}"` will behave the same as setting the variable):
+
+```vim
+inoremap <buffer><expr> <tab>   g:VimCompleteTab() ?? "{rhs}"
+inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "{rhs}"
+```
+
+This configuration allows `<Tab>` and `<S-Tab>` to integrate with other plugin mappings.
+
+## Enter Key Handling
+
+`<Enter>` is mapped by default to insert the currently selected item and/or insert a literal `<CR>`, depending on configuration (see `noNewlineInCompletion` and `noNewlineInCompletionEver` options).
 
 In case of conflicts with other plugins, this mapping can be disabled entirely:
 

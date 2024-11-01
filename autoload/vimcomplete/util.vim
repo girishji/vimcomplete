@@ -1,34 +1,13 @@
 vim9script
 
-def WhitespaceOnly(): bool
-    return strpart(getline('.'), col('.') - 2, 1) =~ '^\s*$'
-enddef
-
-def VCCleverTab(): string
-    if exists('*vsnip#jumpable')
-        return pumvisible() ? "\<c-n>" : vsnip#jumpable(1) ? "\<Plug>(vsnip-jump-next)" : WhitespaceOnly() ? "\<tab>" : "\<c-n>"
-    endif
-    return pumvisible() ? "\<c-n>" : WhitespaceOnly() ? "\<tab>" : "\<c-n>"
-enddef
-
-def VCCleverSTab(): string
-    if exists('*vsnip#jumpable')
-        return pumvisible() ? "\<c-p>" : vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : WhitespaceOnly() ? "\<s-tab>" : "\<c-p>"
-    endif
-    return pumvisible() ? "\<c-p>" : WhitespaceOnly() ? "\<s-tab>" : "\<c-p>"
-enddef
-
 export def TabEnable()
     if !get(g:, 'vimcomplete_tab_enable')
         return
     endif
-    # suppress error message from iunmap when mapping is missing. maparg() can be used to check.
-    :silent! iunmap <buffer> <silent> <tab>
-    :silent! iunmap <buffer> <silent> <s-tab>
-    :inoremap <buffer> <expr> <tab>   VCCleverTab()
-    :snoremap <buffer> <expr> <tab>   VCCleverTab()
-    :inoremap <buffer> <expr> <S-Tab> VCCleverSTab()
-    :snoremap <buffer> <expr> <S-Tab> VCCleverSTab()
+    :silent! iunmap <buffer><silent> <tab>
+    :silent! iunmap <buffer><silent> <s-tab>
+    :inoremap <buffer><expr> <tab>   g:VimCompleteTab() ?? "\<Tab>"
+    :inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "\<S-Tab>"
 enddef
 
 export def CREnable()
@@ -268,17 +247,3 @@ export def InitKindHighlightGroups()
         endif
     endfor
 enddef
-
-# This function is not used at this time. LSP provides a 'kind' number in the 'user_data'.
-# export def LspCompletionKindsSetDefault()
-#     if exists('*g:LspOptionsSet')
-#         var kinds: dict<any> = {}
-#         for k in defaultKinds->keys()
-#             kinds[k] = k
-#         endfor
-#         g:LspOptionsSet({
-#             customCompletionKinds: true,
-#             completionKinds: kinds,
-#         })
-#     endif
-# enddef

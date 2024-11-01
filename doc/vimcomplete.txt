@@ -481,6 +481,13 @@ default `<C-N>` and `<C-P>` select the menu items.
 >
 	g:vimcomplete_tab_enable = 1
 
+If you'd like to retain `<Tab>` and `<S-Tab>` mappings from other plugins,
+unset the above variable and instead use these custom mappings, substituting
+`{rhs}` as needed:
+>
+	inoremap <buffer><expr> <tab>   g:VimCompleteTab() ?? "{rhs}"
+	inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "{rhs}"
+
 Enter Handling~
 
 `<CR>` (`<Enter>`) key is rebound to insert the selected item and/or insert a
