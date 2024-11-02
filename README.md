@@ -469,8 +469,8 @@ You can selectively enable autocompletion for specific _file types_. For instanc
 
 To start Vim with autocompletion disabled, set the following variable.
 
-```
-g:vimcomplete_enable_by_default = true
+```vim
+g:vimcomplete_enable_by_default = false
 ```
 
 `VimCompleteEnable` takes a space-separated list of _file types_ as an argument. If no argument is specified, autocompletion is enabled for _all file types_.
@@ -533,7 +533,7 @@ G | Tag[^2]
 
 For example, if you want to change the "Method" kind to the kind "method()":
 
-```
+```vim
 vim9script
 g:VimCompleteOptionsSet({ Completor: {
     customCompletionKinds: true,
