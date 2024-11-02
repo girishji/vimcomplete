@@ -153,7 +153,7 @@ kindDisplayType		String option. The 'kind' field of completion item
 			text (`symboltext`), only text (`text`), an icon (`icon`),
 			or icon with text (`icontext`). For showing icons you need
 			a (patched font)[https://www.nerdfonts.com/].
-			Default: `symboltext`.
+			Default: `symbol`.
 
 						*vimcomplete-customCompletionKinds*
 customCompletionKinds	Boolean option. Set this option to customize the 'kind'
@@ -308,7 +308,7 @@ filetype.
 	autocmd VimEnter * g:VimCompleteOptionsSet(vcoptions)
 	autocmd FileType text set dictionary+=/usr/share/dict/words
 	autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
-```
+
 
 > [TIP]
 > For completing English words, you can utilize
@@ -527,9 +527,8 @@ anytime using commands.
 
 To start Vim with autocompletion disabled, set the following variable.
 
-```
-g:vimcomplete_enable_by_default = true
-```
+>
+	g:vimcomplete_enable_by_default = false
 
 You can selectively enable autocompletion for specified file types. For
 example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`, and
