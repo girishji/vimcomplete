@@ -543,18 +543,16 @@ no argument is specified, then autocompletion is enabled for all file types.
 If you are using a plugin manager like |vim-plug| use the following in
 $HOME/.vimrc.
 
-```
-autocmd VimEnter * VimCompleteEnable c cpp python vim text markdown
-```
+>
+	autocmd VimEnter * VimCompleteEnable c cpp python vim text markdown
 
 When Vim is started without any arguments or a new buffer is created with
 :bufnew, it opens an unnamed buffer. This buffer is not associated with any
 _file type_. To enable/disable autocompletion on this buffer use the following
 variable. It is set by default.
 
-```
-g:vimcomplete_noname_buf_enable = true
-```
+>
+	g:vimcomplete_noname_buf_enable = true
 
 ==============================================================================
 7. List Completion Sources 				*vimcomplete-list*
@@ -665,7 +663,7 @@ For example, if you want to change the "Method" kind to the kind "method()":
         file.cre
             | create                method() |
             | createIfNotExists     method() |
-            | ...                 |
+            | ...                            |
 
 ==============================================================================
 

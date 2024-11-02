@@ -531,7 +531,7 @@ G | Tag[^2]
 
 For example, if you want to change the "Method" kind to the kind "method()":
 
-```
+```vim
 vim9script
 g:VimCompleteOptionsSet({ Completor: {
     customCompletionKinds: true,
