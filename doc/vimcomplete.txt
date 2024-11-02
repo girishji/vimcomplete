@@ -477,7 +477,8 @@ options are shown here, please see tables above for all available options.
 Tab Completion~
 
 `<Tab>` and `<S-Tab>` keys can be mapped to select autocompletion items. By
-default `<C-N>` and `<C-P>` select the menu items.
+default `<C-N>` and `<C-P>` select the menu items. `<Tab>` and `<S-Tab>` also
+jump between snippet placeholders where appropriate.
 >
 	g:vimcomplete_tab_enable = 1
 
@@ -487,6 +488,9 @@ unset the above variable and instead use these custom mappings, substituting
 >
 	inoremap <buffer><expr> <tab>   g:VimCompleteTab() ?? "{rhs}"
 	inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "{rhs}"
+
+Additionally, there are two keys `<Plug>(vimcomplete-tab)` and
+`<Plug>(vimcomplete-s-tab)` that can be used in your mappings.
 
 Enter Handling~
 

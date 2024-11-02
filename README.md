@@ -382,7 +382,7 @@ autocmd VimEnter * g:VimCompleteOptionsSet(options)
 
 ## Tab Completion
 
-You can map the `<Tab>` and `<S-Tab>` keys to navigate autocomplete items in insert mode. By default, Vim uses `CTRL-N` and `CTRL-P` to cycle through completion menu options.
+You can map the `<Tab>` and `<S-Tab>` keys to navigate autocomplete items in insert mode. By default, Vim uses `CTRL-N` and `CTRL-P` to cycle through completion menu options. `<Tab>` and `<S-Tab>` also jump between snippet placeholders where appropriate.
 
 To enable `<Tab>` and `<S-Tab>` for this purpose, add the following to your configuration:
 
@@ -401,6 +401,8 @@ inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "{rhs}"
 ```
 
 This configuration allows `<Tab>` and `<S-Tab>` to integrate with other plugin mappings.
+
+Alternatively, you can use the keys `<Plug>(vimcomplete-tab)` and `<Plug>(vimcomplete-s-tab)` directly in your custom mappings.
 
 ## Enter Key Handling
 
