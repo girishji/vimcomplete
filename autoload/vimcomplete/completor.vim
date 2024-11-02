@@ -287,7 +287,7 @@ def VimComplete()
     endif
     if options.triggerWordLen > 0
         var keyword = line->matchstr('\k\+$')
-        if keyword->len() < options.triggerWordLen && lsp.GetTriggerKind() != 2
+        if keyword->len() < options.triggerWordLen && IsCompletor('lsp') && lsp.GetTriggerKind() != 2
             return
         endif
     endif
