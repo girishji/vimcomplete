@@ -358,22 +358,22 @@ export def Enable()
     util.CREnable()
 
     if options.alwaysOn
-        :inoremap <buffer> <c-y> <Plug>(vimcomplete-skip)<c-y>
-        :inoremap <buffer> <c-e> <Plug>(vimcomplete-skip)<c-e>
+        inoremap <buffer> <c-y> <Plug>(vimcomplete-skip)<c-y>
+        inoremap <buffer> <c-e> <Plug>(vimcomplete-skip)<c-e>
     else
-        :silent! iunmap <buffer> <c-space>
-        :inoremap <buffer> <c-space> <Plug>(vimcomplete-do-complete)
-        :imap <buffer> <C-@> <C-Space>
+        silent! iunmap <buffer> <c-space>
+        inoremap <buffer> <c-space> <Plug>(vimcomplete-do-complete)
+        imap <buffer> <C-@> <C-Space>
     endif
 
     if options.postfixClobber
-        :inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction(true)
-        :inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
+        inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction(true)
+        inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
     elseif options.postfixHighlight
-        :inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction()
-        :inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
-        :highlight default link VimCompletePostfix DiffChange
-        :inoremap <expr> <c-l> util.TextActionWrapper()
+        inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction()
+        inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
+        highlight default link VimCompletePostfix DiffChange
+        inoremap <expr> <c-l> util.TextActionWrapper()
     endif
 
     augroup VimCompBufAutocmds | autocmd! * <buffer>

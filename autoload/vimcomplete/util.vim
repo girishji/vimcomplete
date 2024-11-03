@@ -4,10 +4,10 @@ export def TabEnable()
     if !get(g:, 'vimcomplete_tab_enable')
         return
     endif
-    :silent! iunmap <buffer><silent> <tab>
-    :silent! iunmap <buffer><silent> <s-tab>
-    :inoremap <buffer><expr> <tab>   g:VimCompleteTab() ?? "\<Tab>"
-    :inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "\<S-Tab>"
+    silent! iunmap <buffer><silent> <tab>
+    silent! iunmap <buffer><silent> <s-tab>
+    inoremap <buffer><expr> <tab>   g:VimCompleteTab() ?? "\<Tab>"
+    inoremap <buffer><expr> <s-tab> g:VimCompleteSTab() ?? "\<S-Tab>"
 enddef
 
 export def CREnable()
@@ -28,12 +28,12 @@ export def CREnable()
     # - If `noNewlineInCompletionEver` is `true`, pressing `<Enter>` will not
     #   insert a newline, even if an item is selected.
     if copts.noNewlineInCompletionEver
-        :inoremap <expr> <buffer> <cr> complete_info().selected > -1 ?
+        inoremap <expr> <buffer> <cr> complete_info().selected > -1 ?
                     \ "\<Plug>(vimcomplete-skip)\<c-y>" : "\<Plug>(vimcomplete-skip)\<cr>"
     elseif copts.noNewlineInCompletion
-        :inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
+        inoremap <buffer> <cr> <Plug>(vimcomplete-skip)<cr>
     else
-        :inoremap <expr> <buffer> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+        inoremap <expr> <buffer> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
     endif
 enddef
 
@@ -100,8 +100,8 @@ export def TextActionPre(conceal: bool = false)
             var id = matchaddpos('Conceal', [[line('.'), curpos, postfix->len()]], 100, -1, {conceal: ''})
             if id > 0
                 TextActionSave(id)
-                :set conceallevel=3
-                :set concealcursor=i
+                set conceallevel=3
+                set concealcursor=i
             endif
         else
             var id = matchaddpos('VimCompletePostfix', [[line('.'), curpos, postfix->len()]], 100, -1)
