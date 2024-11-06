@@ -34,7 +34,7 @@ export def Completor(findstart: number, base: string): any
         if options.bufferRelativePath && expand('%:h') !=# '.' # not already in buffer dir
             # change directory to get completions for paths relative to current buffer dir
             cwd = getcwd()
-            :exec 'cd ' .. expand('%:p:h')
+            execute 'cd ' .. expand('%:p:h')
         endif
         var completions = getcompletion(base, 'file', 1)
         def IsDir(v: string): bool
@@ -62,7 +62,7 @@ export def Completor(findstart: number, base: string): any
         echom v:exception
     finally
         if !cwd->empty()
-            :exec $'cd {cwd}'
+            execute $'cd {cwd}'
         endif
     endtry
     return citems

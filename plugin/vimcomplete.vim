@@ -59,7 +59,7 @@ augroup VimcompleteAutoCmds | autocmd!
 augroup END
 
 if exists('#User#VimCompleteLoaded')
-    :au VimEnter * doau <nomodeline> User VimCompleteLoaded
+    autocmd VimEnter * doau <nomodeline> User VimCompleteLoaded
 endif
 
 inoremap <silent> <Plug>(vimcomplete-do-complete) <c-r>=<SID>completor.DoComplete()<cr>

@@ -68,7 +68,7 @@ def JobStart()
             },
             err_cb: (chan: channel, msg: string) => {
                 status = 1
-                :echohl ErrorMsg | echoerr $'error: {msg} from {cmd}' | echohl None
+                echohl ErrorMsg | echoerr $'error: {msg} from {cmd}' | echohl None
             },
         })
     endif
