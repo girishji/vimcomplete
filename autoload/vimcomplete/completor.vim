@@ -270,7 +270,6 @@ def SkipComplete(): bool
         skip_complete = false
         return true
     endif
-    # if exists('*vsnip#jumpable') && (vsnip#jumpable(1) || vsnip#jumpable(-1))
     if exists('*vsnip#jumpable') && vsnip#jumpable(1)
         return true
     endif
@@ -287,7 +286,8 @@ def VimComplete()
     endif
     if options.triggerWordLen > 0
         var keyword = line->matchstr('\k\+$')
-        if keyword->len() < options.triggerWordLen && IsCompletor('lsp') && lsp.GetTriggerKind() != 2
+        if keyword->len() < options.triggerWordLen &&
+                (!IsCompletor('lsp') || lsp.GetTriggerKind() != 2)
             return
         endif
     endif
