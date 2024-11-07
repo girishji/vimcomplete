@@ -116,7 +116,7 @@ Option|Type|Description
 `noNewlineInCompletion` | `Boolean` | When `true`, pressing `<Enter>` (`<CR>`) in insert mode will insert a newline only if an item in the popup menu is selected. If an item is not selected, the popup is dismissed without inserting a newline. Default: `false`.
 `noNewlineInCompletionEver` | `Boolean` | When `true`, pressing `<Enter>` (`<CR>`) will never insert a newline, regardless of whether an item in the popup menu is selected. This option overrides `noNewlineInCompletion`. If both options are `false`, `<CR>` behaves as per the default Vim behavior, inserting a newline whether an item is selected or not. Default: `false`.
 `postfixClobber` | `Boolean` | When completing 'foo\<cursor\>bar' and the candidate is 'foosome', enabling this option (`true`) will complete 'foosome' instead of 'foosomebar'. Default: `false`.
-`postfixHighlight` | `Boolean` | This option functions similarly to `postfixClobber`, but instead of deleting adjoining text to the right of the completed text, it highlights it using the 'VimCompletePostfix' highlight group. Use `<C-l>` to delete the adjoining text. Default: `false`.
+`postfixHighlight` | `Boolean` | This option functions similarly to `postfixClobber`, but instead of deleting adjoining text to the right of the completed text, it highlights it using the 'VimCompletePostfix' highlight group. Use `<Esc>` to retain the adjoining text and `<C-L>` to delete. Default: `false`.
 `recency`|`Boolean`|Display recently chosen items from the LRU cache. Items are shown at the top of the list. Default: `true`.
 `recentItemCount`|`Number`|Count of recent items to show from LRU cache. Default: `5`.
 `showKind`|`Boolean`|Show the type ('kind') of completion item returned by LSP server. Default: `true`.
