@@ -123,7 +123,7 @@ Option|Type|Description
 `showSource`|`Boolean`|Show the source of the completion item in the menu. Default: `true`.
 `shuffleEqualPriority`|`Boolean`|Arrange items from sources with equal priority such that the first item of all sources appear before the second item of any source. Default: `false`.
 `sortByLength`|`Boolean`|Sort completion items by length. Default: `false`.
-`triggerWordLen`|`Number`|Minimum number of characters needed to trigger completion menu. Not applicable to completion triggered by LSP trigger characters. Default: `1`.
+`triggerWordLen`|`Number`|Minimum number of characters needed to trigger completion menu. Not applicable to completion triggered by LSP trigger characters (this exemption applies only to Vim version 9.1.650 or higher). Default: `1`.
 
 ## Buffer Completion
 
