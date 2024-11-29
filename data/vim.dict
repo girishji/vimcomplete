@@ -1097,6 +1097,7 @@ stop
 stopinsert
 str2float
 str2nr
+strcharlen
 strcharpart
 strchars
 strdisplaywidth
