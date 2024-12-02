@@ -103,7 +103,7 @@ def GetWords(prefix: string, bufnr: number): dict<any>
             items = dictwords[bufnr]->copy()->filter((_, v) => v =~ pattern)
             startcol = col('.') - prefix->strlen()
         else
-            // Do not pattern match, but compare (equality) instead.
+            # Do not pattern match, but compare (equality) instead.
             var prefixlen = prefix->len()
             items = dictwords[bufnr]->copy()->filter((_, v) => v->strpart(0, prefixlen) == prefix)
             # check if we should return xxx from yyy.xxx
