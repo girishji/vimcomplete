@@ -13,10 +13,10 @@ import autoload './util.vim'
 
 export var options: dict<any> = {
     enable: false,
-    matcher: 'case', # 'case', 'ignorecase', 'smartcase', 'casematch'. not active when onlyWords is false.
+    matcher: 'case', # 'case', 'ignorecase'. active for sortedDict or onlyWords is true,
     maxCount: 10,
     sortedDict: true,
-    onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed
+    onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed (sorted=false assumed)
     commentStr: '---',
     timeout: 0, # not implemented yet
     dup: false, # suppress duplicates
@@ -99,26 +99,27 @@ def GetWords(prefix: string, bufnr: number): dict<any>
 
         var items = []
         if OnlyWords()
-            var pattern = (options.matcher == 'case') ? $'\C^{prefix}' : $'\c^{prefix}'
-            items = dictwords[bufnr]->copy()->filter((_, v) => v =~ pattern)
+            var pat = (options.matcher == 'case') ? $'\C^{prefix}' : $'\c^{prefix}'
+            items = dictwords[bufnr]->copy()->filter((_, v) => v =~ pat)
             startcol = col('.') - prefix->strlen()
         else
-            # Do not pattern match, but compare (equality) instead.
-            var prefixlen = prefix->len()
-            items = dictwords[bufnr]->copy()->filter((_, v) => v->strpart(0, prefixlen) == prefix)
-            # check if we should return xxx from yyy.xxx
-            var second_part = prefix->matchstr(MatchStr())
-            if !second_part->empty() && second_part->len() < prefix->len()
-                var first_part_len = prefix->len() - second_part->len()
+            var prefix_kw = prefix->matchstr(MatchStr())
+            if prefix_kw->len() < prefix->len()
+                # Do not pattern match, but compare (equality) instead.
+                var prefixlen = prefix->len()
+                items = dictwords[bufnr]->copy()->filter((_, v) => v->strpart(0, prefixlen) == prefix)
+                # We should return xxx from yyy.xxx.
+                var first_part_len = prefix->len() - prefix_kw->len()
                 items->map((_, v) => v->strpart(first_part_len))
-                startcol = col('.') - second_part->strlen()
-            else
-                if items->empty()
-                    var kwPrefix = prefix->matchstr(MatchStr())
-                    items->extend(dictwords[bufnr]->copy()->filter((_, v) => v =~ $'\C^{kwPrefix}'))
-                    startcol = col('.') - kwPrefix->strlen()
-                endif
-                startcol = col('.') - prefix->strlen()
+                startcol = col('.') - prefix_kw->strlen()
+            elseif !prefix_kw->empty()
+                try
+                    items = dictwords[bufnr]->copy()->filter((_, v) => v =~# $'^{prefix}')
+                    # Match 'foo' in 'barfoobaz'.
+                    items += dictwords[bufnr]->copy()->filter((_, v) => v =~# $'^.\{{-}}{prefix}')
+                    startcol = col('.') - prefix_kw->strlen()
+                catch
+                endtry
             endif
         endif
         return { startcol: startcol, items: items }
