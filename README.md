@@ -454,7 +454,12 @@ Info window can be scrolled using the following keys:
 `<Plug>(vimcomplete-info-window-pageup)`,
 `<Plug>(vimcomplete-info-window-pagedown)`,
 `<Plug>(vimcomplete-info-window-home)`, and
-`<Plug>(vimcomplete-info-window-end)`. Map them to suit you style.
+`<Plug>(vimcomplete-info-window-end)`. Here's an example mapping:
+
+```vim
+inoremap <C-b> <Plug>(vimcomplete-info-window-pageup)
+inoremap <C-f> <Plug>(vimcomplete-info-window-pagedown)
+```
 
 # Commands
 
