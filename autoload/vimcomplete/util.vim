@@ -112,13 +112,9 @@ export def TextActionPre(conceal: bool = false)
     endif
 enddef
 
-export var info_popup_options = {
-    borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
-    drag: false,
-    close: 'none',
-}
+export var info_popup_options = {}
 
-export def InfoPopupWindow()
+export def InfoPopupWindowSetOptions()
     # the only way to change the look of info window is to set popuphidden,
     # subscribe to CompleteChanged, and set the text.
     var id = popup_findinfo()
@@ -137,6 +133,30 @@ export def InfoPopupWindow()
         # setbufvar(bufnr(), '&completeopt', 'menuone,popup,noinsert,noselect')
         # autocmd! VimCompBufAutocmds CompleteChanged <buffer>
     endif
+enddef
+
+export def InfoWindowSendKey(key: string): string
+    var id = popup_findinfo()
+    if id > 0
+        win_execute(id, $'normal! ' .. key)
+    endif
+    return ''
+enddef
+
+export def InfoWindowPageUp(): string
+    return InfoWindowSendKey("\<C-u>")
+enddef
+
+export def InfoWindowPageDown(): string
+    return InfoWindowSendKey("\<C-d>")
+enddef
+
+export def InfoWindowHome(): string
+    return InfoWindowSendKey("gg")
+enddef
+
+export def InfoWindowEnd(): string
+    return InfoWindowSendKey("G")
 enddef
 
 export var defaultKindItems = [

@@ -163,10 +163,6 @@ customCompletionKinds	Boolean option. Set this option to customize the 'kind'
 completionKinds		Dictionary option. Custom text to use when above option is
 			set. Default: `{}`.
 
-						*vimcomplete-customInfoWindow*
-customInfoWindow	Change the look of default info popup window
-			(explained below). Default: `true`.
-
 						*vimcomplete-postfixClobber*
 postfixClobber 		Boolean option. When completing 'foo\<cursor\>bar' and
 			the candidate is 'foosome', enabling this option
@@ -280,6 +276,10 @@ onlyWords 	Boolean option. Set this to `true` if both the prefix you are
 matcher 	String option. This option is active only when `onlyWords` is
 		`true` (text files) and `sortedDict` is false. Accepted values are
 		'case' (case sensitive) and 'ignorecase'. Default: `case`.
+
+				*vimcomplete-dictionary-triggerWordLen*
+triggerWordLen	Number option. Minimum number of characters needed to
+		trigger completion menu. Default: `1`.
 
 Further information about setting up configurations will be available later.
 Nonetheless, here is a sample configuration specifically targeting the
@@ -513,12 +513,32 @@ to the completion. By default, it is linked to `DiffChange`.
 
 Info Popup Window ~
 
-Vim's completion system opens an additional popup window next to the selected
-item if the item has additional info that needs to be displayed. If you prefer
-to keep the default look of this window set `customInfoWindow` to `false`. Set
-it to `true` to see a more refined border. If you prefer to customize this
-window further use `g:VimCompleteInfoPopupOptionsSet()`. It takes a dictionary
-of popup window options. See |popup_create-arguments|.
+Vim's completion system can display an additional popup window (referred to as
+the "info" window) next to the selected menu item when supplementary
+information is available.
+
+To apply basic customizations, you can use the `completepopup` option. For
+example:
+>
+    autocmd VimEnter * set completepopup+=border:off,highlight:Normal
+
+This provides limited customization. For advanced control over the appearance
+and behavior of the "info" window, use the
+`g:VimCompleteInfoWindowOptionsSet()` function. This function accepts a
+dictionary of popup window options. Refer to |popup_create-arguments| for
+detailed descriptions. Here’s an example:
+>
+    g:VimCompleteInfoWindowOptionsSet({
+        drag: false,
+        close: 'none',
+        resize: false,
+    })
+
+Info window can be scrolled using the following keys:
+`<Plug>(vimcomplete-info-window-pageup)`,
+`<Plug>(vimcomplete-info-window-pagedown)`,
+`<Plug>(vimcomplete-info-window-home)`, and
+`<Plug>(vimcomplete-info-window-end)`.
 
 ==============================================================================
 6. Enable and Disable 		*vimcomplete_disable* *vimcomplete-enable*
@@ -542,7 +562,7 @@ example, enable autocompletion for `c`, `cpp`, `python`, `vim`, `text`, and
 	:VimCompleteEnable c cpp python vim text markdown
 
 `VimCompleteEnable` takes space separated list of file types as an argument. If
-no argument is specified, then autocompletion is enabled for all file types. 
+no argument is specified, then autocompletion is enabled for all file types.
 
 If you are using a plugin manager like |vim-plug| use the following in
 $HOME/.vimrc.

@@ -77,6 +77,11 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
     RegisterLsp()
 enddef
 
+def! g:VimCompleteInfoWindowOptionsSet(opts: dict<any>)
+    util.info_popup_options->extend(opts)
+enddef
+
+# Legacy -- remove this function eventually
 def! g:VimCompleteInfoPopupOptionsSet(opts: dict<any>)
     util.info_popup_options->extend(opts)
 enddef

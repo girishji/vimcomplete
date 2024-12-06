@@ -10,6 +10,7 @@ vim9script
 g:loaded_vimcomplete = true
 
 import autoload '../autoload/vimcomplete/completor.vim'
+import autoload '../autoload/vimcomplete/util.vim'
 
 def VimCompEnable(filetypes: string)
     var ftypes = filetypes->split()
@@ -62,11 +63,14 @@ if exists('#User#VimCompleteLoaded')
     autocmd VimEnter * doau <nomodeline> User VimCompleteLoaded
 endif
 
+# Filetype detection is needed for this plugin to work
+#
+filetype plugin on
+
+# Keymaps - <Tab>
+
 inoremap <silent> <Plug>(vimcomplete-do-complete) <c-r>=<SID>completor.DoComplete()<cr>
 inoremap <silent> <Plug>(vimcomplete-skip) <c-r>=<SID>completor.SkipCompleteSet()<cr>
-
-# filetype detection is needed for this plugin to work
-filetype plugin on
 
 def! g:VimCompleteTab(): string
     return pumvisible() ? "\<c-n>" : (exists('*vsnip#jumpable') && vsnip#jumpable(1)) ?
@@ -78,3 +82,14 @@ def! g:VimCompleteSTab(): string
 enddef
 inoremap <silent><expr> <Plug>(vimcomplete-tab) g:VimCompleteTab() ?? "\<Tab>"
 inoremap <silent><expr> <Plug>(vimcomplete-s-tab) g:VimCompleteSTab() ?? "\<S-Tab>"
+
+# Keymaps - Scrolling "info" window
+
+def! g:VimCompleteInfoWindowVisible(): bool
+    return popup_findinfo()->popup_getpos()->get('visible', false)
+enddef
+
+inoremap <silent> <Plug>(vimcomplete-info-window-pageup) <c-r>=<SID>util.InfoWindowPageUp()<cr>
+inoremap <silent> <Plug>(vimcomplete-info-window-pagedown) <c-r>=<SID>util.InfoWindowPageDown()<cr>
+inoremap <silent> <Plug>(vimcomplete-info-window-home) <c-r>=<SID>util.InfoWindowHome()<cr>
+inoremap <silent> <Plug>(vimcomplete-info-window-end) <c-r>=<SID>util.InfoWindowEnd()<cr>

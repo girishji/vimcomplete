@@ -18,10 +18,12 @@ export var options: dict<any> = {
     sortedDict: true,
     onlyWords: true, # [0-9z-zA-Z] if true, else any non-space char is allowed (sorted=false assumed)
     commentStr: '---',
+    triggerWordLen: 0,
     timeout: 0, # not implemented yet
     dup: false, # suppress duplicates
     matchStr: '\k\+$',
     matchAny: false,
+    info: false,  # Whether 'info' popup needs to be populated
 }
 
 def GetProperty(s: string): any
@@ -46,6 +48,14 @@ enddef
 
 def SortedDict(): bool
     return GetProperty('sortedDict')
+enddef
+
+def TriggerWordLen(): number
+    return GetProperty('triggerWordLen')
+enddef
+
+def Info(): bool
+    return GetProperty('info')
 enddef
 
 var dictbufs = {}
@@ -86,37 +96,51 @@ def GetWords(prefix: string, bufnr: number): dict<any>
         # read the whole dict buffer at once and cache it
         if !dictwords->has_key(bufnr)
             dictwords[bufnr] = []
+            var word = null_string
+            var info = []
+            var has_info = Info()
             for line in bufnr->getbufline(1, '$')
-                if line->empty()
-                    continue
-                endif
-                if line !~ $'^\s*{CommentStr()}'
-                    # ignore comments (like in https://github.com/vim-scripts/Pydiction)
-                    dictwords[bufnr]->add(line)
+                if line !~ $'^\s*{CommentStr()}' # ignore comments (https://github.com/vim-scripts/Pydiction)
+                    if has_info
+                        if line =~ '^\s\+'  # info document
+                            info->add(line->substitute('^\s\+', '', ''))
+                        else
+                            if word != null_string
+                                dictwords[bufnr]->add({word: word}->extend(info != [] ? {info: info->join("\n")} : {}))
+                            endif
+                            word = line
+                            info = []
+                        endif
+                    elseif !line->empty()
+                        dictwords[bufnr]->add({word: line})
+                    endif
                 endif
             endfor
+            if has_info && word != null_string
+                dictwords[bufnr]->add({word: word}->extend(info != [] ? {info: info->join("\n")} : {}))
+            endif
         endif
 
         var items = []
         if OnlyWords()
             var pat = (options.matcher == 'case') ? $'\C^{prefix}' : $'\c^{prefix}'
-            items = dictwords[bufnr]->copy()->filter((_, v) => v =~ pat)
+            items = dictwords[bufnr]->copy()->filter((_, v) => v.word =~ pat)
             startcol = col('.') - prefix->strlen()
         else
             var prefix_kw = prefix->matchstr(MatchStr())
             if prefix_kw->len() < prefix->len()
                 # Do not pattern match, but compare (equality) instead.
                 var prefixlen = prefix->len()
-                items = dictwords[bufnr]->copy()->filter((_, v) => v->strpart(0, prefixlen) == prefix)
+                items = dictwords[bufnr]->copy()->filter((_, v) => v.word->strpart(0, prefixlen) == prefix)
                 # We should return xxx from yyy.xxx.
                 var first_part_len = prefix->len() - prefix_kw->len()
                 items->map((_, v) => v->strpart(first_part_len))
                 startcol = col('.') - prefix_kw->strlen()
             elseif !prefix_kw->empty()
                 try
-                    items = dictwords[bufnr]->copy()->filter((_, v) => v =~# $'^{prefix}')
+                    items = dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^{prefix}')
                     # Match 'foo' in 'barfoobaz'.
-                    items += dictwords[bufnr]->copy()->filter((_, v) => v =~# $'^.\{{-}}{prefix}')
+                    # items += dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^.\{{-}}{prefix}')
                     startcol = col('.') - prefix_kw->strlen()
                 catch
                 endtry
@@ -189,30 +213,29 @@ def GetCompletionItems(prefix: string): dict<any>
             dwords = GetWords(prefix, dicts[0])
         endif
     endif
-    if dwords->empty()
+    var items = dwords.items
+    if items->empty()
         return { startcol: 0, items: [] }
     endif
-    var items = dwords.items
     startcol = dwords.startcol
-
     var candidates = []
     # remove duplicates
     var found = {}
     for item in items
-        if !found->has_key(item)
-            found[item] = 1
+        if !found->has_key(item.word)
+            found[item.word] = 1
             candidates->add(item)
         endif
     endfor
     candidates = candidates->slice(0, options.maxCount)
     var citems = []
-    for candidate in candidates
+    for cand in candidates
         citems->add({
-            word: candidate,
+            word: cand.word,
             kind: util.GetItemKindValue('Dictionary'),
             kind_hlgroup: util.GetKindHighlightGroup('Dictionary'),
             dup: options.dup ? 1 : 0,
-        })
+        }->extend(cand->has_key('info') ? {info: cand.info} : {}))
     endfor
     return { startcol: startcol, items: citems }
 enddef
@@ -233,7 +256,8 @@ export def Completor(findstart: number, base: string): any
                 prefix = line->matchstr('\S\+$')
             endif
         endif
-        if prefix == ''
+        if prefix == '' ||
+                (TriggerWordLen() > 0 && prefix->len() < TriggerWordLen())
             return -2
         endif
         completionItems = GetCompletionItems(prefix)

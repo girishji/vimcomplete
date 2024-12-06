@@ -19,7 +19,6 @@ export var options: dict<any> = {
     customCompletionKinds: false,
     completionKinds: {},
     kindDisplayType: 'symbol', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
-    customInfoWindow: true,
     postfixClobber: false,  # remove yyy in xxx<cursor>yyy
     postfixHighlight: false, # highlight yyy in xxx<cursor>yyy
     triggerWordLen: 0,
@@ -348,11 +347,9 @@ enddef
 
 export def Enable()
     var bnr = bufnr()
-    if options.customInfoWindow
-        setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
-    else
-        setbufvar(bnr, '&completeopt', $'menuone,popup,noselect,noinsert')
-    endif
+    # Hide the popup -- needed for customizing "info" popup window
+    setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert') 
+
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
     util.CREnable()
@@ -391,9 +388,7 @@ export def Enable()
             autocmd CompleteChanged <buffer> util.TextActionPre()
             autocmd CompleteDone,InsertLeave <buffer> util.UndoTextAction()
         endif
-        if options.customInfoWindow
-            autocmd CompleteChanged <buffer> util.InfoPopupWindow()
-        endif
+        autocmd CompleteChanged <buffer> util.InfoPopupWindowSetOptions()
     augroup END
 
     util.TabEnable()
