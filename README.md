@@ -168,21 +168,6 @@ Option|Type|Description
 Further information about setting up configurations will be available later. Nonetheless, here is a sample configuration specifically targeting the dictionary source.
 Dictionary files can be configured individually for each 'filetype' (`:h filetype`). 
 
-By adding the following snippet to your `vimrc`, you can add custom completions for each filetype, say `python`, by adding a text  file `dicts/python` into the `vimrc` folder:
-
-```vim
-vim9script
-var g:vimfiles_dir = split(&runtimepath, ',')[0]
-autocmd FileType * def()
-    var dict = fnamemodify(resolve(g:vimfiles_dir .. '/dicts/' .. expand('<amatch>')), ':p')
-    if filereadable(dict)
-        setlocal complete+=k{dict}
-    endif
-enddef
-```
-
-To go further, in below sample, the dictionary module is enabled for filetypes 'python' and 'text'. Vim `dictionary` option is appropriately set. Specific dictionary options are defined for each respective filetype.
-
 ```
 vim9script
 var dictproperties = {
@@ -194,7 +179,19 @@ var vcoptions = {
 }
 autocmd VimEnter * g:VimCompleteOptionsSet(vcoptions)
 autocmd FileType text set dictionary+=/usr/share/dict/words
-autocmd FileType python set dictionary=$HOME/.vim/data/pythondict
+```
+
+By adding the following snippet to your `vimrc`, you can add custom completions for each filetype, say `python`, by adding a text  file `dicts/python` into the `vimrc` folder:
+
+```vim
+vim9script
+g:vimfiles_dir = &runtimepath->split(',')[0]
+autocmd FileType * {
+    var dict = $'{g:vimfiles_dir}/dicts/{expand("<amatch>")}'->resolve()->fnamemodify(':p')
+    if dict->filereadable()
+        exe $'setlocal dictionary={dict}'
+    endif
+}
 ```
 
 > [!TIP]
