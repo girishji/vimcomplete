@@ -102,7 +102,7 @@ def GetWords(prefix: string, bufnr: number): dict<any>
             for line in bufnr->getbufline(1, '$')
                 if line !~ $'^\s*{CommentStr()}' # ignore comments (https://github.com/vim-scripts/Pydiction)
                     if has_info
-                        if line =~ '^\s\+'  # info document
+                        if line =~ '^\%(\s\+\|$\)'  # info document
                             info->add(line->substitute('^\s\+', '', ''))
                         else
                             if word != null_string
