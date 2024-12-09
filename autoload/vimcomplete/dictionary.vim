@@ -139,7 +139,7 @@ def GetWords(prefix: string, bufnr: number): dict<any>
                 startcol = col('.') - prefix_kw->strlen()
             elseif !prefix_kw->empty()
                 try
-                    items = dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^{prefix}')
+                    items = dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^{prefix_kw}')
                     # Match 'foo' in 'barfoobaz'.
                     # items += dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^.\{{-}}{prefix}')
                     startcol = col('.') - prefix_kw->strlen()

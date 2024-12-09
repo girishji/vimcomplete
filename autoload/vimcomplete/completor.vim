@@ -102,7 +102,10 @@ def DisplayPopup(citems: list<any>, line: string)
     if citems->empty()
         return
     endif
-    var startcol = citems[0].startcol # Only one value for startcol is allowed.
+    # Only one value for startcol is allowed. Pick the longest completion.
+    var startcol = citems->mapnew((_, v) => {
+        return v.startcol
+    })->min()
     citems->filter((_, v) => v.startcol == startcol)
     citems->sort((v1, v2) => v1.priority > v2.priority ? -1 : 1)
 
