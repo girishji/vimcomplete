@@ -102,8 +102,9 @@ def GetWords(prefix: string, bufnr: number): dict<any>
             for line in bufnr->getbufline(1, '$')
                 if line !~ $'^\s*{CommentStr()}' # ignore comments (https://github.com/vim-scripts/Pydiction)
                     if has_info
-                        if line =~ '^\%(\s\+\|$\)'  # info document
-                            info->add(line->substitute('^\s\+', '', ''))
+                        if line =~ '^\%(\s\+\|$\)'  # Info document
+                            # Strip only 4 spaces at the start of line to keep the formatting.
+                            info->add(line->substitute('^    ', '', ''))
                         else
                             if word != null_string
                                 dictwords[bufnr]->add({word: word}->extend(info != [] ? {info: info->join("\n")} : {}))
