@@ -255,6 +255,10 @@ export def Completor(findstart: number, base: string): any
             if prefix == null_string && options.matchAny
                 prefix = line->matchstr('\S\+$')
             endif
+            completionItems = GetCompletionItems(prefix)
+            if completionItems.items->empty()
+                prefix = line->matchstr('\k\+$')
+            endif
         endif
         if prefix == '' ||
                 (TriggerWordLen() > 0 && prefix->len() < TriggerWordLen())
