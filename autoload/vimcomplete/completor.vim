@@ -14,7 +14,8 @@ export var options: dict<any> = {
     recentItemCount: 5,
     shuffleEqualPriority: false,
     alwaysOn: true,
-    showSource: true,
+    showCmpSource: true,
+    cmpSourceWidth: 4,
     showKind: true,
     customCompletionKinds: false,
     completionKinds: {},
@@ -188,14 +189,16 @@ def GetItems(cmp: dict<any>, line: string): list<any>
     var base = line->strpart(cmp.startcol - 1)
     # Note: when triggerCharacter is used in LSP (like '.') base is empty.
     var items = cmp.completor(0, base)
-    if options.showSource
+    if options.showCmpSource
+        var cmp_name = options.cmpSourceWidth > 0 ?
+            cmp.name->slice(0, options.cmpSourceWidth) : cmp.name
         items->map((_, v) => {
             if v->has_key('menu')
                 if v.menu !~? $'^\[{cmp.name}]'
-                    v.menu = $'[{cmp.name}] {v.menu}'
+                    v.menu = $'[{cmp_name}] {v.menu}'
                 endif
             else
-                v.menu = $'[{cmp.name}]'
+                v.menu = $'[{cmp_name}]'
             endif
             return v
         })
