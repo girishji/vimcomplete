@@ -139,6 +139,9 @@ def GetWords(prefix: string, bufnr: number): dict<any>
                 startcol = col('.') - prefix_kw->strlen()
             elseif !prefix_kw->empty()
                 try
+                    # XXX in C++, typing 'ranges:' will cause the word to jump
+                    # through indentation to the first column. This is caused by
+                    # indentation program, not Vimcomplete.
                     items = dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^{prefix_kw}')
                     # Match 'foo' in 'barfoobaz'.
                     # items += dictwords[bufnr]->copy()->filter((_, v) => v.word =~# $'^.\{{-}}{prefix}')

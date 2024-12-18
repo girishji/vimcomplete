@@ -60,7 +60,7 @@ augroup VimcompleteAutoCmds | autocmd!
 augroup END
 
 if exists('#User#VimCompleteLoaded')
-    autocmd VimEnter * doau <nomodeline> User VimCompleteLoaded
+    autocmd VimEnter * silent! doautocmd <nomodeline> User VimCompleteLoaded
 endif
 
 # Filetype detection is needed for this plugin to work
