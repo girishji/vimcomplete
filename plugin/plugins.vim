@@ -70,7 +70,7 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
     endfor
     # Notify external completion providers that options have changed
     if exists('#User#VimCompleteOptionsChanged')
-        doautocmd <nomodeline> User VimCompleteOptionsChanged
+        silent! doautocmd <nomodeline> User VimCompleteOptionsChanged
     endif
     # Re-register providers since priority could have changed
     RegisterPlugins()
