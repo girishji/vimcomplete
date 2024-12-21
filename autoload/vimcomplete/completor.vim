@@ -396,7 +396,6 @@ export def Enable()
             autocmd TextChangedI <buffer> VimComplete()
             autocmd TextChangedP <buffer> VimCompletePopupVisible()
         endif
-        # FileType event (below) is for 'ft' set in 'modeline' (keep comment in separate line)
         autocmd BufEnter,BufReadPost,FileType <buffer> SetupCompletors()
         autocmd CompleteDone <buffer> LRU_Cache()
         if options.postfixClobber
