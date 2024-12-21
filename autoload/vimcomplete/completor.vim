@@ -40,8 +40,8 @@ enddef
 var registered: dict<any> = { any: [] }
 var completors: list<any>
 
-export def SetupCompletors()
-    if &filetype == '' || !registered->has_key(&filetype)
+def SetupCompletors()
+    if &ft == '' || !registered->has_key(&ft)
         completors = registered.any
     else
         completors = registered[&ft] + registered.any
@@ -396,7 +396,8 @@ export def Enable()
             autocmd TextChangedI <buffer> VimComplete()
             autocmd TextChangedP <buffer> VimCompletePopupVisible()
         endif
-        autocmd BufEnter,BufReadPost,FileType <buffer> SetupCompletors()  # FileType, for 'ft' set in 'modeline'
+        # FileType event (below) is for 'ft' set in 'modeline' (keep comment in separate line)
+        autocmd BufEnter,BufReadPost,FileType <buffer> SetupCompletors()
         autocmd CompleteDone <buffer> LRU_Cache()
         if options.postfixClobber
             autocmd CompleteDone <buffer> util.TextAction(true)
