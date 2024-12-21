@@ -23,6 +23,7 @@ export var options: dict<any> = {
     postfixClobber: false,  # remove yyy in xxx<cursor>yyy
     postfixHighlight: false, # highlight yyy in xxx<cursor>yyy
     triggerWordLen: 0,
+    throttleTimeout: 100,
     debug: false,
 }
 
@@ -281,7 +282,7 @@ def SkipComplete(): bool
     return false
 enddef
 
-def VimComplete()
+def VimComplete(saved_curline = null_string, timer = 0)
     if SkipComplete()
         return
     endif
@@ -289,6 +290,17 @@ def VimComplete()
     if line->empty()
         return
     endif
+    # Throttle auto-completion if user types too fast (make typing responsive)
+    # Vim bug: If pum is visible, and when characters are typed really fast, Vim
+    # freezes. After a while it sends all the typed characters in one
+    # TextChangedI (Not TextChangedP) event.
+    if saved_curline == null_string
+        timer_start(options.throttleTimeout, function(VimComplete, [line]))
+        return
+    elseif saved_curline != line
+        return
+    endif
+
     if options.triggerWordLen > 0
         var keyword = line->matchstr('\k\+$')
         if keyword->len() < options.triggerWordLen &&
@@ -331,7 +343,7 @@ def VimCompletePopupVisible()
     if !compl.pum_visible  # should not happen
         return
     endif
-    if compl.selected == -1 # no items is selected in the menu
+    if compl.selected == -1 # no item is selected in the menu
         VimComplete()
     endif
 enddef

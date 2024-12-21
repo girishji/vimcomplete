@@ -9,7 +9,7 @@ import autoload './util.vim'
 # matches. If user type 'fo', then 'foo' appears before 'Foo' and 'barfoo'.
 
 export var options: dict<any> = {
-    timeout: 100,
+    timeout: 90,                # Match this with throttle timeout in completor
     maxCount: 10,
     otherBuffersCount: 3,       # Max count of other listed buffers to search
     completionMatcher: 'icase', # 'case', 'fuzzy', 'icase'
@@ -47,8 +47,8 @@ def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
                 endif
             endif
         endfor
-        # Check every 200 lines if timeout is exceeded
-        if (timeout > 0 && linenr % 200 == 0 &&
+        # Check every 100 lines if timeout is exceeded
+        if (timeout > 0 && linenr % 100 == 0 &&
                 start->reltime()->reltimefloat() * 1000 > timeout)
             break
         endif
