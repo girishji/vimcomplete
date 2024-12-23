@@ -396,8 +396,14 @@ export def Enable()
             autocmd TextChangedI <buffer> VimComplete()
             autocmd TextChangedP <buffer> VimCompletePopupVisible()
         endif
-        autocmd BufEnter,BufReadPost,FileType <buffer> SetupCompletors()
-        # 'FileType' is required above when &ft is set through modeline
+        # Note: When &ft is set in modeline, BufEnter will not have &ft set and
+        # thus SetupCompletors() will not set completors appropriately. However,
+        # if 'FileType' event is used to trigger SetupCompletors() and if :make
+        # is used, it causes a FileType event for 'qf' (quickfix) file even when
+        # :make does not have errors. This causes completors to be reset. There
+        # will be no BufEnter to undo the damage. Thus, do not use FileType
+        # event below.
+        autocmd BufEnter,BufReadPost <buffer> SetupCompletors()
         autocmd CompleteDone <buffer> LRU_Cache()
         if options.postfixClobber
             autocmd CompleteDone <buffer> util.TextAction(true)
