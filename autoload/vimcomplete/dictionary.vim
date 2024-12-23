@@ -76,7 +76,9 @@ def GetDict(): list<any>
     var dictbuf = []
     for d in &dictionary->split(',')
         var bnr = bufadd(d)
-        bnr->bufload()
+        # Note: Use 'noautocmd' below. Otherwise BufEnter gets called with empty
+        # &ft, which triggers SetCompletors(), which removes dict completion.
+        noautocmd bnr->bufload()
         setbufvar(bnr, "&buftype", 'nowrite')
         setbufvar(bnr, "&swapfile", 0)
         setbufvar(bnr, "&buflisted", 0)
@@ -84,8 +86,9 @@ def GetDict(): list<any>
     endfor
     if !dictbuf->empty()
         dictbufs[ftype] = dictbuf
+        return dictbufs[ftype]
     endif
-    return dictbufs[ftype]
+    return []
 enddef
 
 var dictwords: dict<any> = {} # dictionary file -> words
@@ -217,7 +220,7 @@ def GetCompletionItems(prefix: string): dict<any>
             dwords = GetWords(prefix, dicts[0])
         endif
     endif
-    var items = dwords.items
+    var items = dwords->get('items', {})
     if items->empty()
         return { startcol: 0, items: [] }
     endif

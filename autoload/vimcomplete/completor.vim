@@ -397,6 +397,7 @@ export def Enable()
             autocmd TextChangedP <buffer> VimCompletePopupVisible()
         endif
         autocmd BufEnter,BufReadPost,FileType <buffer> SetupCompletors()
+        # 'FileType' is required above when &ft is set through modeline
         autocmd CompleteDone <buffer> LRU_Cache()
         if options.postfixClobber
             autocmd CompleteDone <buffer> util.TextAction(true)
