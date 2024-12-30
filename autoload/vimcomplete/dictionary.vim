@@ -110,6 +110,10 @@ def GetWords(prefix: string, bufnr: number): dict<any>
                             info->add(line->substitute('^    ', '', ''))
                         else
                             if word != null_string
+                                var idx = dictwords[bufnr]->indexof((_, v) => v.word == word)
+                                if idx != -1
+                                    dictwords[bufnr]->remove(idx)
+                                endif
                                 dictwords[bufnr]->add({word: word}->extend(info != [] ? {info: info->join("\n")} : {}))
                             endif
                             word = line
