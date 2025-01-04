@@ -15,14 +15,17 @@ export var options: dict<any> = {
     completionMatcher: 'icase', # 'case', 'fuzzy', 'icase'
     urlComplete: false,
     envComplete: false,
+    maxWordLen: 100,            # Words beyond this length are ignored
     dup: true,
 }
 
+var Elapsed = (t) => float2nr(t->reltime()->reltimefloat() * 1000)
+
 # Return a list of keywords from a buffer
-def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
+def BufWords(bufnr: number, prefix: string, timelimit: number, curbuf = false): list<any>
     var found = {}
     var start = reltime()
-    var timeout = options.timeout
+    var timeout = timelimit
     var linenr = 1
     var items = []
     var kind = util.GetItemKindValue('Buffer')
@@ -48,8 +51,7 @@ def BufWords(bufnr: number, prefix: string, curbuf: bool = false): list<any>
             endif
         endfor
         # Check every 100 lines if timeout is exceeded
-        if (timeout > 0 && linenr % 100 == 0 &&
-                start->reltime()->reltimefloat() * 1000 > timeout)
+        if (timeout > 0 && linenr % 100 == 0 && start->Elapsed() > timeout)
             break
         endif
         linenr += 1
@@ -93,7 +95,7 @@ def GetLength(items: list<dict<any>>, prefix: string): number
     endtry
 enddef
 
-def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
+def OtherBufMatches(items: list<dict<any>>, prefix: string, timelimit: number): list<dict<any>>
     if GetLength(items, prefix) > options.maxCount || options.otherBuffersCount < 1
         return items
     endif
@@ -104,8 +106,13 @@ def OtherBufMatches(items: list<dict<any>>, prefix: string): list<dict<any>>
     buffers->sort((v1, v2) => v1.lastused > v2.lastused ? -1 : 1)
     buffers = buffers->slice(0, options.otherBuffersCount)
     var citems = items->copy()
+    var remaining = timelimit
     for b in buffers
-        citems = ExtendUnique(citems, BufWords(b.bufnr, prefix))
+        if remaining > 0
+            var start = reltime()
+            citems = ExtendUnique(citems, BufWords(b.bufnr, prefix, remaining))
+            remaining -= start->Elapsed()
+        endif
         if GetLength(citems, prefix) > options.maxCount
             break
         endif
@@ -128,8 +135,7 @@ def UrlMatches(base: string): list<dict<any>>
             items->add(url)
         endif
         # Check every 200 lines if timeout is exceeded
-        if (timeout > 0 && linenr % 200 == 0 &&
-                start->reltime()->reltimefloat() * 1000 > timeout)
+        if (timeout > 0 && linenr % 200 == 0 && start->Elapsed() > timeout)
             break
         endif
         linenr += 1
@@ -155,7 +161,6 @@ def CurBufMatches(prefix: string): list<dict<any>>
         var words = []
         var found = {}
         var count = 0
-        var Elapsed = (t) => float2nr(t->reltime()->reltimefloat() * 1000)
         try
             [lnum, cnum] = icasepat->searchpos(flags, 0, timeout)
         catch # a `~` in icasepat keyword (&isk) in txt file throws E33
@@ -312,14 +317,20 @@ export def Completor(findstart: number, base: string): any
         endif
     endif
     if base =~ '^\k\+$' # not url or env complete
+        var start = reltime()
         if options.completionMatcher == 'fuzzy'
-            candidates += BufWords(0, base, true)
+            candidates += BufWords(0, base, options.timeout, true)
         else
             candidates += CurBufMatches(base)
         endif
-        if candidates->len() < options.maxCount
-            candidates = OtherBufMatches(candidates, base)
+        if options.timeout > 0
+            var remaining = options.timeout - start->Elapsed()
+            if remaining > 0 && candidates->len() < options.maxCount
+                candidates = OtherBufMatches(candidates, base, remaining)
+            endif
         endif
+        # remove long words
+        candidates->filter((_, v) => v.word->len() <= options.maxWordLen)
         # remove items identical to what is already typed
         candidates->filter((_, v) => v.word !=# base)
         # remove item xxxyyy when it appears in the form of xxx|yyy (where '|' is the cursor)
