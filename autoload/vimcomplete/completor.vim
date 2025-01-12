@@ -395,7 +395,6 @@ export def Enable()
         autocmd CompleteChanged <buffer> util.InfoPopupWindowSetOptions()
     augroup END
 
-
     if !get(g:, 'vimcomplete_do_mapping', 1)
         return
     endif
