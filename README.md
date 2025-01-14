@@ -436,7 +436,7 @@ In this case, the user must define an appropriate `<CR>` mapping to resolve conf
 
 Disable all mappings set by vimcomplete.
 Please set your preferred mappings.
-Bose `g:vimcomplete_tab_enable` and `g:vimcomplete_cr_enable` are ignored.
+Both `g:vimcomplete_tab_enable` and `g:vimcomplete_cr_enable` are ignored.
 
 ```vim
 vim9script
