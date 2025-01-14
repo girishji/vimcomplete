@@ -432,6 +432,17 @@ In this case, the user must define an appropriate `<CR>` mapping to resolve conf
 > [!NOTE]
 > For help with other keybindings see `:h popupmenu-keys`. This help section includes keybindings for `<BS>`, `CTRL-H`, `CTRL-L`, `CTRL-Y`, `CTRL-E`, `<PageUp>`, `<PageDown>`, `<Up>`, and `<Down>` keys when popup menu is open.
 
+## Disable mappings
+
+Disable all mappings set by vimcomplete.
+Please set your preferred mappings.
+Both `g:vimcomplete_tab_enable` and `g:vimcomplete_cr_enable` are ignored.
+
+```vim
+vim9script
+let g:vimcomplete_do_mapping = 0
+```
+
 ## Highlight Groups
 
 You can use `Pmenu`, `PmenuThumb`, `PmenuSbar`, `PmenuSel`, `PmenuKind`,

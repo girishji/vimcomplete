@@ -480,6 +480,7 @@ options are shown here, please see tables above for all available options.
 
 Tab Completion~
 
+						*g:vimcomplete_tab_enable*
 `<Tab>` and `<S-Tab>` keys can be mapped to select autocompletion items. By
 default `<C-N>` and `<C-P>` select the menu items. `<Tab>` and `<S-Tab>` also
 jump between snippet placeholders where appropriate.
@@ -498,12 +499,22 @@ Additionally, there are two keys `<Plug>(vimcomplete-tab)` and
 
 Enter Handling~
 
+						*g:vimcomplete_cr_enable*
 `<CR>` (`<Enter>`) key is rebound to insert the selected item and/or insert a
 literal `<CR>`, according to |vimcomplete-noNewlineInCompletion| and
 |vimcomplete-noNewlineInCompletionEver|. In case of conflicts with other
 plugins, this mapping can be entirely disabled:
 >
 	g:vimcomplete_cr_enable = 0
+
+Disable mappings~
+
+						*g:vimcomplete_do_mapping*
+Disable all mappings set by vimcomplete.
+Please set your preferred mappings.
+Both |g:vimcomplete_tab_enable| and |g:vimcomplete_cr_enable| are ignored.
+>
+	g:vimcomplete_do_mapping = 0
 
 Highlight Groups~
 
