@@ -395,6 +395,10 @@ export def Enable()
         autocmd CompleteChanged <buffer> util.InfoPopupWindowSetOptions()
     augroup END
 
+    if options.postfixHighlight
+        highlight default link VimCompletePostfix DiffChange
+    endif
+
     if !get(g:, 'vimcomplete_do_mapping', 1)
         return
     endif
@@ -416,7 +420,6 @@ export def Enable()
     elseif options.postfixHighlight
         inoremap <silent><expr> <Plug>(vimcomplete-undo-text-action) util.UndoTextAction()
         inoremap <buffer> <c-c> <Plug>(vimcomplete-undo-text-action)<c-c>
-        highlight default link VimCompletePostfix DiffChange
         inoremap <expr> <c-l> util.TextActionWrapper()
     endif
 
