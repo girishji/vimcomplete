@@ -512,7 +512,7 @@ Disable mappings~
 						*g:vimcomplete_do_mapping*
 Disable all mappings set by vimcomplete.
 Please set your preferred mappings.
-Bose |g:vimcomplete_tab_enable| and |g:vimcomplete_cr_enable| are ignored.
+Both |g:vimcomplete_tab_enable| and |g:vimcomplete_cr_enable| are ignored.
 >
 	g:vimcomplete_do_mapping = 0
 
