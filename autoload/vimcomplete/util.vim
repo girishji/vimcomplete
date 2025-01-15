@@ -1,5 +1,9 @@
 vim9script
 
+import autoload './options.vim' as opts
+
+var copts = opts.options
+
 export def TabEnable()
     if !get(g:, 'vimcomplete_tab_enable')
         return
@@ -14,7 +18,6 @@ export def CREnable()
     if !get(g:, 'vimcomplete_cr_enable', 1) || !maparg('<cr>', 'i')->empty()
         return
     endif
-    var copts = completor.options
     # By default, Vim's behavior (using `<c-n>` or `<c-x><c-o>`) is as follows:
     # - If an item is selected, pressing `<Enter>` accepts the item and inserts
     #   a newline.
@@ -212,8 +215,6 @@ enddef
 
 export var defaultKinds: dict<list<string>> = CreateKindsDict()
 
-import autoload './completor.vim'
-
 # Map LSP (and other) complete item kind to a character/symbol
 export def GetItemKindValue(kind: any): string
     var kindValue: string
@@ -225,7 +226,6 @@ export def GetItemKindValue(kind: any): string
     else
         kindValue = kind
     endif
-    var copts = completor.options
     if copts.customCompletionKinds &&
             copts.completionKinds->has_key(kind)
         kindValue = copts.completionKinds[kind]

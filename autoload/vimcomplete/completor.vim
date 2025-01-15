@@ -4,29 +4,9 @@ vim9script
 
 import autoload './util.vim'
 import autoload './lsp.vim'
+import autoload './options.vim' as copts
 
-export var options: dict<any> = {
-    noNewlineInCompletion: false,
-    noNewlineInCompletionEver: false,
-    matchCase: true,
-    sortByLength: false,
-    recency: true,
-    recentItemCount: 5,
-    shuffleEqualPriority: false,
-    alwaysOn: true,
-    showCmpSource: true,
-    cmpSourceWidth: 4,
-    showKind: true,
-    customCompletionKinds: false,
-    completionKinds: {},
-    kindDisplayType: 'symbol', # 'icon', 'icontext', 'text', 'symboltext', 'symbol', 'text'
-    postfixClobber: false,  # remove yyy in xxx<cursor>yyy
-    postfixHighlight: false, # highlight yyy in xxx<cursor>yyy
-    triggerWordLen: 0,
-    throttleTimeout: 100,
-    debug: false,
-}
-
+var options = copts.options
 var saved_options: dict<any> = {}
 
 export def GetOptions(provider: string): dict<any>
@@ -365,8 +345,8 @@ enddef
 
 export def Enable()
     var bnr = bufnr()
-    # Hide the popup -- needed for customizing "info" popup window
-    setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert') 
+    # Hide the popup -- for customizing "info" popup window
+    setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
 
     setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
 
