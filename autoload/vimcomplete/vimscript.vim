@@ -77,7 +77,7 @@ def GetDictCompletion(prefix: string): list<string>
             return []
         endif
         var path = fnamemodify(vpath[0].name, ':p:h:h:h')
-        var fname = $'{path}/data/vim.dict'
+        var fname = $'{path}/data/vim9.dict'
         dictwords = fname->readfile()
     endif
     return dictwords->copy()->filter((_, v) => v =~? $'\v^{prefix}')
