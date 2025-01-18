@@ -66,8 +66,6 @@ def! g:VimCompleteOptionsSet(opts: dict<any>)
         if exists($'{key}.options') == 1
             var o = eval($'{key}.options')
             o->extend(newopts)
-        else
-            echoerr $'vimcomplete: "{key}" key in the options is invalid.'
         endif
     endfor
     # Notify external completion providers that options have changed
