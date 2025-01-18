@@ -6,7 +6,8 @@ import autoload './util.vim'
 import autoload './lsp.vim'
 import autoload './options.vim' as copts
 
-var options = copts.options
+export var options: dict<any>
+options = copts.options
 var saved_options: dict<any> = {}
 
 export def GetOptions(provider: string): dict<any>
