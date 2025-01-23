@@ -346,10 +346,13 @@ enddef
 
 export def Enable()
     var bnr = bufnr()
-    # Hide the popup -- for customizing "info" popup window
-    setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
-
-    setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
+    if options.infoPopup
+        # Hide the popup -- for customizing "info" popup window
+        setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
+        setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
+    else
+        setbufvar(bnr, '&completeopt', $'menuone,noselect,noinsert')
+    endif
 
     augroup VimCompBufAutocmds | autocmd! * <buffer>
         if options.alwaysOn
@@ -373,7 +376,9 @@ export def Enable()
             autocmd CompleteChanged <buffer> util.TextActionPre()
             autocmd CompleteDone,InsertLeave <buffer> util.UndoTextAction()
         endif
-        autocmd CompleteChanged <buffer> util.InfoPopupWindowSetOptions()
+        if options.infoPopup
+            autocmd CompleteChanged <buffer> util.InfoPopupWindowSetOptions()
+        endif
     augroup END
 
     if options.postfixHighlight
