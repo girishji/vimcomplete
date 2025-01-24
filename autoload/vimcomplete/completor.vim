@@ -349,7 +349,6 @@ export def Enable()
     if options.infoPopup
         # Hide the popup -- for customizing "info" popup window
         setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
-        setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
     else
         setbufvar(bnr, '&completeopt', $'menuone,noselect,noinsert')
     endif
