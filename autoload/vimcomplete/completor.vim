@@ -349,8 +349,6 @@ export def Enable()
     # Hide the popup -- for customizing "info" popup window
     setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
 
-    setbufvar(bnr, '&completepopup', 'width:80,highlight:Pmenu,align:item')
-
     augroup VimCompBufAutocmds | autocmd! * <buffer>
         if options.alwaysOn
             autocmd TextChangedI <buffer> VimComplete()
