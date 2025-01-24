@@ -185,6 +185,11 @@ triggerWordLen		Number option. Minimum number of characters needed to
 			trigger completion menu. Not applicable to completion
 			triggered by LSP trigger characters. Default: `1`.
 
+						*vimcomplete-infopopup*
+infoPopup		Boolean option. Show an info popup for extra
+			information. This popup window can be customized with
+			|g:VimCompleteInfoWindowOptionsSet|. Default: `true`.
+
 Completion Provider General Options~
 
 Following options are common to all completion provider modules.
@@ -528,6 +533,7 @@ to the completion. By default, it is linked to `DiffChange`.
 
 Info Popup Window ~
 
+						*g:VimCompleteInfoWindowOptionsSet*
 Vim's completion system can display an additional popup window (referred to as
 the "info" window) next to the selected menu item when supplementary
 information is available.
