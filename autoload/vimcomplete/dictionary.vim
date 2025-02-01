@@ -164,10 +164,7 @@ enddef
 
 # Binary search dictionary buffer. Use getbufline() instead of creating a
 # list (for efficiency).
-# - Makes sense for only case match, since if a dictionary has both upper case and
-#   lower case letters they could occur far apart.
-# - Only one word per line
-def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
+def GetWordsBinarySearchCase(prefix: string, bufnr: number, icase = true): dict<any>
     var lidx = 1
     var binfo = getbufinfo(bufnr)
     if binfo == []
@@ -184,12 +181,13 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
             echoerr '(vimcomplete) error: Dictionary has empty line'
             return { startcol: 0, items: [] } # error in dictionary file
         endif
-        if prefix == words[0]->strpart(0, prefixlen)
+        var partial = words[0]->strpart(0, prefixlen)
+        if (icase && prefix ==? partial) || (!icase && prefix ==# partial)
             lidx = mid
             ridx = mid
             break
         endif
-        if prefix < words[0]
+        if (icase && prefix <? partial) || (!icase && prefix <# partial)
             ridx = mid
         else
             lidx = mid
@@ -205,6 +203,22 @@ def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
     endfor
     var startcol = col('.') - prefixlen
     return { startcol: startcol, items: items }
+enddef
+
+# NOTE:
+# - /usr/share/dict/words has uppercase letters. It is not sorted w.r.t. case,
+#   but sorted when case is ignored. Make this function work when sorted with or
+#   without case sensitiveness.
+# - Only one word per line
+def GetWordsBinarySearch(prefix: string, bufnr: number): dict<any>
+    var words = GetWordsBinarySearchCase(prefix, bufnr, true)
+    if words.items->empty()
+        words = GetWordsBinarySearchCase(prefix, bufnr, false)
+    endif
+    words.items->map((_, v) => {
+        return {word: v}
+    })
+    return words
 enddef
 
 def GetCompletionItems(prefix: string): dict<any>
