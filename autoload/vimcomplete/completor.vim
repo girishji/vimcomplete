@@ -346,11 +346,17 @@ enddef
 
 export def Enable()
     var bnr = bufnr()
+    var cotval = null_string
+    if options.alwaysOn
+        cotval = 'menuone,noselect,noinsert'
+    endif
     if options.infoPopup
         # Hide the popup -- for customizing "info" popup window
-        setbufvar(bnr, '&completeopt', $'menuone,popuphidden,noselect,noinsert')
-    else
-        setbufvar(bnr, '&completeopt', $'menuone,noselect,noinsert')
+        cotval ..= ',popuphidden'
+    endif
+    if cotval != null_string
+        cotval = (&completeopt != '' ? $'{&completeopt},' : '') .. cotval
+        setbufvar(bnr, '&completeopt', cotval)
     endif
 
     augroup VimCompBufAutocmds | autocmd! * <buffer>

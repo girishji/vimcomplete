@@ -136,19 +136,21 @@ noNewlineInCompletionEver   Boolean option. Unlike 'noNewlineInCompletion',
 alwaysOn 		|Boolean| option. If |false| use `<c-space>`
 			(control-space) to trigger completion. If you choose
 			to map some other key instead, map your favorite key
-			to `<Plug>(vimcomplete-do-complete)`. Default is |true|.
+			to `<Plug>(vimcomplete-do-complete)`. If set to
+			`false`, `completeopt` Vim option determins popup
+			behavior. Default: `true`.
 
 						*vimcomplete-showCmpSource*
 showCmpSource 		|Boolean| option. Show the source where the completion
-			item came from. Default is |true|.
+			item came from. Default is `true`.
 
 						*vimcomplete-cmpSourceWidth*
 cmpSourceWidth		Number of characters displayed for completion source.
-			Default: 4.
+			Default: `4`.
 
 							*vimcomplete-showKind*
 showKind 		|Boolean| option. Show the type ('kind') of completion
-			item returned by LSP server. Default is true.
+			item returned by LSP server. Default is `true`.
 
 						*vimcomplete-kindDisplayType*
 kindDisplayType		String option. The 'kind' field of completion item
@@ -188,7 +190,11 @@ triggerWordLen		Number option. Minimum number of characters needed to
 						*vimcomplete-infopopup*
 infoPopup		Boolean option. Show an info popup for extra
 			information. This popup window can be customized with
-			|g:VimCompleteInfoWindowOptionsSet|. Default: `true`.
+			|g:VimCompleteInfoWindowOptionsSet|. If you prefer the
+			preview window, set this option to `false` and
+			'set completeopt+=preview'. If you prefer to not have
+			any info window, set this option to `false` and
+			'set completeopt-=preview'. Default: `true`.
 
 Completion Provider General Options~
 
