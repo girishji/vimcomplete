@@ -187,7 +187,7 @@ triggerWordLen		Number option. Minimum number of characters needed to
 			trigger completion menu. Not applicable to completion
 			triggered by LSP trigger characters. Default: `1`.
 
-						*vimcomplete-infopopup*
+						*vimcomplete-infoPopup*
 infoPopup		Boolean option. Show an info popup for extra
 			information. This popup window can be customized with
 			|g:VimCompleteInfoWindowOptionsSet|. If you prefer the
@@ -195,6 +195,14 @@ infoPopup		Boolean option. Show an info popup for extra
 			'set completeopt+=preview'. If you prefer to not have
 			any info window, set this option to `false` and
 			'set completeopt-=preview'. Default: `true`.
+
+						*vimcomplete-setCompleteOpt*
+setCompleteOpt          Boolean option. If `false`, `completeopt` is not set
+			automatically. To have the first item selected when
+			`alwaysOn` is enabled, you can manually add `set
+			completeopt=menuone,noinsert` to your `vimrc` and type
+			`<C-y>` to insert the selected item. If `true`, the first
+			item is not automatically selected. Default: `true`.
 
 Completion Provider General Options~
 
@@ -268,7 +276,9 @@ Unsorted dictionaries are searched in linear time `O(n)`, but they tend to
 perform acceptably well for file sizes below 3MB (performance might vary
 depending on your system).
 
-Additionally, the dictionary files can include comments.
+Dictionary files can include comments.
+
+Additional information can be included for each item which can be displayed in a preview or popup window. Any line starting with 4 spaces is displayed in the 'info' popup (or preview) window as part of the item above.
 
 					*vimcomplete-dictionary-sortedDict*
 sortedDict 	|Boolean| option. `true` if the dictionary file is sorted,

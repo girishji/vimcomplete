@@ -11,6 +11,7 @@ export var options: dict<any> = {
     recentItemCount: 5,
     shuffleEqualPriority: false,
     alwaysOn: true,
+    setCompleteOpt: true,
     showCmpSource: true,
     cmpSourceWidth: 4,
     showKind: true,

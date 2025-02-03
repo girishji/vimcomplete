@@ -203,9 +203,10 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     if curline !=# line
         return
     endif
-    # Double check that user has not selected an item in the popup menu
+    # NOTE: If user has selected an item, update the menu anyway. Do not try to
+    # reselect the item. ('selected' (below) gets the index of selected item.)
     var compl = complete_info(['selected', 'pum_visible'])
-    if compl.pum_visible && compl.selected != -1
+    if !compl.pum_visible
         return
     endif
     if count < 0
@@ -302,7 +303,7 @@ def VimComplete(saved_curline = null_string, timer = 0)
     var citems = []
     var asyncompletors: list<any> = []
     for cmp in syncompletors
-        if cmp.completor(2, '')
+        if cmp.completor(2, '') > 0
             var items = GetItems(cmp, line)
             if !items->empty()
                 citems->add({ priority: cmp.priority, startcol: cmp.startcol,
@@ -347,12 +348,12 @@ enddef
 export def Enable()
     var bnr = bufnr()
     var cotval = null_string
-    if options.alwaysOn
+    if options.alwaysOn && options.setCompleteOpt
         cotval = 'menuone,noselect,noinsert'
     endif
     if options.infoPopup
         # Hide the popup -- for customizing "info" popup window
-        cotval ..= ',popuphidden'
+        cotval ..= (cotval != null_string ? ',popuphidden' : 'popuphidden')
     endif
     if cotval != null_string
         cotval = (&completeopt != '' ? $'{&completeopt},' : '') .. cotval

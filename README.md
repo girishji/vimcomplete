@@ -125,6 +125,7 @@ Option|Type|Description
 `sortByLength`|`Boolean`|Sort completion items by length. Default: `false`.
 `triggerWordLen`|`Number`|Minimum number of characters needed to trigger completion menu. Not applicable to completion triggered by LSP trigger characters (this exemption applies only to Vim version 9.1.650 or higher). Default: `1`.
 `infoPopup`|`Boolean`|Show an info popup (`:h completepopup`) for extra information. If you prefer the preview window, set this option to `false` and `set completeopt+=preview`. If you prefer to not have any info window, set this option to `false` and `set completeopt-=preview`. Default: `true`.
+`setCompleteOpt` | `Boolean` | If `false`, `completeopt` is not set automatically. To have the first item selected when `alwaysOn` is enabled, you can manually add `set completeopt=menuone,noinsert` to your `vimrc` and type `<C-y>` to insert the selected item. If `true`, the first item is not automatically selected. Default: `true`.
 
 ## Buffer Completion
 
@@ -149,8 +150,17 @@ The dictionary provider is capable of searching an arbitrary list of words place
 
 Unsorted dictionaries are searched in linear time `O(n)`, but they tend to perform acceptably well for file sizes below 3MB (performance might vary depending on your system). Only one unsorted dictionary is used for completion, while any number of sorted dictionaries can be used simultaneously.
 
-Additionally, the dictionary files can include comments.
+Dictionary can also include comments. Any line starting with `---` is considered as a comment and ignored.
 
+Additional information can be included for each item which can be displayed in a preview or popup window. Any line starting with 4 spaces is displayed in the 'info' popup (or preview) window as part of the item above. Here is an example of dictionary file:
+
+```
+--- This is a comment
+item_1
+    Additional information for 'info' window related to item_1. Can be multi-line.
+item_2
+    Additional information for 'info' window related to item_2.
+```
 
 Option|Type|Description
 ------|----|-----------
