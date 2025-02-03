@@ -22,7 +22,7 @@ export var options: dict<any> = {
     postfixHighlight: false, # highlight yyy in xxx<cursor>yyy
     triggerWordLen: 0,
     infoPopup: true,
-    throttleTimeout: 100,
+    throttleTimeout: 1,
     debug: false,
 }
 

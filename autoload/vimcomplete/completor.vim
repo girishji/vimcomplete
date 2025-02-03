@@ -203,12 +203,6 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     if curline !=# line
         return
     endif
-    # NOTE: If user has selected an item, update the menu anyway. Do not try to
-    # reselect the item. ('selected' (below) gets the index of selected item.)
-    var compl = complete_info(['selected', 'pum_visible'])
-    if !compl.pum_visible
-        return
-    endif
     if count < 0
         DisplayPopup(partialitems, line)
         return
@@ -236,7 +230,7 @@ def AsyncGetItems(curline: string, pendingcompletors: list<any>, partialitems: l
     if asyncompletors->empty() || partial_items_returned
         DisplayPopup(citems, line)
     else
-        timer_start(5, function(AsyncGetItems, [line, asyncompletors, citems, count - 1]))
+        timer_start(0, function(AsyncGetItems, [line, asyncompletors, citems, count - 1]))
     endif
 enddef
 
