@@ -16,7 +16,7 @@ def GetAbbrevs(prefix: string): list<any>
     var abb = []
     for line in lines->split("\n")
         var matches = line->matchlist('\v^i\s+\zs(\S+)\s+(.*)$')
-        if matches[1]->stridx(prefix) == 0
+        if matches->len() > 2 && matches[1]->stridx(prefix) == 0
             abb->add({ prefix: matches[1], expn: matches[2] })
         endif
     endfor

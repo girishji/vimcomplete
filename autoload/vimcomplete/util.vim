@@ -148,12 +148,14 @@ enddef
 
 export def InfoWindowPageUp(): string
     # return InfoWindowSendKey("\<C-u>")
-    return InfoWindowSendKey("\<PageUp>")
+    # return InfoWindowSendKey("\<PageUp>")
+    return InfoWindowSendKey("\<C-B>")
 enddef
 
 export def InfoWindowPageDown(): string
     # return InfoWindowSendKey("\<C-d>")
-    return InfoWindowSendKey("\<PageDown>")
+    # return InfoWindowSendKey("\<PageDown>")
+    return InfoWindowSendKey("\<C-F>")
 enddef
 
 export def InfoWindowHome(): string
