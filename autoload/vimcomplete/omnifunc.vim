@@ -27,7 +27,8 @@ export def Completor(findstart: number, base: string): any
     elseif findstart == 2
         return 1
     endif
-    var items = Omnifunc(findstart, partial ? base->strpart(prefix->len()) : base)
+    var items: list<dict<any>> =
+        Omnifunc(findstart, partial ? base->strpart(prefix->len()) : base)
     if items->empty()
         return []
     endif
@@ -42,7 +43,7 @@ export def Completor(findstart: number, base: string): any
     endif
     if options.dup
         # Cannot use extend() because of https://github.com/vim/vim/issues/16607
-        # items->map((_, v) => v->extend({ dup: 1 }))  # 
+        # items->map((_, v) => v->extend({ dup: 1 }))  #
         for item in items
             item['dup'] = 1
         endfor
