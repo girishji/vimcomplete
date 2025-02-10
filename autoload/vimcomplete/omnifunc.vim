@@ -31,6 +31,7 @@ export def Completor(findstart: number, base: string): any
     if items->empty()
         return []
     endif
+    items = items->slice(0, options.maxCount)
     if partial
         var kind = util.GetItemKindValue('Keyword')
         items->map((_, v) => {
@@ -39,9 +40,12 @@ export def Completor(findstart: number, base: string): any
             return v
         })
     endif
-    items = items->slice(0, options.maxCount)
     if options.dup
-        items->map((_, v) => v->extend({ dup: 1 }))
+        # Cannot use extend() because of https://github.com/vim/vim/issues/16607
+        # items->map((_, v) => v->extend({ dup: 1 }))  # 
+        for item in items
+            item['dup'] = 1
+        endfor
     endif
     return items
 enddef
