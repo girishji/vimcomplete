@@ -50,7 +50,7 @@ Completion items are _sorted_ according to the following criteria:
 
 # Requirements
 
-- Vim version 9.0 or higher
+- Vim version 9.1 or higher
 
 # Installation
 
