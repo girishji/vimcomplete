@@ -1,4 +1,5 @@
-if !has('vim9script') || v:version < 901
+if !has('vim9script') || v:versionlong < 9010646
+    echoerr "VimComplete: Needs Vim 9.1.0646 or higher"
     finish
 endif
 
