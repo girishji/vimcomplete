@@ -106,6 +106,10 @@ const option_terminal_special: list<string> =
         ->map((_, v: string) => v->trim("'"))
         ->filter((_, v: string): bool => v =~ '\W')
 
+const misc: list<string> =
+    getcompletion('null_', 'help') + getcompletion('v:', 'help')
+        ->filter((_, v: string): bool => v != 'v:')
+
 ##
 var items = builtin_func
     + cmds
@@ -119,6 +123,7 @@ var items = builtin_func
     + option
     + option_terminal
     + option_terminal_special
+    + misc
 
 def CompareWithoutTrailingParen(i1: string, i2: string): number
     var lhs = i1->substitute('($', '', '')->substitute('()$', '', '')
