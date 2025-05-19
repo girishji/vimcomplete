@@ -411,7 +411,7 @@ To enable `<Tab>` and `<S-Tab>` for this purpose, add the following to your conf
 
 ```vim
 vim9script
-let g:vimcomplete_tab_enable = 1
+g:vimcomplete_tab_enable = 1
 ```
 
 > **Note**: Enabling this option will remove any existing mappings for `<Tab>` and `<S-Tab>`.
@@ -451,7 +451,7 @@ Both `g:vimcomplete_tab_enable` and `g:vimcomplete_cr_enable` are ignored.
 
 ```vim
 vim9script
-let g:vimcomplete_do_mapping = 0
+g:vimcomplete_do_mapping = 0
 ```
 
 ## Highlight Groups
