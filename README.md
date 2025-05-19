@@ -451,7 +451,7 @@ Both `g:vimcomplete_tab_enable` and `g:vimcomplete_cr_enable` are ignored.
 
 ```vim
 vim9script
-let g:vimcomplete_do_mapping = 0
+g:vimcomplete_do_mapping = 0
 ```
 
 ## Highlight Groups
